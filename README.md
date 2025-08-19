@@ -60,12 +60,6 @@ $dbConfig = [
 
 Utwórz plik `.env` w katalogu głównym:
 ```
-DB_HOST=192.168.1.2
-DB_PORT=3306
-DB_USER=llmuser
-DB_PASSWORD=SuperSecretPassword#175
-DB_DATABASE=llm_benchmark
-OLLAMA_BASE_URL=http://192.168.1.2:11434
 GEMINI_API_KEY="AI12345678901234567890ABCDEFABCDEF"
 ```
 
