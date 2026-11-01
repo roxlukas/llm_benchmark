@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Benchmark – przeglądarka wyników</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>
+  // Motyw jak na aitransformation.pl: atrybut data-theme ustawiany przed renderem
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (!t) t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<style>
+  :root {
+    --bg-body: #FFFFFF; --bg-card: #F1F5F9; --bg-card-hover: #E8EFF7; --navbar-bg: rgba(255,255,255,.85);
+    --text-primary: #0F172A; --text-secondary: #475569; --accent-premium: #4F46E5; --accent-tech: #9333EA;
+    --accent-text: #7E22CE; --border-color: #E2E8F0; --btn-tech-hover: #7E22CE; --btn-premium-hover: #4338CA;
+    --ok: #10B981; --warn: #D97706; --bad: #DC2626;
+  }
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --bg-body: #0F172A; --bg-card: #1E293B; --bg-card-hover: #263348; --navbar-bg: rgba(15,23,42,.85);
+    --text-primary: #F8FAFC; --text-secondary: #94A3B8; --accent-premium: #818CF8; --accent-tech: #C084FC;
+    --accent-text: #D8B4FE; --border-color: #334155; --btn-tech-hover: #A855F7; --btn-premium-hover: #6366F1;
+    --ok: #34D399; --warn: #FBBF24; --bad: #F87171;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg-body); color: var(--text-primary); font-family: 'Inter', system-ui, sans-serif; line-height: 1.5; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+  .navbar { position: sticky; top: 0; z-index: 10; background: var(--navbar-bg); backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); padding: 14px 0; }
+  .navbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; color: var(--text-primary); text-decoration: none; }
+  .brand .ic { color: var(--accent-tech); }
+  .brand small { font-weight: 400; color: var(--text-secondary); font-size: .9rem; }
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+  .btn { font: inherit; font-weight: 600; padding: 8px 20px; border-radius: 50px; border: 1px solid var(--border-color);
+    background: transparent; color: var(--text-primary); cursor: pointer; text-decoration: none; }
+  .btn:hover { background: var(--bg-card); border-color: var(--accent-premium); color: var(--accent-premium); }
+  .btn.primary { background: var(--accent-tech); border-color: var(--accent-tech); color: var(--bg-body); font-weight: 700; }
+  .btn.primary:hover { background: var(--btn-tech-hover); border-color: var(--btn-tech-hover); color: var(--bg-body); }
+  header.hero { padding: 48px 0 24px; }
+  h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -.02em; margin: 0 0 8px; }
+  .subtitle { color: var(--text-secondary); font-size: 1.05rem; margin: 0; max-width: 780px; }
+  .panel { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px 18px; }
+  label { display: block; font-size: .8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+  select, input[type=number], input[type=search] { width: 100%; font: inherit; padding: 9px 12px; border-radius: 8px;
+    border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-primary); }
+  select:focus, input:focus { outline: 2px solid color-mix(in srgb, var(--accent-tech) 45%, transparent); outline-offset: 1px; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: .95rem; padding-top: 22px; }
+  .check input { width: 18px; height: 18px; accent-color: var(--accent-tech); }
+  .hint { color: var(--text-secondary); font-size: .85rem; margin-top: 10px; }
+  .summary { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin: 22px 0 8px; color: var(--text-secondary); font-size: .95rem; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; min-width: 860px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: .93rem; }
+  th { background: var(--bg-card); font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text-secondary); position: sticky; top: 0; cursor: pointer; white-space: nowrap; user-select: none; }
+  th:hover, th.sorted { color: var(--accent-text); }
+  th .arrow { margin-left: 4px; }
+  tbody tr.row { cursor: pointer; }
+  tbody tr.row:hover { background: var(--bg-card-hover); }
+  td.num, th.num { text-align: right; font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+  .model { font-weight: 600; word-break: break-all; }
+  .model small { display: block; font-weight: 400; color: var(--text-secondary); font-size: .78rem; }
+  .rank { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; width: 36px; }
+  .score { display: flex; align-items: center; gap: 10px; min-width: 150px; }
+  .bar { flex: 1; height: 8px; border-radius: 8px; background: var(--border-color); overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--accent-premium), var(--accent-tech)); }
+  .score b { font-family: 'JetBrains Mono', monospace; min-width: 38px; text-align: right; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 50px; font-size: .78rem; font-weight: 600; border: 1px solid currentColor; white-space: nowrap; }
+  .badge.fit { color: var(--ok); } .badge.offload { color: var(--warn); } .badge.no { color: var(--bad); } .badge.unk { color: var(--text-secondary); }
+  tr.detail td { background: var(--bg-card); padding: 16px 20px; }
+  .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .detail h3 { margin: 0 0 8px; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text-secondary); }
+  .mini { display: grid; grid-template-columns: 1fr 120px 44px; gap: 8px; align-items: center; font-size: .88rem; padding: 2px 0; }
+  .mini .n { color: var(--text-secondary); font-size: .75rem; }
+  .empty { padding: 36px; text-align: center; color: var(--text-secondary); }
+  footer { color: var(--text-secondary); font-size: .85rem; padding: 28px 0 56px; }
+  footer a { color: var(--accent-text); }
+  @media (max-width: 640px) { h1 { font-size: 1.7rem; } .brand small { display: none; } }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="wrap">
+    <a class="brand" href="https://aitransformation.pl"><span class="ic">✦</span> AI Transformation <small>/ LLM Benchmark</small></a>
+    <div class="nav-actions">
+      <button class="btn" id="themeBtn" type="button" aria-label="Zmień motyw">Motyw</button>
+      <a class="btn primary" href="https://aitransformation.pl">Współpraca</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header class="hero">
+    <h1>Które modele LLM pójdą na Twoim sprzęcie?</h1>
+    <p class="subtitle">Oceny odpowiedzi lokalnych modeli Ollama na naszych własnych zadaniach (programowanie, terminal, dane strukturalne, klasyfikacja, język polski i inne). Wybierz kategorię i swój sprzęt, a zobaczysz tylko modele, które się zmieszczą.</p>
+  </header>
+
+  <section class="panel" aria-label="Filtry">
+    <div class="controls">
+      <div><label for="category">Kategoria zadań</label><select id="category"></select></div>
+      <div><label for="hw">Mój sprzęt</label>
+        <select id="hw">
+          <option value="">Bez filtra sprzętu</option>
+          <optgroup label="Karta graficzna (VRAM)">
+            <option value="vram:6">GPU 6 GB</option><option value="vram:8">GPU 8 GB</option><option value="vram:12">GPU 12 GB</option>
+            <option value="vram:16">GPU 16 GB</option><option value="vram:24">GPU 24 GB (RTX 3090 / 4090)</option>
+            <option value="vram:32">GPU 32 GB (RTX 5090)</option><option value="vram:48">GPU 48 GB</option><option value="vram:80">GPU 80 GB</option>
+          </optgroup>
+          <optgroup label="Pamięć współdzielona (Mac / APU)">
+            <option value="mac:12">Mac 16 GB (≈12 GB dla modelu)</option><option value="mac:24">Mac 32 GB (≈24 GB)</option>
+            <option value="mac:48">Mac 64 GB (≈48 GB)</option><option value="mac:96">Mac 128 GB (≈96 GB)</option>
+          </optgroup>
+          <option value="vram:0">Tylko CPU</option>
+          <option value="custom">Własne wartości…</option>
+        </select></div>
+      <div><label for="vram">VRAM (GB)</label><input id="vram" type="number" min="0" step="1" placeholder="np. 24"></div>
+      <div><label for="ram">RAM systemowy (GB)</label><input id="ram" type="number" min="0" step="1" placeholder="np. 64"></div>
+      <div><label for="sort">Sortuj wg</label>
+        <select id="sort">
+          <option value="score">Ocena</option><option value="size">Rozmiar modelu</option><option value="params">Liczba parametrów</option>
+          <option value="speed">Szybkość (tok/s)</option><option value="name">Nazwa</option>
+        </select></div>
+      <div><label for="minRated">Min. ocenionych odpowiedzi</label>
+        <select id="minRated"><option value="0">Wszystkie modele</option><option value="3">3+</option><option value="10">10+</option><option value="20">20+</option><option value="60">60+</option></select></div>
+      <div><label for="search">Szukaj modelu</label><input id="search" type="search" placeholder="np. qwen"></div>
+      <label class="check"><input id="onlyFit" type="checkbox" checked> Tylko modele, które pójdą</label>
+      <label class="check"><input id="allowOffload" type="checkbox" checked> Dopuść częściowe przeniesienie do RAM (wolniej)</label>
+    </div>
+    <p class="hint" id="hwHint"></p>
+  </section>
+
+  <div class="summary"><span id="count"></span><span id="meta"></span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr id="thead"></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden></div>
+  </div>
+
+  <footer>
+    <p><strong>Jak czytać wyniki.</strong> Ocena (1–5) to średnia z pięciu kryteriów: poprawność, kompletność, jasność, wiedza dziedzinowa i użyteczność, wystawiona przez jednego sędziego-LLM. Liczba ocenionych odpowiedzi różni się między modelami – nowsze modele mają ich więcej w nowych kategoriach, dlatego warto zawęzić listę kategorią i progiem „min. ocenionych”.</p>
+    <p><strong>Pamięć</strong> to rozmiar wag modelu + ok. 1,5 GB na bufory i kontekst – to szacunek dla domyślnego kontekstu, długie konteksty potrzebują więcej. „Rozmiar ~” oznacza wartość oszacowaną z liczby parametrów i kwantyzacji (model nie jest już zainstalowany na serwerze testowym). Szybkość mierzono na jednej karcie RTX 3090 przy różnych limitach mocy, więc porównuj ją tylko orientacyjnie; modele z MTP (np. Qwen 3.8) są szybsze dzięki dekodowaniu spekulatywnemu.</p>
+    <p id="stamp"></p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var DATA = null, expanded = {};
+  var state = { category: '', hw: '', vram: '', ram: '', sort: 'score', dir: -1, minRated: '0', search: '', onlyFit: true, allowOffload: true };
+  var $ = function (id) { return document.getElementById(id); };
+
+  function load() { try { var s = JSON.parse(localStorage.getItem('browseState')); if (s) Object.assign(state, s); } catch (e) {} }
+  function save() { try { localStorage.setItem('browseState', JSON.stringify(state)); } catch (e) {} }
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function fmtGB(b) { return b == null ? '–' : (b / 1e9).toFixed(1); }
+
+  function scoreOf(m) {
+    if (!state.category) return { avg: m.overall, n: m.rated };
+    var c = m.categories[state.category];
+    return c ? { avg: c.avg, n: c.n } : null;
+  }
+
+  // 'fit' = mieści się w VRAM, 'offload' = mieści się z użyciem RAM, 'no' = za duży, 'unk' = brak rozmiaru
+  function fitOf(m) {
+    if (m.min_memory_gb == null) return 'unk';
+    var vram = parseFloat(state.vram), ram = parseFloat(state.ram);
+    if (isNaN(vram) && isNaN(ram)) return 'unk';
+    vram = isNaN(vram) ? 0 : vram; ram = isNaN(ram) ? 0 : ram;
+    if (m.min_memory_gb <= vram) return 'fit';
+    if (state.allowOffload && m.min_memory_gb <= vram + ram * 0.8) return 'offload';
+    return 'no';
+  }
+  function hwActive() { return state.vram !== '' || state.ram !== ''; }
+
+  var COLS = [
+    { key: 'rank', label: '#', sort: null },
+    { key: 'name', label: 'Model', sort: 'name' },
+    { key: 'score', label: 'Ocena', sort: 'score' },
+    { key: 'n', label: 'Odp.', sort: null, cls: 'num' },
+    { key: 'params', label: 'Param.', sort: 'params', cls: 'num' },
+    { key: 'size', label: 'Pamięć', sort: 'size', cls: 'num' },
+    { key: 'speed', label: 'tok/s', sort: 'speed', cls: 'num' },
+    { key: 'fit', label: 'Twój sprzęt', sort: null }
+  ];
+
+  function renderHead() {
+    $('thead').innerHTML = COLS.map(function (c) {
+      var sorted = c.sort && c.sort === state.sort;
+      return '<th class="' + (c.cls || '') + (sorted ? ' sorted' : '') + '"' + (c.sort ? ' data-sort="' + c.sort + '"' : ' style="cursor:default"') + '>' +
+        esc(c.label) + (sorted ? '<span class="arrow">' + (state.dir < 0 ? '▼' : '▲') + '</span>' : '') + '</th>';
+    }).join('');
+  }
+
+  function miniBars(obj, nKey) {
+    return Object.keys(obj).map(function (k) {
+      var v = nKey ? obj[k].avg : obj[k];
+      var n = nKey ? '<span class="n">n=' + obj[k].n + '</span>' : '';
+      return '<div class="mini"><span>' + esc(k) + ' ' + n + '</span><span class="bar"><i style="width:' + (v / 5 * 100).toFixed(0) + '%"></i></span><b>' + v.toFixed(2) + '</b></div>';
+    }).join('');
+  }
+
+  function rowsFor() {
+    var minRated = parseInt(state.minRated, 10) || 0, q = state.search.trim().toLowerCase();
+    var out = DATA.models.map(function (m) { return { m: m, sc: scoreOf(m), fit: fitOf(m) }; }).filter(function (r) {
+      if (!r.sc) return false;
+      if (r.sc.n < minRated) return false;
+      if (q && r.m.name.toLowerCase().indexOf(q) < 0) return false;
+      if (hwActive() && state.onlyFit && (r.fit === 'no' || r.fit === 'unk')) return false;
+      return true;
+    });
+    var get = {
+      score: function (r) { return r.sc.avg; }, size: function (r) { return r.m.size_bytes; },
+      params: function (r) { return r.m.params_b; }, speed: function (r) { return r.m.tokens_per_second; },
+      name: function (r) { return r.m.name.toLowerCase(); }
+    }[state.sort];
+    out.sort(function (a, b) {
+      var x = get(a), y = get(b);
+      if (x == null && y == null) return 0;
+      if (x == null) return 1; if (y == null) return -1;   // brakujące wartości zawsze na końcu
+      return (x < y ? -1 : x > y ? 1 : 0) * state.dir;
+    });
+    return out;
+  }
+
+  var FIT_LABEL = { fit: 'Zmieści się w VRAM', offload: 'Z użyciem RAM (wolniej)', no: 'Za duży', unk: '–' };
+
+  function render() {
+    renderHead();
+    var rows = rowsFor();
+    $('count').textContent = 'Modele: ' + rows.length + ' z ' + DATA.models.length +
+      (state.category ? ' · kategoria: ' + state.category : ' · wszystkie kategorie');
+    var html = rows.map(function (r, i) {
+      var m = r.m, id = m.name, open = !!expanded[id];
+      var sub = [m.family, m.quantization].filter(Boolean).join(' · ');
+      var tr = '<tr class="row" data-id="' + esc(id) + '"><td class="rank">' + (i + 1) + '</td>' +
+        '<td><span class="model">' + esc(m.name) + '</span><small>' + esc(sub) + '</small></td>' +
+        '<td><div class="score"><span class="bar"><i style="width:' + (r.sc.avg / 5 * 100).toFixed(0) + '%"></i></span><b>' + r.sc.avg.toFixed(2) + '</b></div></td>' +
+        '<td class="num">' + r.sc.n + '</td>' +
+        '<td class="num">' + (m.params_b != null ? m.params_b.toFixed(m.params_b < 10 ? 1 : 0) + 'B' : '–') + '</td>' +
+        '<td class="num">' + (m.min_memory_gb != null ? (m.size_estimated ? '~' : '') + m.min_memory_gb.toFixed(1) + ' GB' : '–') + '</td>' +
+        '<td class="num">' + (m.tokens_per_second != null ? Math.round(m.tokens_per_second) : '–') + '</td>' +
+        '<td>' + (hwActive() ? '<span class="badge ' + r.fit + '">' + FIT_LABEL[r.fit] + '</span>' : '<span class="badge unk">–</span>') + '</td></tr>';
+      if (open) {
+        tr += '<tr class="detail"><td colspan="' + COLS.length + '"><div class="detail-grid">' +
+          '<div><h3>Oceny wg kategorii</h3>' + miniBars(m.categories, true) + '</div>' +
+          '<div><h3>Oceny wg kryteriów</h3>' + miniBars(m.dimensions, false) +
+          '<p class="hint">Plik modelu: ' + fmtGB(m.size_bytes) + ' GB' + (m.size_estimated ? ' (szacunek)' : '') +
+          ' · kontekst: ' + (m.context_length ? Number(m.context_length).toLocaleString('pl-PL') : '–') +
+          ' · nieudane odpowiedzi: ' + m.failed + '</p></div></div></td></tr>';
+      }
+      return tr;
+    }).join('');
+    $('tbody').innerHTML = html;
+    $('empty').hidden = rows.length > 0;
+    if (!rows.length) $('empty').textContent = hwActive() && state.onlyFit
+      ? 'Żaden model nie spełnia filtrów. Zwiększ VRAM/RAM, dopuść przeniesienie do RAM albo wyłącz filtr sprzętu.'
+      : 'Brak modeli dla wybranych filtrów.';
+    var vram = parseFloat(state.vram), ram = parseFloat(state.ram);
+    $('hwHint').textContent = hwActive()
+      ? 'Sprzęt: VRAM ' + (isNaN(vram) ? 0 : vram) + ' GB, RAM ' + (isNaN(ram) ? 0 : ram) + ' GB. Zielone = cały model w VRAM; pomarańczowe = część warstw w RAM (zwykle kilka razy wolniej).'
+      : 'Wybierz sprzęt, aby zobaczyć, które modele się zmieszczą.';
+  }
+
+  function syncControls() {
+    ['category', 'hw', 'vram', 'ram', 'sort', 'minRated', 'search'].forEach(function (k) { $(k).value = state[k]; });
+    $('onlyFit').checked = state.onlyFit; $('allowOffload').checked = state.allowOffload;
+  }
+
+  function bind() {
+    ['category', 'sort', 'minRated', 'search'].forEach(function (k) {
+      $(k).addEventListener(k === 'search' ? 'input' : 'change', function () { state[k] = this.value; if (k === 'sort') state.dir = k === 'sort' && this.value === 'name' ? 1 : -1; save(); render(); });
+    });
+    $('hw').addEventListener('change', function () {
+      state.hw = this.value;
+      if (/^(vram|mac):/.test(this.value)) { state.vram = this.value.split(':')[1]; $('vram').value = state.vram; }
+      else if (this.value === '') { state.vram = ''; state.ram = ''; $('vram').value = ''; $('ram').value = ''; }
+      save(); render();
+    });
+    ['vram', 'ram'].forEach(function (k) {
+      $(k).addEventListener('input', function () { state[k] = this.value; if (k === 'vram') { state.hw = 'custom'; $('hw').value = 'custom'; } save(); render(); });
+    });
+    $('onlyFit').addEventListener('change', function () { state.onlyFit = this.checked; save(); render(); });
+    $('allowOffload').addEventListener('change', function () { state.allowOffload = this.checked; save(); render(); });
+    $('thead').addEventListener('click', function (e) {
+      var th = e.target.closest('th[data-sort]'); if (!th) return;
+      var s = th.getAttribute('data-sort');
+      if (state.sort === s) state.dir = -state.dir; else { state.sort = s; state.dir = s === 'name' ? 1 : -1; }
+      $('sort').value = state.sort; save(); render();
+    });
+    $('tbody').addEventListener('click', function (e) {
+      var tr = e.target.closest('tr.row'); if (!tr) return;
+      var id = tr.getAttribute('data-id'); expanded[id] = !expanded[id]; render();
+    });
+    $('themeBtn').addEventListener('click', function () {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      try { localStorage.setItem('theme', t); } catch (e) {}
+    });
+  }
+
+  function init() {
+    load();
+    var sel = $('category');
+    sel.innerHTML = '<option value="">Wszystkie kategorie</option>' + DATA.categories.map(function (c) {
+      return '<option value="' + esc(c.name) + '">' + esc(c.name) + ' (' + c.prompts + ' zadań)</option>';
+    }).join('');
+    if (state.category && !DATA.categories.some(function (c) { return c.name === state.category; })) state.category = '';
+    syncControls(); bind(); render();
+    var d = new Date(DATA.generated_at);
+    $('meta').textContent = DATA.models.length + ' modeli · sędzia: ' + DATA.evaluator;
+    $('stamp').textContent = 'Dane z ' + d.toLocaleDateString('pl-PL') + '.';
+  }
+
+  fetch('results.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (d) { DATA = d; init(); })
+    .catch(function (e) {
+      $('empty').hidden = false;
+      $('empty').textContent = 'Nie udało się wczytać results.json (' + e.message + '). Otwórz stronę przez serwer WWW, nie bezpośrednio z pliku.';
+    });
+})();
+</script>
+</body>
+</html>

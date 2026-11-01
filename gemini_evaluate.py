@@ -4,22 +4,132 @@
 
 import argparse
 import json
+import re
 import mysql.connector
 from mysql.connector import Error
 from google import genai
 from google.genai import types
+import requests
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 import sys
 import os
 from dotenv import load_dotenv
 
+MAX_RESPONSE_CHARS = 30000
+EVAL_DIMENSIONS = ('accuracy', 'completeness', 'clarity', 'domain_expertise', 'helpfulness')
+MAX_EVAL_ATTEMPTS = 3
+
+def _json_candidates(text):
+    """Yield possible JSON object strings found in an evaluator reply, most likely first."""
+    text = text.strip()
+    for m in re.finditer(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL | re.IGNORECASE):
+        yield m.group(1)
+    start, end = text.find('{'), text.rfind('}')
+    if start != -1 and end > start:
+        yield text[start:end + 1]
+
+def _repair_json(candidate):
+    """Fix common LLM JSON slips: invalid backslash escapes (e.g. a regex quoted in a justification) and trailing commas."""
+    # Valid escapes are kept whole (so a '\\' pair is never split); any other lone backslash is doubled
+    fixed = re.sub(r'\\(?:["\\/bfnrt]|u[0-9a-fA-F]{4})|\\', lambda m: m.group(0) if len(m.group(0)) > 1 else '\\\\', candidate)
+    return re.sub(r',(\s*[}\]])', r'\1', fixed)
+
+def _escape_inner_quotes(candidate):
+    """Escape double quotes inside string values (e.g. quoted code in a justification).
+
+    A quote closes a string only when the next non-blank character is one of , } ] : -
+    any other quote met inside a string is treated as part of the text.
+    """
+    out = []
+    in_string = False
+    i = 0
+    while i < len(candidate):
+        ch = candidate[i]
+        if in_string and ch == '\\' and i + 1 < len(candidate):
+            out.append(candidate[i:i + 2])
+            i += 2
+            continue
+        if ch == '"':
+            if not in_string:
+                in_string = True
+            else:
+                j = i + 1
+                while j < len(candidate) and candidate[j] in ' \t\r\n':
+                    j += 1
+                if j >= len(candidate) or candidate[j] in ',}]:':
+                    in_string = False
+                else:
+                    out.append('\\')
+        out.append(ch)
+        i += 1
+    return ''.join(out)
+
+def parse_evaluation_json(text):
+    """Parse the evaluator reply into a dict, tolerating prose, code fences and minor JSON errors."""
+    last_error = None
+    for candidate in _json_candidates(text):
+        for variant in (candidate, _repair_json(candidate), _repair_json(_escape_inner_quotes(candidate))):
+            try:
+                data = json.loads(variant, strict=False)
+            except json.JSONDecodeError as e:
+                last_error = e
+                continue
+            if isinstance(data, dict):
+                return data
+    raise ValueError(f"no valid JSON object found ({last_error})")
+
+def validate_evaluation(data):
+    """Check and normalise the evaluation so that saving it cannot fail halfway."""
+    scores = []
+    for dim in EVAL_DIMENSIONS:
+        item = data.get(dim)
+        if not isinstance(item, dict):
+            raise ValueError(f"missing dimension '{dim}'")
+        try:
+            score = int(round(float(item.get('score'))))
+        except (TypeError, ValueError):
+            raise ValueError(f"'{dim}' has no numeric score")
+        if not 1 <= score <= 5:
+            raise ValueError(f"'{dim}' score {score} outside 1-5")
+        item['score'] = score
+        item['justification'] = str(item.get('justification', ''))
+        scores.append(score)
+    try:
+        overall = float(data.get('overall_score'))
+    except (TypeError, ValueError):
+        overall = None
+    if overall is None or not 1 <= overall <= 5:
+        overall = round(sum(scores) / len(scores), 2)
+    data['overall_score'] = overall
+    data['overall_assessment'] = str(data.get('overall_assessment', ''))
+    for key in ('key_strengths', 'key_weaknesses'):
+        value = data.get(key)
+        data[key] = value if isinstance(value, list) else ([] if value is None else [str(value)])
+    return data
+
 class LLMEvaluator:
-    def __init__(self, db_config, gemini_api_key):
+    def __init__(self, db_config, config, model=None, workers=1):
         self.db_config = db_config
-        self.gemini_client = genai.Client(api_key=gemini_api_key)
-        self.model = "gemini-2.5-flash-preview-05-20"
-    
+        self.workers = max(1, workers)
+        self.model_filter = model
+        self.config = config
+        self.eval_type = config.get('EVALUATOR_TYPE', 'gemini').lower()
+        self.model = config.get('EVAL_MODEL', 'gemini-1.5-flash' if self.eval_type == 'gemini' else 'gpt-4o-mini')
+        
+        if self.eval_type == 'gemini':
+            gemini_api_key = config.get('GEMINI_API_KEY')
+            if not gemini_api_key:
+                raise ValueError("GEMINI_API_KEY not found in environment variables.")
+            self.gemini_client = genai.Client(api_key=gemini_api_key)
+        else:
+            self.base_url = config.get('EVAL_BASE_URL', 'https://api.openai.com/v1')
+            self.api_key = config.get('EVAL_API_KEY')
+            if not self.api_key:
+                raise ValueError("EVAL_API_KEY not found in environment variables.")
+            print(f"Using OpenAI-compatible evaluator: {self.model} at {self.base_url}")
+
     def connect_to_database(self):
         """Establish connection to MySQL database"""
         try:
@@ -58,17 +168,29 @@ class LLMEvaluator:
                     FOREIGN KEY (benchmark_result_id) REFERENCES benchmark_results(id)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
             """)
-            # Get responses that haven't been evaluated
+            # Migrate: track which evaluator produced each score (existing rows come from Gemini)
+            cursor.execute("""
+                SELECT COUNT(*) AS n FROM information_schema.COLUMNS
+                WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'evaluation_results' AND COLUMN_NAME = 'evaluator'
+            """)
+            if cursor.fetchone()['n'] == 0:
+                cursor.execute("ALTER TABLE evaluation_results ADD COLUMN evaluator VARCHAR(100) NOT NULL DEFAULT '', ADD INDEX idx_evaluator (evaluator)")
+                cursor.execute("UPDATE evaluation_results SET evaluator = 'gemini' WHERE evaluator = ''")
+            # Get responses that haven't been evaluated by the current evaluator
             query = """
-                SELECT br.*, p.prompt_text
+                SELECT br.*, p.prompt_text, p.goldenAnswer
                 FROM benchmark_results br
-                LEFT JOIN evaluation_results er ON br.id = er.benchmark_result_id
+                LEFT JOIN evaluation_results er ON br.id = er.benchmark_result_id AND er.evaluator = %s
                 LEFT JOIN prompts p ON br.prompt_id = p.id
                 WHERE br.response_text IS NOT NULL
                 AND er.benchmark_result_id IS NULL
-                ORDER BY br.id
             """
-            cursor.execute(query)
+            params = [self.model]
+            if self.model_filter:
+                query += " AND br.model = %s"
+                params.append(self.model_filter)
+            query += " ORDER BY br.id"
+            cursor.execute(query, params)
             results = cursor.fetchall()
             cursor.close()
             print(f"Found {len(results)} responses to evaluate")
@@ -77,12 +199,20 @@ class LLMEvaluator:
             print(f"Error fetching data: {e}")
             return []
     
-    def create_evaluation_prompt(self, original_prompt, model_response):
-        """Create the evaluation prompt for Gemini"""
-        return f"""You are an expert evaluator assessing the quality of responses from different language models. You will evaluate responses across multiple dimensions and provide detailed, objective feedback.
+    def create_evaluation_prompt(self, original_prompt, model_response, golden_answer=None):
+        """Create the evaluation prompt for the LLM"""
+        
+        golden_answer_section = ""
+        comparison_instruction = ""
+        
+        if golden_answer:
+            golden_answer_section = f"\n<golden_answer>{golden_answer}</golden_answer>"
+            comparison_instruction = " Compare the model's response with the provided golden answer for accuracy and completeness."
+
+        return f"""You are an expert evaluator assessing the quality of responses from different language models. You will evaluate responses across multiple dimensions and provide detailed, objective feedback.{comparison_instruction}
 Task: Evaluate the following model response to the given prompt.
 
-<original_prompt>{original_prompt}</original_prompt>
+<original_prompt>{original_prompt}</original_prompt>{golden_answer_section}
 <model_response>{model_response}</model_response>
 
 Evaluation Criteria
@@ -157,47 +287,85 @@ Provide your evaluation in the following JSON format:
   "key_weaknesses": ["weakness 1", "weakness 2"]
 }}"""
     
-    def evaluate_response(self, original_prompt, model_response):
-        """Evaluate a single response using Gemini API"""
+    def request_evaluation(self, original_prompt, model_response, golden_answer=None):
+        """Call the configured LLM API once and return the raw reply text (None on API failure)"""
         try:
-            evaluation_prompt = self.create_evaluation_prompt(original_prompt, model_response)
-            contents = [
-                types.Content(
-                    role="user",
-                    parts=[types.Part.from_text(text=evaluation_prompt)],
+            if len(model_response) > MAX_RESPONSE_CHARS:
+                model_response = model_response[:MAX_RESPONSE_CHARS] + f"\n\n[... response truncated, original length {len(model_response)} characters ...]"
+            evaluation_prompt = self.create_evaluation_prompt(original_prompt, model_response, golden_answer)
+            
+            if self.eval_type == 'gemini':
+                contents = [
+                    types.Content(
+                        role="user",
+                        parts=[types.Part.from_text(text=evaluation_prompt)],
+                    )
+                ]
+                generate_content_config = types.GenerateContentConfig(
+                    response_mime_type="text/plain",
                 )
-            ]
-            generate_content_config = types.GenerateContentConfig(
-                response_mime_type="text/plain",
-            )
-            # Collect the streaming response
-            response_text = ""
-            for chunk in self.gemini_client.models.generate_content_stream(
-                model=self.model,
-                contents=contents,
-                config=generate_content_config,
-            ):
-                response_text += chunk.text
-            # Parse JSON response
-            try:
-                # Clean the response text - remove markdown code blocks if present
-                cleaned_text = response_text.strip()
-                if cleaned_text.startswith('```json'):
-                    cleaned_text = cleaned_text[7:]  # Remove ```json
-                if cleaned_text.endswith('```'):
-                    cleaned_text = cleaned_text[:-3]  # Remove closing ```
-                cleaned_text = cleaned_text.strip()
-                evaluation_data = json.loads(cleaned_text)
-                return evaluation_data
-            except json.JSONDecodeError as e:
-                print(f"Error parsing JSON response: {e}")
-                print(f"Original response text: {response_text}")
-                print(f"Cleaned response text: {cleaned_text}")
-                return None
+                # Collect the streaming response
+                response_text = ""
+                for chunk in self.gemini_client.models.generate_content_stream(
+                    model=self.model,
+                    contents=contents,
+                    config=generate_content_config,
+                ):
+                    response_text += chunk.text
+            else:
+                # OpenAI-compatible API using requests
+                headers = {
+                    "Authorization": f"Bearer {self.api_key}",
+                    "Content-Type": "application/json"
+                }
+                data = {
+                    "model": self.model,
+                    "messages": [{"role": "user", "content": evaluation_prompt}]
+                }
+                # Newer Claude models reject the temperature parameter
+                if not self.model.startswith("anthropic/"):
+                    data["temperature"] = 0.1
+                # Optional JSON response format for supported models
+                if "gpt-4" in self.model or "gpt-3.5-turbo-1106" in self.model:
+                    data["response_format"] = {"type": "json_object"}
+                    
+                # Retry: the proxy intermittently fails (e.g. one deployment with a bad key)
+                for attempt in range(4):
+                    response = requests.post(
+                        f"{self.base_url.rstrip('/')}/chat/completions",
+                        headers=headers,
+                        json=data,
+                        timeout=300
+                    )
+                    if response.status_code == 200:
+                        break
+                    time.sleep(2 * (attempt + 1))
+                
+                if response.status_code != 200:
+                    print(f"Error calling OpenAI-compatible API: {response.status_code} - {response.text}")
+                    return None
+                    
+                response_json = response.json()
+                response_text = response_json['choices'][0]['message']['content']
+
+            return response_text
         except Exception as e:
             print(f"Error evaluating response: {e}")
             return None
-    
+
+    def evaluate_response(self, original_prompt, model_response, golden_answer=None):
+        """Evaluate a single response; re-ask the evaluator when its reply can't be parsed or validated"""
+        for attempt in range(1, MAX_EVAL_ATTEMPTS + 1):
+            response_text = self.request_evaluation(original_prompt, model_response, golden_answer)
+            if response_text is None:
+                return None
+            try:
+                return validate_evaluation(parse_evaluation_json(response_text))
+            except ValueError as e:
+                print(f"Unusable evaluator reply (attempt {attempt}/{MAX_EVAL_ATTEMPTS}): {e}")
+                print(f"Reply start: {response_text[:300]!r}")
+        return None
+
     def save_evaluation(self, connection, benchmark_result_id, evaluation_data):
         """Save evaluation results to database"""
         try:
@@ -210,8 +378,8 @@ Provide your evaluation in the following JSON format:
                     domain_expertise_score, domain_expertise_justification,
                     helpfulness_score, helpfulness_justification,
                     overall_score, overall_assessment,
-                    key_strengths, key_weaknesses
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    key_strengths, key_weaknesses, evaluator
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
             values = (
                 benchmark_result_id,
@@ -228,7 +396,8 @@ Provide your evaluation in the following JSON format:
                 evaluation_data['overall_score'],
                 evaluation_data['overall_assessment'],
                 json.dumps(evaluation_data['key_strengths']),
-                json.dumps(evaluation_data['key_weaknesses'])
+                json.dumps(evaluation_data['key_weaknesses']),
+                self.model
             )
             cursor.execute(insert_query, values)
             connection.commit()
@@ -251,26 +420,36 @@ Provide your evaluation in the following JSON format:
             total_responses = len(responses)
             successful_evaluations = 0
             failed_evaluations = 0
-            for i, response in enumerate(responses, 1):
-                print(f"\nEvaluating response {i}/{total_responses} - ID: {response['id']}, Model: {response['model']}")
-                # Get the original prompt - adjust this based on your prompts table structure
-                original_prompt = response.get('prompt_text', 'Original prompt not available')
-                model_response = response['response_text']
-                # Evaluate the response
-                evaluation_data = self.evaluate_response(original_prompt, model_response)
-                if evaluation_data:
-                    # Save evaluation to database
-                    if self.save_evaluation(connection, response['id'], evaluation_data):
+
+            def evaluate_one(response):
+                evaluation_data = self.evaluate_response(
+                    response.get('prompt_text', 'Original prompt not available'),
+                    response['response_text'],
+                    response.get('goldenAnswer'))
+                if self.eval_type == 'gemini':
+                    time.sleep(4)  # RPM=15 for free tier API key, so 4 second sleep
+                return evaluation_data
+
+            with ThreadPoolExecutor(max_workers=self.workers) as executor:
+                futures = {executor.submit(evaluate_one, r): r for r in responses}
+                for done, future in enumerate(as_completed(futures), 1):
+                    response = futures[future]
+                    label = f"[{done}/{total_responses}] ID: {response['id']}, Model: {response['model']}"
+                    try:
+                        evaluation_data = future.result()
+                    except Exception as e:
+                        print(f"✗ {label} - unexpected error: {e}", flush=True)
+                        failed_evaluations += 1
+                        continue
+                    if not evaluation_data:
+                        failed_evaluations += 1
+                        print(f"✗ {label} - failed to evaluate", flush=True)
+                    elif self.save_evaluation(connection, response['id'], evaluation_data):
                         successful_evaluations += 1
-                        print(f"✓ Successfully evaluated and saved (Overall Score: {evaluation_data['overall_score']})")
+                        print(f"✓ {label} - saved (Overall Score: {evaluation_data['overall_score']})", flush=True)
                     else:
                         failed_evaluations += 1
-                        print("✗ Failed to save evaluation")
-                else:
-                    failed_evaluations += 1
-                    print("✗ Failed to evaluate response")
-                # Add a small delay to avoid rate limiting
-                time.sleep(1)
+                        print(f"✗ {label} - failed to save", flush=True)
             print(f"\n=== Evaluation Summary ===")
             print(f"Total responses: {total_responses}")
             print(f"Successful evaluations: {successful_evaluations}")
@@ -283,19 +462,23 @@ def main():
     # Load environment variables from .env file
     load_dotenv()
     
-    # Get Gemini API key from environment
-    gemini_api_key = os.getenv('GEMINI_API_KEY')
-    if not gemini_api_key:
-        print("Error: GEMINI_API_KEY not found in environment variables.")
-        print("Please create a .env file with GEMINI_API_KEY=your_api_key_here")
-        sys.exit(1)
+    # Get all environment variables for configuration
+    config = {
+        'EVALUATOR_TYPE': os.getenv('EVALUATOR_TYPE', 'gemini'),
+        'GEMINI_API_KEY': os.getenv('GEMINI_API_KEY'),
+        'EVAL_BASE_URL': os.getenv('EVAL_BASE_URL'),
+        'EVAL_MODEL': os.getenv('EVAL_MODEL'),
+        'EVAL_API_KEY': os.getenv('EVAL_API_KEY')
+    }
     
-    parser = argparse.ArgumentParser(description='Evaluate LLM responses using Gemini API')
+    parser = argparse.ArgumentParser(description='Evaluate LLM responses using Gemini or OpenAI-compatible API')
     parser.add_argument('--host', required=True, help='MySQL host')
     parser.add_argument('--port', type=int, default=3306, help='MySQL port')
     parser.add_argument('--user', required=True, help='MySQL username')
     parser.add_argument('--password', required=True, help='MySQL password')
     parser.add_argument('--database', required=True, help='MySQL database name')
+    parser.add_argument('--workers', type=int, default=1, help='Number of parallel evaluation requests (default: 1)')
+    parser.add_argument('--model', help='Evaluate only responses of this model (default: all models)')
     
     args = parser.parse_args()
     
@@ -312,8 +495,15 @@ def main():
     }
     
     # Initialize and run evaluator
-    evaluator = LLMEvaluator(db_config, gemini_api_key)
-    evaluator.run_evaluation()
+    try:
+        evaluator = LLMEvaluator(db_config, config, args.model, args.workers)
+        evaluator.run_evaluation()
+    except ValueError as e:
+        print(f"Configuration Error: {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

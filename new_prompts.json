@@ -1,0 +1,142 @@
+[
+  {
+    "category": "Terminal",
+    "tags": "terminal,ssh,docker,mysql,pl",
+    "lang": "bash",
+    "prompt_text": "Na zdalnej maszynie 192.168.1.50 (użytkownik deploy, logowanie kluczem SSH) działa kontener Dockera o nazwie `shop-db` z MySQL. Hasło roota jest w zmiennej środowiskowej MYSQL_ROOT_PASSWORD wewnątrz kontenera. Podaj jedno polecenie uruchamiane z mojego lokalnego terminala (bash), które zrobi zrzut bazy `shop` i zapisze go skompresowanego gzipem do lokalnego pliku shop.sql.gz. Nic nie może być zapisywane na zdalnej maszynie, a hasła nie wolno wpisywać w poleceniu.",
+    "goldenAnswer": "ssh deploy@192.168.1.50 \"docker exec shop-db sh -c 'mysqldump -uroot -p\\\"\\$MYSQL_ROOT_PASSWORD\\\" shop'\" | gzip > shop.sql.gz\n\nKluczowe elementy: zmienna $MYSQL_ROOT_PASSWORD musi być rozwijana dopiero wewnątrz kontenera (stąd sh -c i ucieczka \\$ w lokalnym cudzysłowie), docker exec bez -t (tty psuje strumień binarny/tekstowy), dump leci strumieniem przez SSH i jest kompresowany lokalnie."
+  },
+  {
+    "category": "Terminal",
+    "tags": "terminal,ssh,docker,mysql,quoting,pl",
+    "lang": "bash",
+    "prompt_text": "Na zdalnej maszynie 192.168.1.50 (użytkownik deploy, klucz SSH) działa kontener `app-mysql`. Hasło roota jest w zmiennej środowiskowej MYSQL_ROOT_PASSWORD wewnątrz kontenera. Z mojego terminala (bash) wykonaj w bazie `crm` zapytanie\nSELECT id, numer FROM sprawy WHERE numer IN ('2026/567','2026/568') OR parent_id = 12;\ni zapisz wynik jako dane rozdzielone tabulatorami, bez nagłówka kolumn, do lokalnego pliku wynik.tsv. Zapytanie zawiera apostrofy, a polecenie przechodzi przez ssh, docker exec i sh -c, więc uważaj na poziomy cudzysłowów. Podaj jedno polecenie (może używać here-doc).",
+    "goldenAnswer": "ssh deploy@192.168.1.50 'docker exec -i app-mysql sh -c '\\''mysql -uroot -p\"$MYSQL_ROOT_PASSWORD\" -N -B crm'\\''' > wynik.tsv <<'SQL'\nSELECT id, numer FROM sprawy WHERE numer IN ('2026/567','2026/568') OR parent_id = 12;\nSQL\n\nKluczowe: zapytanie przekazane przez stdin (here-doc z zacytowanym ogranicznikiem), więc apostrofy nie wymagają ucieczek; docker exec -i (bez -t); hasło rozwijane dopiero w kontenerze (sh -c z pojedynczymi cudzysłowami); mysql -N (bez nagłówka) i -B (tryb wsadowy, tabulatory); przekierowanie > wynik.tsv po stronie lokalnej."
+  },
+  {
+    "category": "Terminal",
+    "tags": "terminal,ssh,docker,tar,pl",
+    "lang": "bash",
+    "prompt_text": "Mam lokalny katalog ./dist z wieloma plikami i podkatalogami. Chcę go wgrać do działającego kontenera `app` na zdalnej maszynie 192.168.1.50 (użytkownik deploy) do ścieżki /var/www/html, z zachowaniem uprawnień i struktury katalogów. Nie wolno zapisywać plików tymczasowych na zdalnej maszynie ani instalować niczego w kontenerze poza standardowym `tar`. Podaj jedno polecenie.",
+    "goldenAnswer": "tar -C dist -cf - . | ssh deploy@192.168.1.50 \"docker exec -i app tar -C /var/www/html -xf -\"\n\nKluczowe: strumień tar przez potok SSH, `docker exec -i` (bez -t, żeby nie uszkodzić danych), -C ustawia katalog źródłowy i docelowy, tar zachowuje uprawnienia i strukturę. Brak plików tymczasowych."
+  },
+  {
+    "category": "Terminal",
+    "tags": "terminal,rsync,ssh,backup,pl",
+    "lang": "bash",
+    "prompt_text": "Lokalny katalog ~/backup/portal/ chcę zsynchronizować na maszynę 192.168.1.60 (użytkownik backup, klucz SSH) do /mnt/backup/portal/. Podaj polecenia bash, które: (1) utworzą katalog docelowy, jeśli go nie ma, (2) zsynchronizują zawartość z zachowaniem uprawnień i czasów modyfikacji, bez przerywania na pytaniach o hasło (tryb nieinteraktywny), (3) usuną na zdalnej maszynie pliki, których nie ma już lokalnie, (4) na końcu pokażą statystykę transferu i wylistują zdalny katalog. Kolejne kroki mają się wykonać tylko wtedy, gdy poprzedni się powiódł.",
+    "goldenAnswer": "ssh -o BatchMode=yes backup@192.168.1.60 'mkdir -p /mnt/backup/portal' \\\n  && rsync -a --delete --info=stats1 -e 'ssh -o BatchMode=yes' ~/backup/portal/ backup@192.168.1.60:/mnt/backup/portal/ \\\n  && ssh -o BatchMode=yes backup@192.168.1.60 'ls -la /mnt/backup/portal'\n\nKluczowe: -a (uprawnienia, czasy, rekurencja), --delete, ukośnik na końcu ścieżki źródłowej (synchronizacja zawartości, nie katalogu), BatchMode=yes, łańcuch &&, --info=stats1 (statystyka). Rozsądnie jest najpierw sprawdzić zmiany z -n (dry-run), bo --delete usuwa dane."
+  },
+  {
+    "category": "Terminal",
+    "tags": "terminal,ffmpeg,cut,pl",
+    "lang": "bash",
+    "prompt_text": "Mam plik wywiad.mp4 (H.264/AAC). Wytnij z niego fragment od 00:01:30 do 00:03:45 do pliku fragment.mp4 możliwie najszybciej i bez utraty jakości (bez ponownego kodowania). Podaj polecenie ffmpeg i wyjaśnij jedno ograniczenie takiego podejścia.",
+    "goldenAnswer": "ffmpeg -ss 00:01:30 -i wywiad.mp4 -t 00:02:15 -c copy fragment.mp4\n(równoważnie z -to 00:03:45 jako opcją wejściową obok -ss; czas trwania fragmentu to 2 min 15 s)\n\nOgraniczenie: przy -c copy cięcie możliwe jest tylko na klatkach kluczowych (keyframe), więc początek fragmentu może być przesunięty względem żądanego czasu albo zawierać kilka klatek bez obrazu. Dokładne cięcie wymaga ponownego kodowania (np. -c:v libx264 -c:a aac)."
+  },
+  {
+    "category": "Terminal",
+    "tags": "terminal,ffmpeg,nvenc,batch,pl",
+    "lang": "bash",
+    "prompt_text": "W bieżącym katalogu mam wiele plików .mkv (nazwy ze spacjami). Przekonwertuj każdy na .mp4: wideo H.264 na GPU NVIDIA (NVENC) ze stałą jakością CQ 23, audio AAC 160 kb/s, bez napisów. Plik wyjściowy ma mieć tę samą nazwę z rozszerzeniem .mp4, a pliki już przekonwertowane mają zostać pominięte. Podaj skrypt bash.",
+    "goldenAnswer": "for f in *.mkv; do\n  out=\"${f%.mkv}.mp4\"\n  [ -e \"$out\" ] && continue\n  ffmpeg -nostdin -i \"$f\" -c:v h264_nvenc -preset p5 -rc vbr -cq 23 -b:v 0 -c:a aac -b:a 160k -sn \"$out\"\ndone\n\nKluczowe: cudzysłowy wokół zmiennych (spacje w nazwach), kodek h264_nvenc z -cq 23 i -b:v 0, -c:a aac -b:a 160k, -sn (bez napisów), pominięcie istniejących plików, -nostdin żeby ffmpeg nie zjadał wejścia w pętli."
+  },
+  {
+    "category": "Terminal",
+    "tags": "terminal,ffmpeg,segment,mp3,pl",
+    "lang": "bash",
+    "prompt_text": "Plik nagranie.mp4 trwa 1 h 25 min. Potnij go na kawałki po 10 minut bez ponownego kodowania, nazwane nagranie_000.mp4, nagranie_001.mp4 itd., a dodatkowo wyciągnij z całego nagrania ścieżkę audio do pliku MP3 192 kb/s. Podaj dwa polecenia ffmpeg i napisz, dlaczego kawałki nie będą miały dokładnie 10:00.",
+    "goldenAnswer": "ffmpeg -i nagranie.mp4 -map 0 -c copy -f segment -segment_time 600 -reset_timestamps 1 nagranie_%03d.mp4\nffmpeg -i nagranie.mp4 -vn -c:a libmp3lame -b:a 192k nagranie.mp3\n\nKawałki nie będą miały dokładnie 10:00, bo przy -c copy muxer segment tnie tylko na klatkach kluczowych, więc granice przesuwają się do najbliższego keyframe."
+  },
+  {
+    "category": "Terminal",
+    "tags": "terminal,bash,git,sed,crlf,pl",
+    "lang": "bash",
+    "prompt_text": "W repozytorium git (bash) pliki *.php w katalogu app/ (rekurencyjnie, nazwy mogą zawierać spacje) mają zakończenia linii CRLF. Zamień je na LF tylko w tych plikach, a potem pokaż, które pliki zmieniły się i o ile linii (bez wyświetlania treści zmian). Nie ruszaj plików o innych rozszerzeniach. Podaj polecenia.",
+    "goldenAnswer": "find app -type f -name '*.php' -print0 | xargs -0 sed -i 's/\\r$//'\ngit diff --stat -- app/\n\nKluczowe: find -print0 / xargs -0 (spacje w nazwach), ograniczenie do *.php, sed -i 's/\\r$//' usuwa CR na końcu linii, git diff --stat pokazuje pliki i liczbę zmienionych linii bez treści. (Równoważnie: dos2unix.)"
+  },
+  {
+    "category": "Terminal",
+    "tags": "terminal,bash,sed,grep,xargs,pl",
+    "lang": "bash",
+    "prompt_text": "W /etc/myapp (rekurencyjnie) pliki *.conf i *.php zawierają domenę old.example.com. Zamień ją na new.example.com we wszystkich tych plikach, zrób kopie zapasowe oryginałów z rozszerzeniem .bak, a na końcu wypisz listę zmienionych plików. Kropki w domenie mają być traktowane dosłownie. Podaj polecenia bash.",
+    "goldenAnswer": "mapfile -d '' files < <(grep -rlZ --include='*.conf' --include='*.php' 'old\\.example\\.com' /etc/myapp)\n[ ${#files[@]} -gt 0 ] && printf '%s\\0' \"${files[@]}\" | xargs -0 sed -i.bak 's/old\\.example\\.com/new.example.com/g'\nprintf '%s\\n' \"${files[@]}\"\n\nKluczowe: grep -rl z --include, \\. w wyrażeniu (kropka dosłownie), przekazanie nazw z NUL-em do xargs -0, sed -i.bak tworzy kopie .bak, lista zebrana przed zmianą."
+  },
+  {
+    "category": "Terminal",
+    "tags": "terminal,powershell,windows,disk,pl",
+    "lang": "powershell",
+    "prompt_text": "Napisz skrypt PowerShell 7, który szybko znajdzie, co w ciągu ostatnich 48 godzin najbardziej zajęło miejsce na dysku C:. Ma wypisać 20 największych plików zmodyfikowanych w tym czasie (rozmiar w GB z dwoma miejscami po przecinku i pełna ścieżka), posortowanych malejąco, pominąć katalogi bez dostępu bez wyświetlania błędów, a na końcu podać sumę rozmiarów tych 20 plików w GB.",
+    "goldenAnswer": "$since = (Get-Date).AddHours(-48)\n$recent = Get-ChildItem -Path 'C:\\' -Recurse -File -Force -ErrorAction SilentlyContinue |\n    Where-Object LastWriteTime -gt $since\n$top = $recent | Sort-Object Length -Descending | Select-Object -First 20\n$top | Select-Object @{n='GB'; e={[math]::Round($_.Length / 1GB, 2)}}, FullName | Format-Table -AutoSize\n'Suma (top 20): {0:N2} GB' -f (($top | Measure-Object Length -Sum).Sum / 1GB)\n\nKluczowe: -Recurse -File -Force, -ErrorAction SilentlyContinue (brak dostępu bez błędów), filtr po LastWriteTime z oknem 48 h, sortowanie po Length malejąco, Select-Object -First 20, zaokrąglenie do GB, suma przez Measure-Object."
+  },
+  {
+    "category": "Coding",
+    "tags": "python,ffmpeg,subprocess,en",
+    "lang": "python",
+    "prompt_text": "Write a Python function `cut_video(src, start, end, dst, reencode=False)` that cuts the part between `start` and `end` (seconds, floats) from a video file using the ffmpeg command line. Requirements: validate that src exists and 0 <= start < end; do not use shell=True; use stream copy (-c copy) unless reencode=True (then H.264/AAC); overwrite dst; if ffmpeg exits with a non-zero code raise RuntimeError containing the return code and ffmpeg's stderr; return the dst path as pathlib.Path.",
+    "goldenAnswer": "import subprocess\nfrom pathlib import Path\n\ndef cut_video(src, start, end, dst, reencode=False):\n    src, dst = Path(src), Path(dst)\n    if not src.is_file():\n        raise FileNotFoundError(src)\n    if not (0 <= start < end):\n        raise ValueError(\"expected 0 <= start < end\")\n    codec = [\"-c:v\", \"libx264\", \"-c:a\", \"aac\"] if reencode else [\"-c\", \"copy\"]\n    cmd = [\"ffmpeg\", \"-y\", \"-hide_banner\", \"-loglevel\", \"error\",\n           \"-ss\", str(start), \"-i\", str(src), \"-t\", str(end - start),\n           *codec, str(dst)]\n    result = subprocess.run(cmd, capture_output=True, text=True)\n    if result.returncode != 0:\n        raise RuntimeError(f\"ffmpeg failed ({result.returncode}): {result.stderr.strip()}\")\n    return dst"
+  },
+  {
+    "category": "Coding",
+    "tags": "python,ffmpeg,concurrency,batch,en",
+    "lang": "python",
+    "prompt_text": "Write a Python script that converts all .mkv files found recursively under a directory to .mp4 (H.264 video, AAC audio) using ffmpeg, in parallel with N worker threads given by a --workers argument (default 2). Requirements: skip files whose .mp4 already exists next to the source; do not use shell=True; write to a temporary file name and rename it only on success so that a failed or interrupted conversion never leaves a half-written .mp4; print progress as each file finishes; at the end print a summary with the number of converted, skipped and failed files and exit with code 1 if any failed.",
+    "goldenAnswer": "import argparse, subprocess, sys\nfrom concurrent.futures import ThreadPoolExecutor, as_completed\nfrom pathlib import Path\n\ndef convert(src: Path):\n    dst = src.with_suffix(\".mp4\")\n    if dst.exists():\n        return src, \"skipped\", \"\"\n    tmp = dst.with_name(dst.stem + \".part.mp4\")\n    cmd = [\"ffmpeg\", \"-y\", \"-nostdin\", \"-loglevel\", \"error\", \"-i\", str(src),\n           \"-c:v\", \"libx264\", \"-c:a\", \"aac\", str(tmp)]\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    if r.returncode != 0:\n        tmp.unlink(missing_ok=True)\n        return src, \"failed\", r.stderr.strip()\n    tmp.replace(dst)\n    return src, \"converted\", \"\"\n\ndef main():\n    ap = argparse.ArgumentParser()\n    ap.add_argument(\"directory\")\n    ap.add_argument(\"--workers\", type=int, default=2)\n    args = ap.parse_args()\n    files = sorted(Path(args.directory).rglob(\"*.mkv\"))\n    counts = {\"converted\": 0, \"skipped\": 0, \"failed\": 0}\n    with ThreadPoolExecutor(max_workers=args.workers) as pool:\n        futures = [pool.submit(convert, f) for f in files]\n        for done, fut in enumerate(as_completed(futures), 1):\n            src, status, err = fut.result()\n            counts[status] += 1\n            print(f\"[{done}/{len(files)}] {status}: {src}\" + (f\" - {err}\" if err else \"\"))\n    print(counts)\n    sys.exit(1 if counts[\"failed\"] else 0)\n\nif __name__ == \"__main__\":\n    main()"
+  },
+  {
+    "category": "Coding",
+    "tags": "python,ffprobe,json,en",
+    "lang": "python",
+    "prompt_text": "Write a Python function `probe(path)` that uses ffprobe (JSON output) to return a dict with: duration in seconds (float, or None if unknown), video codec, width, height, frame rate as float, audio codec, and a boolean `has_audio`. The file may have no video stream (audio only) or no audio stream; in that case the corresponding values must be None. Raise RuntimeError with ffprobe's stderr if ffprobe fails. Do not use shell=True.",
+    "goldenAnswer": "import json, subprocess\nfrom fractions import Fraction\n\ndef probe(path):\n    cmd = [\"ffprobe\", \"-v\", \"error\", \"-print_format\", \"json\",\n           \"-show_format\", \"-show_streams\", str(path)]\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    if r.returncode != 0:\n        raise RuntimeError(r.stderr.strip())\n    data = json.loads(r.stdout)\n    streams = data.get(\"streams\", [])\n    video = next((s for s in streams if s.get(\"codec_type\") == \"video\"), None)\n    audio = next((s for s in streams if s.get(\"codec_type\") == \"audio\"), None)\n    duration = data.get(\"format\", {}).get(\"duration\")\n    fps = None\n    if video and video.get(\"r_frame_rate\") not in (None, \"0/0\"):\n        fps = float(Fraction(video[\"r_frame_rate\"]))\n    return {\n        \"duration\": float(duration) if duration is not None else None,\n        \"video_codec\": video.get(\"codec_name\") if video else None,\n        \"width\": video.get(\"width\") if video else None,\n        \"height\": video.get(\"height\") if video else None,\n        \"fps\": fps,\n        \"audio_codec\": audio.get(\"codec_name\") if audio else None,\n        \"has_audio\": audio is not None,\n    }"
+  },
+  {
+    "category": "Coding",
+    "tags": "python,ssh,docker,subprocess,en",
+    "lang": "python",
+    "prompt_text": "Write a Python function `docker_exec(host, container, command, user=None, timeout=60)` that runs a shell command inside a Docker container located on a remote machine, by calling the system `ssh` client (no paramiko). The `command` is an arbitrary shell string (it may contain quotes, spaces, $VARIABLES and pipes) that must be executed by `sh -c` inside the container and must reach the container exactly as given, with variables expanded inside the container, not on the local or remote host. Do not allocate a TTY, never prompt for a password (key authentication only), fail fast if the host is unreachable, and return a tuple (exit_code, stdout, stderr). Do not use shell=True.",
+    "goldenAnswer": "import shlex\nimport subprocess\n\ndef docker_exec(host, container, command, user=None, timeout=60):\n    target = f\"{user}@{host}\" if user else host\n    # ssh joins its arguments into one string that the remote shell parses once,\n    # so the command must be quoted exactly once for that remote shell.\n    remote = f\"docker exec {shlex.quote(container)} sh -c {shlex.quote(command)}\"\n    cmd = [\"ssh\", \"-o\", \"BatchMode=yes\", \"-o\", \"ConnectTimeout=10\", target, remote]\n    r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)\n    return r.returncode, r.stdout, r.stderr"
+  },
+  {
+    "category": "Coding",
+    "tags": "python,files,pathlib,dry-run,en",
+    "lang": "python",
+    "prompt_text": "Write a Python function `organize_by_month(src_dir, dst_dir, dry_run=True)` that moves every file found recursively under src_dir into dst_dir/YYYY-MM/ based on the file's modification time, keeping the file name. If a file with the same name already exists in the target folder, do not overwrite it: append _1, _2, ... before the extension. With dry_run=True nothing is moved and no folders are created; the function only returns the planned moves. Always return a list of (source_path, destination_path) tuples. Use pathlib and shutil.",
+    "goldenAnswer": "import shutil\nfrom datetime import datetime\nfrom pathlib import Path\n\ndef organize_by_month(src_dir, dst_dir, dry_run=True):\n    src_dir, dst_dir = Path(src_dir), Path(dst_dir)\n    moves = []\n    planned = set()\n    for f in sorted(p for p in src_dir.rglob(\"*\") if p.is_file()):\n        month = datetime.fromtimestamp(f.stat().st_mtime).strftime(\"%Y-%m\")\n        folder = dst_dir / month\n        target = folder / f.name\n        i = 1\n        while target.exists() or target in planned:\n            target = folder / f\"{f.stem}_{i}{f.suffix}\"\n            i += 1\n        planned.add(target)\n        moves.append((f, target))\n        if not dry_run:\n            folder.mkdir(parents=True, exist_ok=True)\n            shutil.move(str(f), str(target))\n    return moves"
+  },
+  {
+    "category": "Coding",
+    "tags": "php,phpunit,testing,en",
+    "lang": "php",
+    "prompt_text": "Write a PHPUnit 10+ test class `MoneyTest` (use PHP attributes, not docblock annotations) for the class below. Cover: the constructor rejects a negative amount; add() with the same currency returns a new Money with the summed amount and leaves the originals unchanged; add() with different currencies throws DomainException; format() for several values using a data provider (0, 5, 1250, 100000).\n\nfinal class Money\n{\n    public function __construct(private int $cents, private string $currency = 'PLN')\n    {\n        if ($cents < 0) {\n            throw new InvalidArgumentException('Amount must not be negative');\n        }\n    }\n\n    public function add(Money $other): Money\n    {\n        if ($other->currency !== $this->currency) {\n            throw new DomainException('Currency mismatch');\n        }\n        return new Money($this->cents + $other->cents, $this->currency);\n    }\n\n    public function format(): string\n    {\n        return number_format($this->cents / 100, 2, ',', ' ') . ' ' . $this->currency;\n    }\n}",
+    "goldenAnswer": "<?php\n\nuse PHPUnit\\Framework\\Attributes\\DataProvider;\nuse PHPUnit\\Framework\\TestCase;\n\nfinal class MoneyTest extends TestCase\n{\n    public function testRejectsNegativeAmount(): void\n    {\n        $this->expectException(InvalidArgumentException::class);\n        new Money(-1);\n    }\n\n    public function testAddSameCurrencyReturnsNewObject(): void\n    {\n        $a = new Money(150);\n        $b = new Money(250);\n        $sum = $a->add($b);\n\n        $this->assertSame('4,00 PLN', $sum->format());\n        $this->assertSame('1,50 PLN', $a->format());\n        $this->assertSame('2,50 PLN', $b->format());\n        $this->assertNotSame($a, $sum);\n    }\n\n    public function testAddDifferentCurrencyThrows(): void\n    {\n        $this->expectException(DomainException::class);\n        (new Money(100, 'PLN'))->add(new Money(100, 'EUR'));\n    }\n\n    #[DataProvider('formatProvider')]\n    public function testFormat(int $cents, string $expected): void\n    {\n        $this->assertSame($expected, (new Money($cents))->format());\n    }\n\n    public static function formatProvider(): array\n    {\n        return [\n            'zero'       => [0, '0,00 PLN'],\n            'five cents' => [5, '0,05 PLN'],\n            'regular'    => [1250, '12,50 PLN'],\n            'thousands'  => [100000, '1 000,00 PLN'],\n        ];\n    }\n}"
+  },
+  {
+    "category": "Coding",
+    "tags": "php,pdo,mysql,upsert,en",
+    "lang": "php",
+    "prompt_text": "Given a MySQL table `products` (sku VARCHAR(32) PRIMARY KEY, name VARCHAR(255), price DECIMAL(10,2), stock INT), write a PHP function `upsertProducts(PDO $pdo, array $rows, int $chunkSize = 1000): int` where each row is an associative array with keys sku, name, price, stock. It must insert new products and update name, price and stock of existing ones in a single statement per chunk (multi-row INSERT ... ON DUPLICATE KEY UPDATE), use prepared statements with placeholders (no string concatenation of values), run everything in one transaction with rollback on any exception (rethrow it), and return the number of input rows processed. Handle an empty array.",
+    "goldenAnswer": "<?php\nfunction upsertProducts(PDO $pdo, array $rows, int $chunkSize = 1000): int\n{\n    if (!$rows) {\n        return 0;\n    }\n    $pdo->beginTransaction();\n    try {\n        foreach (array_chunk($rows, $chunkSize) as $chunk) {\n            $placeholders = implode(',', array_fill(0, count($chunk), '(?, ?, ?, ?)'));\n            $sql = \"INSERT INTO products (sku, name, price, stock) VALUES $placeholders\n                    ON DUPLICATE KEY UPDATE name = VALUES(name), price = VALUES(price), stock = VALUES(stock)\";\n            $params = [];\n            foreach ($chunk as $r) {\n                array_push($params, $r['sku'], $r['name'], $r['price'], $r['stock']);\n            }\n            $pdo->prepare($sql)->execute($params);\n        }\n        $pdo->commit();\n    } catch (Throwable $e) {\n        $pdo->rollBack();\n        throw $e;\n    }\n    return count($rows);\n}"
+  },
+  {
+    "category": "Coding",
+    "tags": "python,mysql,sql-injection,debugging,en",
+    "lang": "python",
+    "prompt_text": "The following Python function (mysql.connector) is used in a web backend. Find all the problems in it and show a corrected version. Explain each problem in one sentence.\n\ndef get_user_orders(conn, user_name):\n    cur = conn.cursor()\n    cur.execute(f\"SELECT id, total FROM orders WHERE user_name = '{user_name}'\")\n    rows = cur.fetchall()\n    return rows",
+    "goldenAnswer": "Problems:\n1. SQL injection: the user_name value is interpolated into the SQL with an f-string; it must be passed as a bound parameter.\n2. The cursor is never closed (resource leak, also on exceptions); use try/finally or a context manager.\n3. Rows come back as bare tuples, which is fragile; a dictionary cursor makes the result self-describing.\n\ndef get_user_orders(conn, user_name):\n    cur = conn.cursor(dictionary=True)\n    try:\n        cur.execute(\"SELECT id, total FROM orders WHERE user_name = %s\", (user_name,))\n        return cur.fetchall()\n    finally:\n        cur.close()"
+  },
+  {
+    "category": "Coding",
+    "tags": "bash,backup,scripting,en",
+    "lang": "bash",
+    "prompt_text": "Write a bash script `backup.sh` that creates a compressed tar archive of /var/www into /backups named www-YYYYmmdd-HHMMSS.tar.gz and keeps only the 7 most recent archives. Requirements: use `set -euo pipefail`; prevent two instances from running at the same time (flock on a lock file); write the archive under a temporary name and rename it only after tar succeeded, so a failed run never leaves a broken archive that looks valid; remove the temporary file on any failure or interruption (trap); print a clear message and exit with a non-zero code on error.",
+    "goldenAnswer": "#!/usr/bin/env bash\nset -euo pipefail\n\nSRC=/var/www\nDEST=/backups\nKEEP=7\nLOCK=/var/lock/backup-www.lock\n\nexec 9>\"$LOCK\"\nflock -n 9 || { echo \"Another backup is already running\" >&2; exit 1; }\n\nmkdir -p \"$DEST\"\nstamp=$(date +%Y%m%d-%H%M%S)\nfinal=\"$DEST/www-$stamp.tar.gz\"\ntmp=\"$final.part\"\ntrap 'rm -f \"$tmp\"' EXIT\n\nif ! tar -czf \"$tmp\" -C \"$(dirname \"$SRC\")\" \"$(basename \"$SRC\")\"; then\n    echo \"Backup failed\" >&2\n    exit 1\nfi\nmv \"$tmp\" \"$final\"\necho \"Created $final\"\n\n# rotation: delete everything except the newest $KEEP archives\nls -1t \"$DEST\"/www-*.tar.gz | tail -n +$((KEEP + 1)) | xargs -r rm --"
+  },
+  {
+    "category": "Coding",
+    "tags": "python,regex,logs,parsing,en",
+    "lang": "python",
+    "prompt_text": "A benchmark script prints log lines like these (the \"Running\" line sets the model for the lines that follow it until the next \"Running\" line):\n\nRunning prompt 79 on model lfm3-omni:latest\n   - Prompt 79 completed, result ID: 7515 Total: 0.060s Eval Count: 2 (266.77 t/s) Eval Duration: 0.007s Prompt Eval Count: 206 (7843 t/s) Prompt Eval Duration: 0.026s\nRunning prompt 80 on model lfm3-omni:latest\n   - Prompt 80 completed, result ID: 7516 Total: 1.204s Eval Count: 370 (319.98 t/s) Eval Duration: 1.156s Prompt Eval Count: 17 (898 t/s) Prompt Eval Duration: 0.019s\n\nWrite a Python function `speed_by_model(log_text)` that returns a dict {model_name: tokens_per_second}, where the value is the total Eval Count divided by the total Eval Duration for that model (not the mean of the per-line t/s values). Ignore lines that do not match, and models with zero total duration. Use the re module.",
+    "goldenAnswer": "import re\nfrom collections import defaultdict\n\nRUNNING = re.compile(r\"^Running prompt \\d+ on model (\\S+)\")\nDONE = re.compile(r\"Eval Count: (\\d+) \\(.*?\\) Eval Duration: ([\\d.]+)s\")\n\ndef speed_by_model(log_text):\n    tokens = defaultdict(int)\n    seconds = defaultdict(float)\n    model = None\n    for line in log_text.splitlines():\n        m = RUNNING.match(line.strip())\n        if m:\n            model = m.group(1)\n            continue\n        d = DONE.search(line)\n        if d and model:\n            tokens[model] += int(d.group(1))\n            seconds[model] += float(d.group(2))\n    return {m: tokens[m] / seconds[m] for m in tokens if seconds[m] > 0}"
+  }
+]

@@ -3,3 +3,7 @@ config.php
 models.bat
 evaluator.bat
 run.bat
+evaluator_telco.bat
+models_telco.bat
+run_telco.bat
+__pycache__/

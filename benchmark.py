@@ -65,10 +65,27 @@ class LLMBenchmark:
         print(f"Retrieved {len(prompts)} prompts from database")
         return prompts
     
-    def get_models(self) -> List[str]:
+    def get_model_capabilities(self, model: str) -> List[str]:
         """
-        Get available models from Ollama, filtering out blacklisted models.
-        
+        Get the capabilities Ollama reports for a model (e.g. completion, embedding, decision).
+
+        Returns:
+            List of capability names, empty if the model doesn't report any or the lookup fails
+        """
+        try:
+            response = requests.post(f"{self.ollama_base_url}/api/show", json={'model': model}, timeout=30)
+            if response.status_code == 200:
+                return response.json().get('capabilities') or []
+            print(f"Warning: could not read capabilities of {model}: HTTP {response.status_code}")
+        except requests.exceptions.RequestException as e:
+            print(f"Warning: could not read capabilities of {model}: {e}")
+        return []
+
+    def get_all_available_models(self) -> List[str]:
+        """
+        Get all available models from Ollama, filtering out blacklisted models
+        and models without a completion or chat capability (embedding, decision, ...).
+
         Returns:
             List of model names that support completion interface
         """
@@ -85,7 +102,11 @@ class LLMBenchmark:
             'distilbert',
             'instructor-',
             'gte-',
-            'multilingual-e5'
+            'multilingual-e5',
+            'ocr',  # OCR models (deepseek-ocr, GLM-OCR, ...)
+            'basal',  # decision models, although Ollama reports them as completion
+            'llama3.3:latest',
+            'qwen2.5-coder:14b'
         ]
         
         try:
@@ -99,12 +120,18 @@ class LLMBenchmark:
                     model_lower = model.lower()
                     is_blacklisted = any(pattern.lower() in model_lower for pattern in blacklisted_patterns)
                     
-                    if not is_blacklisted:
-                        filtered_models.append(model)
-                    else:
+                    if is_blacklisted:
                         print(f"Filtered out model: {model} (no completion interface)")
+                        continue
+
+                    capabilities = self.get_model_capabilities(model)
+                    # Models that don't report capabilities (older Ollama builds) are kept
+                    if capabilities and not {'completion', 'chat'} & set(capabilities):
+                        print(f"Filtered out model: {model} (capabilities: {', '.join(capabilities)}; no completion or chat)")
+                        continue
+
+                    filtered_models.append(model)
                 
-                print(f"Available completion models: {', '.join(filtered_models)}")
                 return filtered_models
             else:
                 print(f"Error retrieving models: {response.status_code}")
@@ -113,6 +140,31 @@ class LLMBenchmark:
         except requests.exceptions.RequestException as e:
             print(f"Network error retrieving models: {e}")
             return []
+    
+    def validate_and_filter_models(self, requested_models: List[str]) -> List[str]:
+        """
+        Validate requested models against available models and apply blacklist.
+        
+        Args:
+            requested_models: List of model names requested by user
+            
+        Returns:
+            List of valid, available, non-blacklisted models
+        """
+        available_models = self.get_all_available_models()
+        
+        if not available_models:
+            print("No models available from Ollama")
+            return []
+        
+        valid_models = []
+        for model in requested_models:
+            if model in available_models:
+                valid_models.append(model)
+            else:
+                print(f"Warning: Model '{model}' not found or blacklisted, skipping")
+        
+        return valid_models
             
     def check_result_exists(self, prompt_id: int, model: str) -> bool:
         """
@@ -154,19 +206,32 @@ class LLMBenchmark:
         }
         
         start_time = time.time()
-        response = requests.post(
-            f"{self.ollama_base_url}/api/generate", 
-            json=request_data
-        )
+        try:
+            response = requests.post(
+                f"{self.ollama_base_url}/api/generate",
+                json=request_data
+            )
+        except requests.exceptions.RequestException as e:
+            print(f"Error calling Ollama API: {e}")
+            return {
+                "prompt_id": prompt['id'],
+                "model": model,
+                "success": False,
+                "transient": True,
+                "error": f"Request failed: {e}",
+                "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
         end_time = time.time()
-        
+
         if response.status_code != 200:
             print(f"Error calling Ollama API: {response.status_code}")
             return {
                 "prompt_id": prompt['id'],
                 "model": model,
                 "success": False,
-                "error": f"API Error: {response.status_code}"
+                "transient": response.status_code >= 500,
+                "error": f"API Error: {response.status_code}",
+                "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
             
         response_data = response.json()
@@ -239,7 +304,7 @@ class LLMBenchmark:
         
     def run_benchmark(self, models: List[str] = None, prompt_limit: int = None, force_regenerate: bool = False, specific_prompt_id: int = None) -> None:
         """
-        Run benchmark across all models and prompts.
+        Run benchmark across specified models and prompts.
         
         Args:
             models: List of models to benchmark, defaults to all available
@@ -251,11 +316,15 @@ class LLMBenchmark:
             self.connect_db()
             
             if not models:
-                models = self.get_models()
+                models = self.get_all_available_models()
+            else:
+                models = self.validate_and_filter_models(models)
                 
             if not models:
-                print("No models available for benchmarking")
+                print("No valid models available for benchmarking")
                 return
+            
+            print(f"Models to benchmark: {', '.join(models)}")
                
             prompts = self.get_prompts(prompt_id=specific_prompt_id, limit=prompt_limit)
             if not prompts:
@@ -273,8 +342,26 @@ class LLMBenchmark:
                         continue
                     
                     result = self.run_prompt(model, prompt)
+                    if result.get('transient'):
+                        # Server-side/network error: don't store it, so a rerun retries this prompt
+                        print(f"   - Prompt {prompt['id']} not saved (transient error: {result.get('error')}), will be retried on the next run")
+                        time.sleep(30)
+                        continue
                     result_id = self.save_result(result)
-                    print(f"  - Prompt {prompt['id']} completed, result ID: {result_id}")
+                    
+                    if result.get('success'):
+                        duration = result.get('total_duration', 0)
+                        eval_count = result.get('eval_count', 0)
+                        eval_duration_s = result.get('eval_duration', 0) / 1e9
+                        eval_ts = (eval_count / eval_duration_s) if eval_duration_s > 0 else 0
+                        
+                        prompt_eval_count = result.get('prompt_eval_count', 0)
+                        prompt_eval_duration_s = result.get('prompt_eval_duration', 0) / 1e9
+                        prompt_eval_ts = (prompt_eval_count / prompt_eval_duration_s) if prompt_eval_duration_s > 0 else 0
+                        
+                        print(f"   - Prompt {prompt['id']} completed, result ID: {result_id} Total: {duration:.3f}s Eval Count: {eval_count} ({eval_ts:.2f} t/s) Eval Duration: {eval_duration_s:.3f}s Prompt Eval Count: {prompt_eval_count} ({prompt_eval_ts:.0f} t/s) Prompt Eval Duration: {prompt_eval_duration_s:.3f}s")
+                    else:
+                        print(f"   - Prompt {prompt['id']} failed, result ID: {result_id} Error: {result.get('error', 'Unknown Error')}")
                     
             print("\nBenchmark completed successfully")
             
@@ -344,7 +431,8 @@ if __name__ == "__main__":
     parser.add_argument('--password', required=True, help='MySQL password')
     parser.add_argument('--database', required=True, help='MySQL database name')
     parser.add_argument('--ollama', default='http://localhost:11434', help='Ollama API base URL')
-    parser.add_argument('--models', nargs='+', help='Models to benchmark')
+    parser.add_argument('--models', help='Comma-separated list of models to benchmark (e.g., llama2,mistral,phi)')
+    parser.add_argument('--all-models', action='store_true', default=True, help='Benchmark all available models (default)')
     parser.add_argument('--limit', type=int, help='Limit number of prompts')
     parser.add_argument('--report', action='store_true', help='Generate report only')
     parser.add_argument('--prompt-id', type=int, help='Run benchmark for a specific prompt ID')
@@ -365,12 +453,20 @@ if __name__ == "__main__":
     
     if args.report:
         report = benchmark.generate_report()
-        print(json.dumps(report, indent=2))
+        print(json.dumps(report, indent=2, default=str))
     else:
+        # Parse models if provided
+        models_to_benchmark = None
+        if args.models:
+            models_to_benchmark = [m.strip() for m in args.models.split(',')]
+            print(f"Requested models: {', '.join(models_to_benchmark)}")
+        elif args.all_models:
+            print("Using all available models (default)")
+        
         # If a specific prompt ID is provided, force regeneration is automatically true
         force_regenerate = args.force or args.prompt_id is not None
         benchmark.run_benchmark(
-            models=args.models, 
+            models=models_to_benchmark, 
             prompt_limit=args.limit, 
             force_regenerate=force_regenerate,
             specific_prompt_id=args.prompt_id

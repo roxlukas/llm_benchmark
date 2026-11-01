@@ -11,78 +11,129 @@
 // Include configuration file
 require_once 'config.php';
 
-// Get models to include from GET parameters, or use all models if not specified
-$selectedModels = isset($_GET['models']) ? explode(',', $_GET['models']) : [];
+// Get models and categories to include from GET parameters
+// Support both array (from multi-select) and comma-separated string
+$selectedModels = isset($_GET['models']) ? (is_array($_GET['models']) ? $_GET['models'] : explode(',', $_GET['models'])) : [];
+$selectedCategories = isset($_GET['categories']) ? (is_array($_GET['categories']) ? $_GET['categories'] : explode(',', $_GET['categories'])) : [];
 
 // Connect to the database
 try {
     $pdo = getDatabaseConnection();
     
+    // Get all available models
+    $stmt = $pdo->query("SELECT DISTINCT model FROM benchmark_results ORDER BY model");
+    $allModels = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
     // Get all available models if none specified
     if (empty($selectedModels)) {
-        $stmt = $pdo->query("SELECT DISTINCT model FROM benchmark_results ORDER BY model");
-        $selectedModels = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $selectedModels = $allModels;
     }
     
-    // Get all prompts
-    $stmt = $pdo->query("SELECT id, prompt_text, category, tags, created_at, `goldenAnswer` FROM prompts ORDER BY category, id");
-    $prompts = $stmt->fetchAll();
+    // Get all available categories
+    $stmt = $pdo->query("SELECT DISTINCT category FROM prompts ORDER BY category");
+    $allCategories = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    
+    // If no categories selected, use all available
+    if (empty($selectedCategories)) {
+        $selectedCategories = $allCategories;
+    }
+
+    // Get prompts filtered by category
+    if (empty($selectedCategories)) {
+        $prompts = [];
+    } else {
+        $catPlaceholders = implode(',', array_fill(0, count($selectedCategories), '?'));
+        $stmt = $pdo->prepare("SELECT id, prompt_text, category, tags, created_at, `goldenAnswer` FROM prompts WHERE category IN ($catPlaceholders) ORDER BY category, id");
+        $stmt->execute($selectedCategories);
+        $prompts = $stmt->fetchAll();
+    }
     
     // Get all results for the selected models
-    $placeholders = implode(',', array_fill(0, count($selectedModels), '?'));
+    if (empty($selectedModels)) {
+        $modelMetadata = [];
+        $modelCost = [];
+        $results = [];
+        $total_time = 0;
+    } else {
+        $placeholders = implode(',', array_fill(0, count($selectedModels), '?'));
 
-    // Get model metadata
-    $modelMetadata = [];
-    $stmt = $pdo->prepare("SELECT * FROM model_metadata WHERE model_name IN ($placeholders)");
-    $stmt->execute($selectedModels);
-    $modelMetadataResults = $stmt->fetchAll();
+        // Get model metadata
+        $modelMetadata = [];
+        $stmt = $pdo->prepare("SELECT * FROM model_metadata WHERE model_name IN ($placeholders)");
+        $stmt->execute($selectedModels);
+        $modelMetadataResults = $stmt->fetchAll();
 
-    foreach ($modelMetadataResults as $metadata) {
-        $modelMetadata[$metadata['model_name']] = $metadata;
+        foreach ($modelMetadataResults as $metadata) {
+            $modelMetadata[$metadata['model_name']] = $metadata;
+        }
+        
+        // Calculate model cost 
+        $modelCost = [];
+        $stmt = $pdo->prepare("SELECT 
+        model,
+        COUNT(*) as benchmark_runs,
+        -- Calculate Average PLN per 1 Million Tokens
+        -- Total Cost = (Total Nanoseconds / 1e9 / 3600) * 0.4 kW * 1.10 PLN
+        -- Then normalized to 1,000,000 tokens
+        (SUM((eval_duration + prompt_eval_duration) / 1000000000) / 3600 * 0.4 * 1.10) / SUM(eval_count) * 1000000 as cost_per_1M_pln,
+        -- Average speed for context
+        AVG(eval_count / (eval_duration / 1000000000)) as avg_tokens_per_sec
+    FROM benchmark_results
+    WHERE timestamp >= '2025-12-10' 
+      AND eval_count > 0 
+      AND eval_duration > 0
+    GROUP BY model
+    ORDER BY cost_per_1M_pln ASC;");
+        $stmt->execute();
+        $modelCostResults = $stmt->fetchAll();
+
+        foreach ($modelCostResults as $cost) {
+            $modelCost[$cost['model']] = $cost;
+        }
+
+        // Get benchmark results with evaluation scores
+        $stmt = $pdo->prepare("
+        SELECT 
+            br.id,
+            prompt_id, 
+            br.model, 
+            response_text,
+            br.success,
+            total_duration, 
+            eval_count, 
+            eval_duration,
+            prompt_eval_count, 
+            prompt_eval_duration,
+            mm.parameters,
+            mm.architecture,
+            mm.context_length,
+            mm.quantization,
+            er.accuracy_score,
+            er.accuracy_justification,
+            er.completeness_score,
+            er.completeness_justification,
+            er.clarity_score,
+            er.clarity_justification,
+            er.domain_expertise_score,
+            er.domain_expertise_justification,
+            er.helpfulness_score,
+            er.helpfulness_justification,
+            er.overall_score,
+            er.overall_assessment
+        FROM benchmark_results br
+        LEFT JOIN model_metadata mm ON br.model = mm.model_name
+        LEFT JOIN evaluation_results er ON br.id = er.benchmark_result_id AND er.evaluator = " . $pdo->quote(ACTIVE_EVALUATOR) . "
+        WHERE br.model IN ($placeholders)
+        ORDER BY prompt_id, br.model
+        ");
+        $stmt->execute($selectedModels);
+        $results = $stmt->fetchAll();
+
+        $stmt = $pdo->prepare("SELECT SUM(total_duration) FROM `benchmark_results` WHERE 1");
+        $stmt->execute();
+        $total_time_raw = $stmt->fetchAll();
+        $total_time = $total_time_raw[0]['SUM(total_duration)'] ?? 0;
     }
-
-    // Get benchmark results with evaluation scores
-    $stmt = $pdo->prepare("
-    SELECT 
-        br.id,
-        prompt_id, 
-        br.model, 
-        response_text,
-        br.success,
-        total_duration, 
-        eval_count, 
-        eval_duration,
-        prompt_eval_count, 
-        prompt_eval_duration,
-        mm.parameters,
-        mm.architecture,
-        mm.context_length,
-        mm.quantization,
-        er.accuracy_score,
-        er.accuracy_justification,
-        er.completeness_score,
-        er.completeness_justification,
-        er.clarity_score,
-        er.clarity_justification,
-        er.domain_expertise_score,
-        er.domain_expertise_justification,
-        er.helpfulness_score,
-        er.helpfulness_justification,
-        er.overall_score,
-        er.overall_assessment
-    FROM benchmark_results br
-    LEFT JOIN model_metadata mm ON br.model = mm.model_name
-    LEFT JOIN evaluation_results er ON br.id = er.benchmark_result_id
-    WHERE br.model IN ($placeholders)
-    ORDER BY prompt_id, br.model
-    ");
-    $stmt->execute($selectedModels);
-    $results = $stmt->fetchAll();
-
-    $stmt = $pdo->prepare("SELECT SUM(total_duration) FROM `benchmark_results` WHERE 1");
-    $stmt->execute();
-    $total_time_raw = $stmt->fetchAll();
-    $total_time = $total_time_raw[0]['SUM(total_duration)'];
     
     // Organize results by prompt_id and model
     $organizedResults = [];
@@ -246,7 +297,11 @@ h1 {
 .response-rating {
     margin-top: 10px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+}
+.rating-buttons-group {
+    display: flex;
 }
 .rating-btn {
     cursor: pointer;
@@ -256,6 +311,10 @@ h1 {
     background-color: transparent;
     font-size: 18px;
     transition: transform 0.2s;
+}
+.copy-btn {
+    color: #3498db;
+    margin-left: 0;
 }
 .rating-btn:hover {
     transform: scale(1.2);
@@ -414,17 +473,33 @@ header('Content-Type: text/html; charset=utf-8');
     
     <div class="filter-form">
         <form method="GET">
-            <label for="models">Select Models:</label>
-            <select name="models" id="models" multiple>
-                <?php 
-                $allModels = $pdo->query("SELECT DISTINCT model FROM benchmark_results ORDER BY model")->fetchAll(PDO::FETCH_COLUMN);
-                foreach ($allModels as $model) {
-                    $selected = in_array($model, $selectedModels) ? 'selected' : '';
-                    echo "<option value=\"" . htmlspecialchars($model) . "\" $selected>" . htmlspecialchars($model) . "</option>";
-                }
-                ?>
-            </select>
-            <button type="submit">Filter</button>
+            <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+                <div>
+                    <label for="models">Select Models:</label><br>
+                    <select name="models[]" id="models" multiple style="min-width: 200px;">
+                        <?php 
+                        foreach ($allModels as $model) {
+                            $selected = in_array($model, $selectedModels) ? 'selected' : '';
+                            echo "<option value=\"" . htmlspecialchars($model) . "\" $selected>" . htmlspecialchars($model) . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div>
+                    <label for="categories">Select Categories:</label><br>
+                    <select name="categories[]" id="categories" multiple style="min-width: 200px;">
+                        <?php 
+                        foreach ($allCategories as $category) {
+                            $selected = in_array($category, $selectedCategories) ? 'selected' : '';
+                            echo "<option value=\"" . htmlspecialchars($category) . "\" $selected>" . htmlspecialchars($category) . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div style="align-self: flex-end; padding-bottom: 5px;">
+                    <button type="submit">Filter</button>
+                </div>
+            </div>
         </form>
     </div>
 
@@ -442,10 +517,10 @@ header('Content-Type: text/html; charset=utf-8');
         <h3>Hardware:</h3>
         <div><strong>CPU:</strong> Intel i5-11400F "Rocket Lake" 6C, 12T 2.60 GHz (4.40 GHz Turbo)</div>
         <div><strong>RAM:</strong> 64 GB DDR4 3200 MT/s</div>
-        <div><strong>GPU:</strong> Gigabyte GeForce RTX 2070 OC 8G</div>
-        <div><strong>VRAM:</strong> 8 GB GDDR6</div>
+        <div><strong>GPU:</strong> KFA2 GeForce RTX 3090 SG 24G</div>
+        <div><strong>VRAM:</strong> 24 GB GDDR6x</div>
         <div><strong>Total GPU time spent:</strong> <?php echo(number_format($total_time / 3600, 2)); ?>hr</div>
-        <div><strong>Total Power spent:</strong> <?php echo(number_format((0.1 + 0.187) * ($total_time / 3600), 2)); ?>kWh (<?php echo(number_format(0.6262 * (0.09 + 0.187) * ($total_time / 3600), 2)); ?> PLN)</div>
+        <div><strong>Total Power spent:</strong> <?php echo(number_format((0.1 + 0.350) * ($total_time / 3600), 2)); ?>kWh (<?php echo(number_format(1.10 * (0.1 + 0.350) * ($total_time / 3600), 2)); ?> PLN)</div>
     </div>
     
     <table class="benchmark-table table-with-sticky-header">
@@ -467,7 +542,14 @@ header('Content-Type: text/html; charset=utf-8');
                             ?></div>
                             <div><strong>Quant:</strong> <?php 
                                 echo htmlspecialchars($modelMetadata[$model]['quantization'] ?? 'N/A'); 
-                            ?></div></small>
+                            ?></div>
+                            <div><strong>Cost:</strong> <?php 
+                            if (array_key_exists($model, $modelCost)) {
+                                echo htmlspecialchars(number_format($modelCost[$model]['cost_per_1M_pln'], 2) ?? 'N/A'); 
+                            } else {
+								echo 'N/A';
+                            }
+                            ?> PLN / 1M tokens</div></small>
                     </th>
                 <?php endforeach; ?>
             </tr>
@@ -572,22 +654,27 @@ header('Content-Type: text/html; charset=utf-8');
                                 
                                 <div class="metrics">
                                     <span><strong>Total Duration:</strong> <?php echo number_format($result['total_duration'], 3); ?>s</span>
-                                    <span><strong>Eval Count:</strong> <?php echo $result['eval_count']; ?> (<?php echo number_format($result['eval_count']/$result['eval_duration'], 2); ?> token/s)</span>
+                                    <span><strong>Eval Count:</strong> <?php echo $result['eval_count']; ?> (<?php echo $result['eval_duration'] > 0 ? number_format($result['eval_count']/$result['eval_duration'], 2) : '0.00'; ?> token/s)</span>
                                     <span><strong>Eval Duration:</strong> <?php echo number_format($result['eval_duration'], 3); ?>s</span>
-                                    <span><strong>Prompt Eval Count:</strong> <?php echo $result['prompt_eval_count']; ?></span>
+                                    <span><strong>Prompt Eval Count:</strong> <?php echo $result['prompt_eval_count']; ?> (<?php echo $result['prompt_eval_duration'] > 0 ? number_format($result['prompt_eval_count']/$result['prompt_eval_duration'], 2) : '0.00'; ?> token/s)</span>
                                     <span><strong>Prompt Eval Duration:</strong> <?php echo number_format($result['prompt_eval_duration'], 3); ?>s</span>
                                 </div>
                                 
                                 <!-- Rating buttons -->
                                 <div class="response-rating" data-response-id="<?php echo $result['id']; ?>">
-                                    <button class="rating-btn thumbs-up <?php echo ($result['success'] == 1) ? 'selected' : 'not-selected'; ?>" 
-                                            data-value="1" aria-label="Thumbs up">
-                                        <i class="fas fa-thumbs-up"></i>
+                                    <button class="rating-btn copy-btn" title="Copy response to clipboard" aria-label="Copy response">
+                                        <i class="fas fa-copy"></i>
                                     </button>
-                                    <button class="rating-btn thumbs-down <?php echo ($result['success'] == 0) ? 'selected' : 'not-selected'; ?>" 
-                                            data-value="0" aria-label="Thumbs down">
-                                        <i class="fas fa-thumbs-down"></i>
-                                    </button>
+                                    <div class="rating-buttons-group">
+                                        <button class="rating-btn thumbs-up <?php echo ($result['success'] == 1) ? 'selected' : 'not-selected'; ?>" 
+                                                data-value="1" aria-label="Thumbs up">
+                                            <i class="fas fa-thumbs-up"></i>
+                                        </button>
+                                        <button class="rating-btn thumbs-down <?php echo ($result['success'] == 0) ? 'selected' : 'not-selected'; ?>" 
+                                                data-value="0" aria-label="Thumbs down">
+                                            <i class="fas fa-thumbs-down"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="rating-status" id="status-<?php echo $result['id']; ?>">
                                     <?php 
@@ -615,7 +702,10 @@ header('Content-Type: text/html; charset=utf-8');
         // Convert multiple select to allow holding Ctrl/Cmd to select multiple
         document.addEventListener('DOMContentLoaded', function() {
             const modelSelect = document.getElementById('models');
-            modelSelect.size = Math.min(10, modelSelect.options.length);
+            if (modelSelect) modelSelect.size = Math.min(10, modelSelect.options.length);
+            
+            const categorySelect = document.getElementById('categories');
+            if (categorySelect) categorySelect.size = Math.min(10, categorySelect.options.length);
         });
         
         document.addEventListener('DOMContentLoaded', function() {
@@ -637,6 +727,28 @@ header('Content-Type: text/html; charset=utf-8');
             
             window.addEventListener('scroll', handleScroll);
             
+            // Copy button functionality
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const cell = this.closest('td');
+                    const responseText = cell.querySelector('.model-response').innerText;
+                    
+                    navigator.clipboard.writeText(responseText).then(() => {
+                        // Visual feedback
+                        const icon = this.querySelector('i');
+                        const originalClass = icon.className;
+                        icon.className = 'fas fa-check';
+                        setTimeout(() => {
+                            icon.className = originalClass;
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                        alert('Failed to copy text');
+                    });
+                });
+            });
+
             // Rating buttons functionality
             const ratingButtons = document.querySelectorAll('.rating-btn');
             

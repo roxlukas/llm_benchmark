@@ -13,6 +13,9 @@ require_once 'config.php';
 // Get category filter from GET parameter
 $categoryFilter = isset($_GET['category']) ? trim($_GET['category']) : '';
 
+// Get evaluator (judge) from GET parameter; validated against the evaluators present in the database below
+$evaluatorRequested = isset($_GET['evaluator']) ? trim($_GET['evaluator']) : '';
+
 function markdownToHtml($markdown, $smallHeaders = FALSE) {
     if ($smallHeaders === TRUE) {
         $h1 = '<div class="fw-bold">$1</div>';
@@ -71,7 +74,23 @@ try {
     // Get all unique categories for dropdown
     $categoryQuery = $pdo->query("SELECT DISTINCT category FROM prompts WHERE category IS NOT NULL AND category != '' ORDER BY category");
     $categories = $categoryQuery->fetchAll(PDO::FETCH_COLUMN);
-    
+
+    // Get the evaluators (judges) that scored the responses; databases without the column keep working unfiltered
+    $evaluators = [];
+    $evaluator = '';
+    $hasEvaluatorColumn = $pdo->query("SHOW COLUMNS FROM evaluation_results LIKE 'evaluator'")->fetch() !== false;
+    if ($hasEvaluatorColumn) {
+        $evaluators = $pdo->query("SELECT evaluator, COUNT(*) AS evaluation_count FROM evaluation_results GROUP BY evaluator ORDER BY evaluator")
+            ->fetchAll(PDO::FETCH_KEY_PAIR);
+        if (isset($evaluators[$evaluatorRequested])) {
+            $evaluator = $evaluatorRequested;
+        } elseif (defined('ACTIVE_EVALUATOR') && isset($evaluators[ACTIVE_EVALUATOR])) {
+            $evaluator = ACTIVE_EVALUATOR;
+        } elseif ($evaluators) {
+            $evaluator = array_key_first($evaluators);
+        }
+    }
+
     // Build WHERE clause for category filter
     $categoryWhereClause = '';
     $categoryParams = [];
@@ -124,6 +143,7 @@ try {
     $modelStats = $modelStatsQuery->fetchAll(PDO::FETCH_ASSOC);
     
     // Get evaluation results by model (filtered by category if specified)
+    $evaluatorCategoryClause = !empty($categoryFilter) ? 'AND p.category = :category' : '';
     $evaluationStatsQuerySql = "
         SELECT 
             br.model,
@@ -139,7 +159,8 @@ try {
         JOIN benchmark_results br ON er.benchmark_result_id = br.id
         JOIN model_metadata mm ON br.model = mm.model_name
         JOIN prompts p ON br.prompt_id = p.id
-        $categoryWhereClause
+        WHERE " . ($hasEvaluatorColumn ? "er.evaluator = " . $pdo->quote($evaluator) : "1 = 1") . "
+        $evaluatorCategoryClause
         GROUP BY br.model, mm.parameters
         HAVING evaluation_count > 0
         ORDER BY avg_overall_score DESC
@@ -148,6 +169,39 @@ try {
     $evaluationStatsQuery->execute($categoryParams);
     $evaluationStats = $evaluationStatsQuery->fetchAll(PDO::FETCH_ASSOC);
     
+    // Calculate model cost 
+    $modelCostQuerySql = "
+        SELECT 
+            br.model,
+            COUNT(*) as benchmark_runs,
+            (SUM((br.eval_duration + br.prompt_eval_duration) / 1000000000) / 3600 * 0.4 * 1.10) / SUM(br.eval_count) * 1000000 as cost_per_1M_pln,
+            AVG(br.eval_count / (br.eval_duration / 1000000000)) as avg_tokens_per_sec
+        FROM benchmark_results br
+        JOIN prompts p ON br.prompt_id = p.id
+        WHERE br.timestamp >= '2025-12-10' 
+          AND br.eval_count > 0 
+          AND br.eval_duration > 0
+          " . (!empty($categoryFilter) ? "AND p.category = :category" : "") . "
+        GROUP BY br.model
+        ORDER BY cost_per_1M_pln ASC
+    ";
+    $modelCostQuery = $pdo->prepare($modelCostQuerySql);
+    $modelCostQuery->execute($categoryParams);
+    $modelCostResults = $modelCostQuery->fetchAll(PDO::FETCH_ASSOC);
+    $modelCostStats = [];
+    foreach ($modelCostResults as $cost) {
+        $modelCostStats[$cost['model']] = $cost;
+    }
+
+    // Sort modelStats by cost per 1M tokens (from cheapest)
+    usort($modelStats, function($a, $b) use ($modelCostStats) {
+        $costA = isset($modelCostStats[$a['model']]) ? $modelCostStats[$a['model']]['cost_per_1M_pln'] : 999999;
+        $costB = isset($modelCostStats[$b['model']]) ? $modelCostStats[$b['model']]['cost_per_1M_pln'] : 999999;
+        
+        if ($costA == $costB) return 0;
+        return ($costA < $costB) ? -1 : 1;
+    });
+
     // Get benchmark results per prompt
     $promptResults = [];
     foreach ($prompts as $prompt) {
@@ -364,9 +418,20 @@ try {
                         </option>
                     <?php endforeach; ?>
                 </select>
+                <?php if ($evaluators): ?>
+                    <label for="evaluator">Evaluator:</label>
+                    <select name="evaluator" id="evaluator">
+                        <?php foreach ($evaluators as $name => $count): ?>
+                            <option value="<?= htmlspecialchars($name) ?>"
+                                    <?= $evaluator === $name ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($name) ?> (<?= (int)$count ?> evaluations)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endif; ?>
                 <button type="submit">Filter</button>
                 <?php if (!empty($categoryFilter)): ?>
-                    <a href="?" style="text-decoration: none;">
+                    <a href="?<?= $evaluator !== '' ? 'evaluator=' . urlencode($evaluator) : '' ?>" style="text-decoration: none;">
                         <button type="button">Clear Filter</button>
                     </a>
                 <?php endif; ?>
@@ -395,6 +460,9 @@ try {
         <?php if (!empty($evaluationStats)): ?>
         <div class="evaluation-section">
             <h2>🏆 Evaluation Results (Quality Assessment)<?= !empty($categoryFilter) ? ' - ' . htmlspecialchars($categoryFilter) : '' ?></h2>
+            <?php if ($evaluator !== ''): ?>
+                <p><strong>Evaluator:</strong> <?= htmlspecialchars($evaluator) ?></p>
+            <?php endif; ?>
             
             <h3>Overall Score by Model</h3>
             <div class="chart-container">
@@ -454,6 +522,11 @@ try {
         <div class="chart-container">
             <canvas id="successRateChart"></canvas>
         </div>
+
+        <h2>Cost per 1 Million Tokens by Model (PLN)<?= !empty($categoryFilter) ? ' - ' . htmlspecialchars($categoryFilter) : '' ?></h2>
+        <div class="chart-container">
+            <canvas id="costChart"></canvas>
+        </div>
         
         <h3>Model Performance Summary</h3>
         <table id="summaryTable" class="summary-table">
@@ -464,6 +537,7 @@ try {
                     <th data-sort="params">Parameters</th>
                     <th data-sort="duration">Avg Duration (s)</th>
                     <th data-sort="evalcount">Avg Output Tokens</th>
+                    <th data-sort="cost">Cost (PLN/1M)</th>
                     <th data-sort="success">Success Rate (%)</th>
                     <th data-sort="runs">Total Runs</th>
                 </tr>
@@ -472,6 +546,8 @@ try {
                 <?php 
                 $rank = 1;
                 foreach ($modelStats as $stat): 
+                    $modelName = $stat['model'];
+                    $cost = isset($modelCostStats[$modelName]) ? $modelCostStats[$modelName]['cost_per_1M_pln'] : null;
                 ?>
                     <tr class="<?= $rank === 1 ? 'best-model' : '' ?>">
                         <td><?= $rank++ ?></td>
@@ -479,6 +555,7 @@ try {
                         <td><?= htmlspecialchars($stat['parameters']) ?></td>
                         <td><?= number_format($stat['avg_duration'], 4) ?></td>
                         <td><?= number_format($stat['avg_eval_count'], 0) ?></td>
+                        <td><?= $cost !== null ? number_format($cost, 2) : 'N/A' ?></td>
                         <td><?= number_format($stat['success_rate'], 1) ?></td>
                         <td><?= $stat['total_runs'] ?></td>
                     </tr>
@@ -532,7 +609,7 @@ try {
                                             </div>
                                         <?php else: ?>
                                             <div class="model-response error-response">
-                                                Error: <?= htmlspecialchars($result['error']) ?>
+												<?= markdownToHtml(htmlspecialchars($result['response_text'])) ?>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -643,6 +720,57 @@ try {
                     title: {
                         display: true,
                         text: 'Success Rate by Model<?= !empty($categoryFilter) ? ' - ' . addslashes($categoryFilter) : '' ?>',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        // Prepare data for the cost chart
+        const costModels = <?= json_encode(array_column($modelCostStats, 'model')) ?>;
+        const costs = <?= json_encode(array_column($modelCostStats, 'cost_per_1M_pln')) ?>;
+
+        // Create the cost chart
+        const ctxCost = document.getElementById('costChart').getContext('2d');
+        const costChart = new Chart(ctxCost, {
+            type: 'bar',
+            data: {
+                labels: costModels,
+                datasets: [{
+                    label: 'Cost per 1M Tokens (PLN)',
+                    data: costs,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cost (PLN)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Model'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Cost per 1M Tokens by Model (Lower is better)<?= !empty($categoryFilter) ? ' - ' . addslashes($categoryFilter) : '' ?>',
                         font: {
                             size: 16
                         }
@@ -835,7 +963,7 @@ try {
                     let valueB = rowB.cells[column].textContent.trim();
                     
                     // Handle numeric values
-                    if (['rank', 'duration', 'success', 'runs', 'overall', 'accuracy', 'completeness', 'clarity', 'expertise', 'helpfulness', 'count'].includes(sortKey)) {
+                    if (['rank', 'duration', 'success', 'runs', 'overall', 'accuracy', 'completeness', 'clarity', 'expertise', 'helpfulness', 'count', 'cost'].includes(sortKey)) {
                         valueA = parseFloat(valueA.replace(',', ''));
                         valueB = parseFloat(valueB.replace(',', ''));
                     }
