@@ -7,12 +7,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script>
-  // Motyw jak na aitransformation.pl: atrybut data-theme ustawiany przed renderem
+  // Motyw jak na aitransformation.pl: preferencja ait_theme (light/dark/auto), data-theme ustawiany przed renderem
   (function () {
-    var t = null;
-    try { t = localStorage.getItem('theme'); } catch (e) {}
-    if (!t) t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', t);
+    var KEY = 'ait_theme', PREFS = ['light', 'dark', 'auto'];
+    function mq() { return window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null; }
+    function get() { var t = null; try { t = localStorage.getItem(KEY); } catch (e) {} return PREFS.indexOf(t) < 0 ? 'auto' : t; }
+    function apply(pref) {
+      var m = mq(), theme = pref === 'auto' ? (m && m.matches ? 'dark' : 'light') : pref;
+      document.documentElement.setAttribute('data-theme-pref', pref);
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+    window.themeCycle = function () {
+      var next = PREFS[(PREFS.indexOf(get()) + 1) % PREFS.length];
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+      apply(next); return next;
+    };
+    window.themeGet = get;
+    apply(get());
+    var m = mq();
+    if (m && m.addEventListener) m.addEventListener('change', function () { if (get() === 'auto') apply('auto'); });
   })();
 </script>
 <style>
@@ -91,7 +104,7 @@
   <div class="wrap">
     <a class="brand" href="https://aitransformation.pl"><span class="ic">✦</span> AI Transformation <small>/ LLM Benchmark</small></a>
     <div class="nav-actions">
-      <button class="btn" id="themeBtn" type="button" aria-label="Zmień motyw">Motyw</button>
+      <button class="btn" id="themeBtn" type="button"></button>
       <a class="btn primary" href="https://aitransformation.pl">Współpraca</a>
     </div>
   </div>
@@ -160,7 +173,17 @@
   var state = { category: '', hw: '', vram: '', ram: '', sort: 'score', dir: -1, minRated: '0', search: '', onlyFit: true, allowOffload: true };
   var $ = function (id) { return document.getElementById(id); };
 
-  function load() { try { var s = JSON.parse(localStorage.getItem('browseState')); if (s) Object.assign(state, s); } catch (e) {} }
+  function load() {
+    try {
+      var s = JSON.parse(localStorage.getItem('browseState'));
+      if (!s || typeof s !== 'object') return;
+      ['category', 'hw', 'vram', 'ram', 'minRated', 'search'].forEach(function (k) { if (typeof s[k] === 'string') state[k] = s[k]; });
+      if (['score', 'size', 'params', 'speed', 'name'].indexOf(s.sort) >= 0) state.sort = s.sort;
+      if (s.dir === 1 || s.dir === -1) state.dir = s.dir;
+      if (typeof s.onlyFit === 'boolean') state.onlyFit = s.onlyFit;
+      if (typeof s.allowOffload === 'boolean') state.allowOffload = s.allowOffload;
+    } catch (e) {}
+  }
   function save() { try { localStorage.setItem('browseState', JSON.stringify(state)); } catch (e) {} }
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -303,11 +326,6 @@
       var tr = e.target.closest('tr.row'); if (!tr) return;
       var id = tr.getAttribute('data-id'); expanded[id] = !expanded[id]; render();
     });
-    $('themeBtn').addEventListener('click', function () {
-      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', t);
-      try { localStorage.setItem('theme', t); } catch (e) {}
-    });
   }
 
   function init() {
@@ -322,6 +340,18 @@
     $('meta').textContent = DATA.models.length + ' modeli · sędzia: ' + DATA.evaluator;
     $('stamp').textContent = 'Dane z ' + d.toLocaleDateString('pl-PL') + '.';
   }
+
+  // Przycisk motywu działa niezależnie od wczytania results.json
+  (function () {
+    var NAMES = { light: 'jasny', dark: 'ciemny', auto: 'automatyczny' };
+    function themeLabel() {
+      var txt = 'Motyw: ' + NAMES[window.themeGet()];
+      $('themeBtn').textContent = txt;
+      $('themeBtn').setAttribute('aria-label', txt + '. Kliknij, aby zmienić.');
+    }
+    themeLabel();
+    $('themeBtn').addEventListener('click', function () { window.themeCycle(); themeLabel(); });
+  })();
 
   fetch('results.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (d) { DATA = d; init(); })
