@@ -7,15 +7,12 @@ import mysql.connector
 from datetime import datetime
 import sys
 import locale
+from db_env import add_db_args
 
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description='Collect Ollama model metadata and store in MySQL database.')
-    parser.add_argument('--host', default='localhost', help='MySQL host')
-    parser.add_argument('--port', type=int, default=3306, help='MySQL port')
-    parser.add_argument('--user', required=True, help='MySQL username')
-    parser.add_argument('--password', required=True, help='MySQL password')
-    parser.add_argument('--database', default='llm_benchmark', help='MySQL database name')
+    add_db_args(parser)
     return parser.parse_args()
 
 def run_command(cmd):

@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 
 import mysql.connector
 import requests
+from db_env import add_db_args
 
 DIMENSIONS = ['accuracy', 'completeness', 'clarity', 'domain_expertise', 'helpfulness']
 
@@ -48,11 +49,7 @@ def median(values):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--host', default='192.168.1.245')
-    p.add_argument('--port', type=int, default=3306)
-    p.add_argument('--user', required=True)
-    p.add_argument('--password', required=True)
-    p.add_argument('--database', required=True)
+    add_db_args(p)
     p.add_argument('--ollama', default='http://192.168.1.250:11434')
     p.add_argument('--evaluator', default='anthropic/claude-haiku-5-5')
     p.add_argument('--output', default='results.json')

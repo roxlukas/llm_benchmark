@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import argparse
+from db_env import add_db_args
 
 def visualize_benchmark_results(db_config):
     """
@@ -88,11 +89,7 @@ def visualize_benchmark_results(db_config):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='LLM Benchmark Results Visualizer')
-    parser.add_argument('--host', default='localhost', help='MySQL host')
-    parser.add_argument('--port', type=int, default=3306, help='MySQL port')
-    parser.add_argument('--user', required=True, help='MySQL username')
-    parser.add_argument('--password', required=True, help='MySQL password')
-    parser.add_argument('--database', required=True, help='MySQL database name')
+    add_db_args(parser)
     
     args = parser.parse_args()
     

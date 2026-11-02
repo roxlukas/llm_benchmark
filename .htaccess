@@ -1,0 +1,4 @@
+# Never serve .env (database password, API keys)
+<Files ".env">
+    Require all denied
+</Files>

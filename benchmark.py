@@ -6,6 +6,7 @@ from datetime import datetime
 import argparse
 import os
 from typing import Dict, List, Any, Tuple
+from db_env import add_db_args
 
 class LLMBenchmark:
     def __init__(self, db_config: Dict[str, str], ollama_base_url: str = "http://localhost:11434"):
@@ -425,11 +426,7 @@ class LLMBenchmark:
 # Example usage
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='LLM Benchmark Framework')
-    parser.add_argument('--host', default='localhost', help='MySQL host')
-    parser.add_argument('--port', type=int, default=3306, help='MySQL port')
-    parser.add_argument('--user', required=True, help='MySQL username')
-    parser.add_argument('--password', required=True, help='MySQL password')
-    parser.add_argument('--database', required=True, help='MySQL database name')
+    add_db_args(parser)
     parser.add_argument('--ollama', default='http://localhost:11434', help='Ollama API base URL')
     parser.add_argument('--models', help='Comma-separated list of models to benchmark (e.g., llama2,mistral,phi)')
     parser.add_argument('--all-models', action='store_true', default=True, help='Benchmark all available models (default)')

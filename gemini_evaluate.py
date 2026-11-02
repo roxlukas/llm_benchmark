@@ -16,6 +16,7 @@ from datetime import datetime
 import sys
 import os
 from dotenv import load_dotenv
+from db_env import add_db_args
 
 MAX_RESPONSE_CHARS = 30000
 EVAL_DIMENSIONS = ('accuracy', 'completeness', 'clarity', 'domain_expertise', 'helpfulness')
@@ -472,11 +473,7 @@ def main():
     }
     
     parser = argparse.ArgumentParser(description='Evaluate LLM responses using Gemini or OpenAI-compatible API')
-    parser.add_argument('--host', required=True, help='MySQL host')
-    parser.add_argument('--port', type=int, default=3306, help='MySQL port')
-    parser.add_argument('--user', required=True, help='MySQL username')
-    parser.add_argument('--password', required=True, help='MySQL password')
-    parser.add_argument('--database', required=True, help='MySQL database name')
+    add_db_args(parser)
     parser.add_argument('--workers', type=int, default=1, help='Number of parallel evaluation requests (default: 1)')
     parser.add_argument('--model', help='Evaluate only responses of this model (default: all models)')
     

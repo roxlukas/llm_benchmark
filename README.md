@@ -38,45 +38,35 @@ GRANT ALL PRIVILEGES ON llm_benchmark.* TO 'llmuser'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-### 2. Konfiguracja PHP
+### 2. Konfiguracja (`.env`)
 
-1. Skopiuj plik konfiguracyjny:
+Hasło do bazy i klucze API są tylko w pliku `.env` (nie trafia do repozytorium). Czytają go zarówno skrypty Python, jak i strony PHP (`config.php`).
+
 ```bash
-cp config-dist.php config.php
+cp .env.example .env
 ```
 
-2. Edytuj `config.php` i ustaw parametry bazy danych:
-```php
-$dbConfig = [
-    'host' => '192.168.1.2',
-    'port' => 3306,
-    'user' => 'llmuser',
-    'password' => 'SuperSecretPassword#175',
-    'database' => 'llm_benchmark'
-];
-```
+Uzupełnij w `.env` co najmniej `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` oraz klucze ewaluatora. Na serwerze z PHP `DB_HOST` to zwykle `localhost`, a na komputerze, z którego uruchamiasz skrypty Python, adres serwera bazy.
 
-### 3. Konfiguracja Python
-
-Utwórz plik `.env` w katalogu głównym:
-```
-GEMINI_API_KEY="AI12345678901234567890ABCDEFABCDEF"
-```
+`.htaccess` blokuje pobranie `.env` przez Apache. Na Nginx dodaj odpowiednią regułę (`location ~ /\.env { deny all; }`).
 
 ### 4. Instalacja zależności Python
 
 ```bash
-pip install mysql-connector-python requests dotenv
+pip install mysql-connector-python requests python-dotenv
 ```
 
 ## Uruchomienie
 
 ### Benchmark (Python)
 ```bash
-python benchmark.py --host 192.168.1.2 --port 3306 --user llmuser --password SuperSecretPassword#175 --database llm_benchmark --ollama http://192.168.1.2:11434
-python model_metadata.py --host 192.168.1.2 --port 3306 --user llmuser --password SuperSecretPassword#175 --database llm_benchmark 
-python gemini_evaluate.py --host 192.168.1.2 --port 3306 --user llmuser --password SuperSecretPassword#175 --database llm_benchmark
+python benchmark.py --ollama http://192.168.1.2:11434
+python model_metadata.py
+python gemini_evaluate.py
+python export_json.py
 ```
+
+Parametry bazy pochodzą z `.env`. Flagi `--host`, `--port`, `--user`, `--password`, `--database` nadal działają i nadpisują `.env` (np. `--database llm_benchmark_mistral_telco`).
 
 ### Wizualizacja (PHP)
 Uruchom serwer web i otwórz `index.php` w przeglądarce.
@@ -89,8 +79,9 @@ Dostępne pliki wizualizacji:
 ## Struktura plików
 
 - `benchmark.py` - główny skrypt benchmarkowy
-- `config-dist.php` - szablon konfiguracji PHP
-- `config.php` - plik konfiguracyjny PHP (tworzony z dist)
+- `.env.example` - szablon `.env` (hasło do bazy, klucze API)
+- `config.php` - konfiguracja PHP, czyta `.env`
+- `db_env.py` - wspólne parametry bazy dla skryptów Python, czyta `.env`
 - `schema.sql` - schemat bazy danych
 - `index.php` - główny interfejs webowy
 - `graphs.php` - wizualizacje graficzne
@@ -101,7 +92,7 @@ Dostępne pliki wizualizacji:
 
 ## Bezpieczeństwo
 
-- **NIGDY** nie commituj pliku `config.php` do repozytorium
-- Upewnij się, że plik `.env` jest dodany do `.gitignore`
+- **NIGDY** nie commituj pliku `.env` (jest w `.gitignore`) ani nie wpisuj haseł do plików `.php`, `.py` i `.bat`
+- Upewnij się, że serwer web nie serwuje pliku `.env`
 - Używaj silnych haseł dla bazy danych
 - Ogranicz dostęp do plików konfiguracyjnych na serwerze

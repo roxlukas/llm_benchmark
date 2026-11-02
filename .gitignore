@@ -1,5 +1,4 @@
 .env
-config.php
 models.bat
 evaluator.bat
 run.bat
