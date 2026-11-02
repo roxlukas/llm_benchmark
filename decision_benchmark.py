@@ -230,6 +230,15 @@ def short(model):
     return model.split('/')[-1].replace('-GGUF', '')
 
 
+def model_info(model):
+    """Runtime and quantization shown by decisions.html. hf.co/... names carry the quantization after ':';
+    '...:bf16-eager' models are served by basal-serve --mode eager, everything else by Ollama."""
+    tag = model.split(':', 1)[1] if ':' in model else ''
+    if tag.endswith('-eager'):
+        return {'runtime': 'basal-serve', 'quantization': tag[:-len('-eager')]}
+    return {'runtime': 'ollama', 'quantization': tag if model.startswith('hf.co/') and tag else None}
+
+
 def pct(x):
     return f'{100 * x:5.1f}' if x is not None else '    -'
 
@@ -271,7 +280,8 @@ def summarize(run, rows):
     pairs = [(r['predicted'], reversed_rows[(r['task_id'], r['item_id'])]) for r in ok
              if (r['task_id'], r['item_id']) in reversed_rows]
     return {
-        'model': run['model'], 'run_id': run['run_id'], 'items': len(orig), 'errors': len(orig) - len(ok),
+        'model': run['model'], 'display_name': short(run['model']), **model_info(run['model']),
+        'run_id': run['run_id'], 'items': len(orig), 'errors': len(orig) - len(ok),
         'accuracy': acc(orig),
         'macro_f1': statistics.mean(v['macro_f1'] for v in by_task.values() if v['macro_f1'] is not None) if by_task else None,
         'ece': ece(ok), 'brier': brier(ok),
@@ -289,7 +299,14 @@ def summarize(run, rows):
     }
 
 
-def report(conn, run_id, output):
+def tasks_meta(data_dir, task_ids):
+    """Display name and question type of every task that has results (names live in decision_data/<id>.json)."""
+    by_id = {t['id']: t for t in load_tasks(data_dir)}
+    return {t: {'name': by_id[t]['name'], 'type': by_id[t]['type']} if t in by_id else {'name': t, 'type': None}
+            for t in task_ids}
+
+
+def report(conn, run_id, output, data_dir=DATA_DIR):
     runs, rows = load_rows(conn, run_id)
     if not runs:
         raise SystemExit('No finished decision runs in the database')
@@ -306,8 +323,8 @@ def report(conn, run_id, output):
     for t in tasks:
         print(f'{t:<28}' + ''.join(f'{pct(s["tasks"].get(t, {}).get("accuracy")):>16}' for s in summaries))
     with open(output, 'w', encoding='utf-8') as f:
-        json.dump({'generated_at': time.strftime('%Y-%m-%dT%H:%M:%S'), 'models': summaries}, f,
-                  ensure_ascii=False, indent=1, default=float)
+        json.dump({'generated_at': time.strftime('%Y-%m-%dT%H:%M:%S'), 'tasks': tasks_meta(data_dir, tasks),
+                   'models': summaries}, f, ensure_ascii=False, indent=1, default=float)
     print(f'\nWrote {output}')
 
 
@@ -339,7 +356,7 @@ def main():
     conn.commit()
     try:
         run_id = None if args.report else run(args, conn)
-        report(conn, args.run_id or run_id, args.output)
+        report(conn, args.run_id or run_id, args.output, args.data_dir)
     finally:
         conn.close()
 
