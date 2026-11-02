@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-01T16:47:17Z",
+ "generated_at": "2026-11-02T07:13:51Z",
  "evaluator": "anthropic/claude-haiku-5-5",
  "dimensions": [
   "accuracy",
@@ -19,10 +19,6 @@
   },
   {
    "name": "Classification - Zero shot",
-   "prompts": 10
-  },
-  {
-   "name": "Coding",
    "prompts": 10
   },
   {
@@ -67,7 +63,7 @@
   },
   {
    "name": "Programming",
-   "prompts": 23
+   "prompts": 33
   },
   {
    "name": "RAG",
@@ -621,14 +617,14 @@
   },
   {
    "name": "flint:latest",
-   "family": "flint",
-   "params_b": 39.8,
-   "quantization": "NVFP4",
-   "context_length": 262144,
-   "size_bytes": 22863095793,
-   "size_estimated": false,
-   "installed": true,
-   "min_memory_gb": 24.4,
+   "family": null,
+   "params_b": null,
+   "quantization": null,
+   "context_length": null,
+   "size_bytes": null,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": null,
    "overall": 3.759,
    "rated": 88,
    "failed": 0,
@@ -1105,10 +1101,6 @@
      "avg": 4.75,
      "n": 4
     },
-    "Coding": {
-     "avg": 1.3,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.2,
      "n": 1
@@ -1126,8 +1118,8 @@
      "n": 1
     },
     "Programming": {
-     "avg": 1.968,
-     "n": 19
+     "avg": 1.738,
+     "n": 29
     },
     "RAG": {
      "avg": 2.6,
@@ -1637,10 +1629,6 @@
      "avg": 4.52,
      "n": 10
     },
-    "Coding": {
-     "avg": 3.54,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.4,
      "n": 1
@@ -1682,8 +1670,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.452,
-     "n": 23
+     "avg": 3.479,
+     "n": 33
     },
     "RAG": {
      "avg": 4.0,
@@ -1745,10 +1733,6 @@
      "avg": 4.72,
      "n": 10
     },
-    "Coding": {
-     "avg": 3.7,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.2,
      "n": 1
@@ -1790,8 +1774,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.357,
-     "n": 23
+     "avg": 3.461,
+     "n": 33
     },
     "RAG": {
      "avg": 3.6,
@@ -1853,10 +1837,6 @@
      "avg": 4.64,
      "n": 10
     },
-    "Coding": {
-     "avg": 3.8,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.0,
      "n": 1
@@ -1898,8 +1878,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.861,
-     "n": 23
+     "avg": 3.842,
+     "n": 33
     },
     "RAG": {
      "avg": 4.1,
@@ -1961,10 +1941,6 @@
      "avg": 4.58,
      "n": 10
     },
-    "Coding": {
-     "avg": 2.36,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.2,
      "n": 1
@@ -2006,8 +1982,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.93,
-     "n": 23
+     "avg": 2.758,
+     "n": 33
     },
     "RAG": {
      "avg": 3.7,
@@ -2069,10 +2045,6 @@
      "avg": 4.66,
      "n": 10
     },
-    "Coding": {
-     "avg": 2.64,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.0,
      "n": 1
@@ -2114,8 +2086,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.304,
-     "n": 23
+     "avg": 3.103,
+     "n": 33
     },
     "RAG": {
      "avg": 3.8,
@@ -2345,10 +2317,6 @@
      "avg": 4.7,
      "n": 10
     },
-    "Coding": {
-     "avg": 3.76,
-     "n": 10
-    },
     "Creative": {
      "avg": 3.4,
      "n": 1
@@ -2386,8 +2354,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.583,
-     "n": 23
+     "avg": 3.636,
+     "n": 33
     },
     "RAG": {
      "avg": 3.6,
@@ -2449,10 +2417,6 @@
      "avg": 2.96,
      "n": 10
     },
-    "Coding": {
-     "avg": 1.92,
-     "n": 10
-    },
     "Creative": {
      "avg": 3.8,
      "n": 1
@@ -2494,8 +2458,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.539,
-     "n": 23
+     "avg": 2.352,
+     "n": 33
     },
     "RAG": {
      "avg": 3.3,
@@ -3901,10 +3865,6 @@
      "avg": 4.46,
      "n": 10
     },
-    "Coding": {
-     "avg": 3.6,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.2,
      "n": 1
@@ -3946,8 +3906,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.426,
-     "n": 23
+     "avg": 3.479,
+     "n": 33
     },
     "RAG": {
      "avg": 4.0,
@@ -4277,7 +4237,7 @@
     "domain_expertise": 2.409,
     "helpfulness": 2.307
    },
-   "tokens_per_second": 282.9
+   "tokens_per_second": 283.3
   },
   {
    "name": "lfm3-omni:latest",
@@ -4303,10 +4263,6 @@
     },
     "Classification - Zero shot": {
      "avg": 3.76,
-     "n": 10
-    },
-    "Coding": {
-     "avg": 1.58,
      "n": 10
     },
     "Creative": {
@@ -4350,8 +4306,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.035,
-     "n": 23
+     "avg": 1.897,
+     "n": 33
     },
     "RAG": {
      "avg": 2.5,
@@ -4485,7 +4441,7 @@
     "domain_expertise": 2.682,
     "helpfulness": 2.92
    },
-   "tokens_per_second": 258.7
+   "tokens_per_second": 259.2
   },
   {
    "name": "llama3.1:8b",
@@ -4605,10 +4561,6 @@
      "avg": 2.96,
      "n": 10
     },
-    "Coding": {
-     "avg": 1.72,
-     "n": 10
-    },
     "Creative": {
      "avg": 3.8,
      "n": 1
@@ -4638,8 +4590,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.136,
-     "n": 22
+     "avg": 2.006,
+     "n": 32
     },
     "RAG": {
      "avg": 2.2,
@@ -5621,10 +5573,6 @@
      "avg": 4.7,
      "n": 10
     },
-    "Coding": {
-     "avg": 4.06,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.6,
      "n": 1
@@ -5666,8 +5614,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.939,
-     "n": 23
+     "avg": 3.976,
+     "n": 33
     },
     "RAG": {
      "avg": 4.2,
@@ -5825,10 +5773,6 @@
      "avg": 4.74,
      "n": 10
     },
-    "Coding": {
-     "avg": 3.52,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.2,
      "n": 1
@@ -5870,8 +5814,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.452,
-     "n": 23
+     "avg": 3.473,
+     "n": 33
     },
     "RAG": {
      "avg": 3.6,
@@ -6357,10 +6301,6 @@
      "avg": 2.56,
      "n": 10
     },
-    "Coding": {
-     "avg": 1.14,
-     "n": 10
-    },
     "Creative": {
      "avg": 3.2,
      "n": 1
@@ -6402,8 +6342,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 1.948,
-     "n": 23
+     "avg": 1.703,
+     "n": 33
     },
     "RAG": {
      "avg": 3.0,
@@ -7718,13 +7658,13 @@
   {
    "name": "qwen3.5:27b",
    "family": "qwen35",
-   "params_b": 26.9,
+   "params_b": 27.8,
    "quantization": "Q4_K_M",
    "context_length": 262144,
-   "size_bytes": 17478556591,
-   "size_estimated": false,
-   "installed": true,
-   "min_memory_gb": 19.0,
+   "size_bytes": 17027500000,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": 18.5,
    "overall": 3.941,
    "rated": 108,
    "failed": 0,
@@ -7739,10 +7679,6 @@
     },
     "Classification - Zero shot": {
      "avg": 4.68,
-     "n": 10
-    },
-    "Coding": {
-     "avg": 4.02,
      "n": 10
     },
     "Creative": {
@@ -7786,8 +7722,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.226,
-     "n": 23
+     "avg": 3.467,
+     "n": 33
     },
     "RAG": {
      "avg": 4.0,
@@ -7949,10 +7885,6 @@
      "avg": 4.7,
      "n": 10
     },
-    "Coding": {
-     "avg": 2.0,
-     "n": 10
-    },
     "Creative": {
      "avg": 3.4,
      "n": 1
@@ -7994,8 +7926,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.261,
-     "n": 23
+     "avg": 2.182,
+     "n": 33
     },
     "RAG": {
      "avg": 3.9,
@@ -8157,10 +8089,6 @@
      "avg": 4.72,
      "n": 10
     },
-    "Coding": {
-     "avg": 3.76,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.2,
      "n": 1
@@ -8202,8 +8130,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.678,
-     "n": 23
+     "avg": 3.703,
+     "n": 33
     },
     "RAG": {
      "avg": 3.9,
@@ -8265,10 +8193,6 @@
      "avg": 4.66,
      "n": 10
     },
-    "Coding": {
-     "avg": 3.82,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.4,
      "n": 1
@@ -8310,8 +8234,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.591,
-     "n": 23
+     "avg": 3.661,
+     "n": 33
     },
     "RAG": {
      "avg": 3.7,
@@ -8373,10 +8297,6 @@
      "avg": 4.5,
      "n": 10
     },
-    "Coding": {
-     "avg": 4.32,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.2,
      "n": 1
@@ -8418,8 +8338,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.643,
-     "n": 23
+     "avg": 3.848,
+     "n": 33
     },
     "RAG": {
      "avg": 3.7,
@@ -8481,10 +8401,6 @@
      "avg": 3.12,
      "n": 10
     },
-    "Coding": {
-     "avg": 1.72,
-     "n": 10
-    },
     "Creative": {
      "avg": 3.8,
      "n": 1
@@ -8514,8 +8430,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.373,
-     "n": 22
+     "avg": 2.169,
+     "n": 32
     },
     "RAG": {
      "avg": 3.3,
@@ -8577,10 +8493,6 @@
      "avg": 4.74,
      "n": 10
     },
-    "Coding": {
-     "avg": 3.32,
-     "n": 10
-    },
     "Creative": {
      "avg": 4.0,
      "n": 1
@@ -8618,8 +8530,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.209,
-     "n": 23
+     "avg": 3.242,
+     "n": 33
     },
     "RAG": {
      "avg": 3.7,
