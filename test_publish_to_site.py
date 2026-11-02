@@ -9,8 +9,8 @@ import publish_to_site as pub
 
 LLM = {'generated_at': '2026-11-02T00:00:00Z', 'categories': [], 'models': [
     {'name': 'm1', 'overall': 4.0, 'rated': 3, 'categories': {}, 'dimensions': {}}]}
-DEC = {'generated_at': '2026-11-02T00:00:00', 'models': [
-    {'model': 'd1', 'items': 270, 'accuracy': 0.8, 'tasks': {}}]}
+DEC = {'generated_at': '2026-11-02T00:00:00', 'tasks': {}, 'models': [
+    {'model': 'd1', 'display_name': 'd1', 'runtime': 'ollama', 'quantization': None, 'items': 270, 'accuracy': 0.8, 'tasks': {}}]}
 
 
 def git(cwd, *args):
@@ -39,6 +39,9 @@ class ValidateTests(unittest.TestCase):
             pub.validate(self.write({'generated_at': 'x', 'models': [{'model': 'd1'}]}), pub.TARGETS['decisions'])
         with self.assertRaises(pub.PublishError):
             pub.validate(self.write({'models': DEC['models']}), pub.TARGETS['decisions'])
+        old = {'generated_at': 'x', 'models': [{'model': 'd1', 'items': 1, 'accuracy': 0.5, 'tasks': {}}]}   # export without the new fields
+        with self.assertRaises(pub.PublishError):
+            pub.validate(self.write(old), pub.TARGETS['decisions'])
 
     def test_rejects_empty_and_invalid(self):
         with self.assertRaises(pub.PublishError):

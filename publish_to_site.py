@@ -43,8 +43,8 @@ TARGETS = {
     'decisions': {
         'file': 'decision_results.json',
         'refresh': [sys.executable, 'decision_benchmark.py', '--report'],
-        'top': ('generated_at', 'models'),
-        'model': ('model', 'items', 'accuracy', 'tasks'),
+        'top': ('generated_at', 'tasks', 'models'),
+        'model': ('model', 'display_name', 'runtime', 'items', 'accuracy', 'tasks'),
         'label': 'decision models',
     },
 }
