@@ -117,10 +117,10 @@ def parse_answer(task, item, answer):
             answer.get('confidence'), answer.get('score'), probs)
 
 
-def decide(ollama, model, state, question):
+def decide(systemone, model, state, question):
     body = {'model': model, 'state': state, 'questions': {'q': question}}
     start = time.perf_counter()
-    response = requests.post(f'{ollama}/v1/systemone', json=body, timeout=600)
+    response = requests.post(f'{systemone}/v1/systemone', json=body, timeout=600)
     latency_ms = (time.perf_counter() - start) * 1000
     data = response.json()
     if response.status_code != 200 or 'answers' not in data:
@@ -152,7 +152,7 @@ def run(args, conn):
 
         # Warm-up: the first call loads the model, so it is reported as load time, not decision time
         task = tasks[0]
-        _, load_ms, _ = decide(args.ollama, model, task['items'][0]['state'], build_question(task))
+        _, load_ms, _ = decide(args.systemone_url, model, task['items'][0]['state'], build_question(task))
         loaded = requests.get(f'{args.ollama}/api/ps', timeout=30).json().get('models') or []
         size_vram = next((m.get('size_vram') for m in loaded if m['name'] == model), None)
         cur.execute('INSERT INTO decision_runs (run_id, model, ollama_version, load_ms, size_vram, order_check) '
@@ -171,7 +171,7 @@ def run(args, conn):
                     row = dict(expected=None, predicted=None, correct=None, p_expected=None, confidence=None,
                                score_value=None, probabilities=None, latency_ms=None, input_tokens=None, error=None)
                     try:
-                        answer, row['latency_ms'], row['input_tokens'] = decide(args.ollama, model, item['state'], question)
+                        answer, row['latency_ms'], row['input_tokens'] = decide(args.systemone_url, model, item['state'], question)
                         (row['expected'], row['predicted'], row['correct'], row['p_expected'], row['confidence'],
                          row['score_value'], probs) = parse_answer(task, item, answer)
                         row['probabilities'] = json.dumps(probs)
@@ -223,6 +223,11 @@ def ece(rows):
 def brier(rows):
     """Multi-class Brier score: sum over classes of (p - y)^2, averaged over items."""
     return statistics.mean(sum((p - (k == r['expected'])) ** 2 for k, p in r['probs'].items()) for r in rows) if rows else None
+
+
+def short(model):
+    """hf.co/Remek/basal-2.0-mini-GGUF:Q8_0 -> basal-2.0-mini:Q8_0 (report columns only)"""
+    return model.split('/')[-1].replace('-GGUF', '')
 
 
 def pct(x):
@@ -289,17 +294,17 @@ def report(conn, run_id, output):
     if not runs:
         raise SystemExit('No finished decision runs in the database')
     summaries = sorted((summarize(run, rows[run['model']]) for run in runs), key=lambda s: -(s['accuracy'] or 0))
-    print(f'\n{"model":<16}{"acc%":>6}{"F1%":>6}{"ECE":>7}{"Brier":>7}{"med ms":>8}{"p95 ms":>8}'
+    print(f'\n{"model":<32}{"acc%":>6}{"F1%":>6}{"ECE":>7}{"Brier":>7}{"med ms":>8}{"p95 ms":>8}'
           f'{"inj%":>6}{"PL%":>6}{"EN%":>6}{"hard%":>6}{"order%":>7}{"err":>5}')
     for s in summaries:
-        print(f'{s["model"]:<16}{pct(s["accuracy"]):>6}{pct(s["macro_f1"]):>6}{s["ece"] or 0:7.3f}{s["brier"] or 0:7.3f}'
+        print(f'{short(s["model"]):<32}{pct(s["accuracy"]):>6}{pct(s["macro_f1"]):>6}{s["ece"] or 0:7.3f}{s["brier"] or 0:7.3f}'
               f'{s["latency_ms_median"] or 0:8.0f}{s["latency_ms_p95"] or 0:8.0f}{pct(s["accuracy_injection"]):>6}'
               f'{pct(s["accuracy_pl"]):>6}{pct(s["accuracy_en"]):>6}{pct(s["accuracy_hard"]):>6}'
               f'{pct(s["order_consistency"]):>7}{s["errors"]:>5}')
     tasks = sorted({t for s in summaries for t in s['tasks']})
-    print(f'\n{"accuracy % per task":<28}' + ''.join(f'{s["model"][:12]:>13}' for s in summaries))
+    print(f'\n{"accuracy % per task":<28}' + ''.join(f'{short(s["model"])[:15]:>16}' for s in summaries))
     for t in tasks:
-        print(f'{t:<28}' + ''.join(f'{pct(s["tasks"].get(t, {}).get("accuracy")):>13}' for s in summaries))
+        print(f'{t:<28}' + ''.join(f'{pct(s["tasks"].get(t, {}).get("accuracy")):>16}' for s in summaries))
     with open(output, 'w', encoding='utf-8') as f:
         json.dump({'generated_at': time.strftime('%Y-%m-%dT%H:%M:%S'), 'models': summaries}, f,
                   ensure_ascii=False, indent=1, default=float)
@@ -310,6 +315,8 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     add_db_args(p)
     p.add_argument('--ollama', default='http://192.168.1.250:11434')
+    p.add_argument('--systemone-url', help='Server answering /v1/systemone, e.g. basal-serve in front of Ollama '
+                   '(default: --ollama); load time and VRAM are still read from --ollama')
     p.add_argument('--models', help='Comma-separated models (default: every model with the decision capability)')
     p.add_argument('--tasks', help='Comma-separated task ids (default: all files in decision_data)')
     p.add_argument('--data-dir', default=DATA_DIR)
@@ -320,6 +327,7 @@ def main():
     p.add_argument('--run-id', help='Report this run instead of the latest per model')
     p.add_argument('--output', default='decision_results.json', help='Summary JSON written by the report')
     args = p.parse_args()
+    args.systemone_url = (args.systemone_url or args.ollama).rstrip('/')
     if args.tasks:
         args.tasks = {t.strip() for t in args.tasks.split(',')}
 
