@@ -103,7 +103,7 @@ Dostępne pliki wizualizacji:
 `publish_to_site.py` kopiuje `results.json` i `decision_results.json` do repozytorium strony (`wwwroot/llm-benchmark/`), robi gałąź od `origin/main` w tymczasowym worktree (Twój katalog roboczy strony zostaje nietknięty), wypycha ją i otwiera PR przez `gh`. Merge robisz sam.
 
 ```bash
-python publish_to_site.py --site-dir C:\htdocsitransformation.pl --refresh   # odśwież JSON z bazy i opublikuj oba pliki
+python publish_to_site.py --site-dir C:/htdocs/aitransformation.pl --refresh   # odśwież JSON z bazy i opublikuj oba pliki
 python publish_to_site.py --only decisions --dry-run                            # tylko sprawdź i pokaż różnice
 ```
 
