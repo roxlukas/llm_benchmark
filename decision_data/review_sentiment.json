@@ -1,0 +1,256 @@
+{
+  "id": "review_sentiment",
+  "name": "Recenzje: ocena w gwiazdkach",
+  "description": "Measures whether the model can map a product or service review to the star rating it expresses, including sarcasm, mixed and very short reviews.",
+  "type": "score",
+  "instructions": "What star rating does this review express?",
+  "criteria": [
+    "1 star – very negative",
+    "2 stars – negative",
+    "3 stars – mixed or neutral",
+    "4 stars – positive",
+    "5 stars – very positive"
+  ],
+  "items": [
+    {
+      "id": "review_sentiment_001",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Totalna porażka. Buty rozkleiły się po tygodniu, a sklep odmówił przyjęcia reklamacji. Nigdy więcej!"},
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_002",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Słabo. Słuchawki grają przeciętnie, a po miesiącu lewa zaczęła trzeszczeć. Za tę cenę spodziewałem się więcej."},
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_003",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Przeciętnie. Hotel czysty, ale nic szczególnego – śniadanie poprawne, pokój mały. Za tę cenę w porządku."},
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_004",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Bardzo dobry odkurzacz, mocny i cichy. Jedyny minus to krótki kabel, ale ogólnie polecam."},
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_005",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Rewelacja! Najlepsza restauracja w mieście, wszystko perfekcyjne – od przystawek po deser. Wrócimy na pewno!"},
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_006",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Worst hotel I've ever stayed in. Dirty sheets, mould in the bathroom and rude staff. Avoid at all costs."},
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_007",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Disappointing stay. The room was smaller than in the photos and the breakfast was poor. The location was convenient, but I wouldn't book it again."},
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_008",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "It's okay. Does what it says, nothing more, nothing less."},
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_009",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Really enjoyed our stay. Friendly staff, comfortable beds and a great breakfast. Parking was a bit pricey, but we'd come back."},
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_010",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Absolutely perfect! The best app I've ever used – fast, beautiful and it saves me hours every week. 10/10."},
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_011",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Aplikacja wywala się przy każdym uruchomieniu, a po aktualizacji straciłem wszystkie zapisane notatki. Odinstalowuję i żądam zwrotu pieniędzy."},
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_012",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Kurier dostarczył na czas, ale sam produkt rozczarowuje – blender ledwo radzi sobie z lodem i strasznie hałasuje. Raczej nie polecam."},
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_013",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"review": "Sam ekspres do kawy świetny, robi pyszne espresso. Ale dostawa to koszmar: tydzień opóźnienia, zgnieciony karton i zero kontaktu ze sklepem. Produkt na plus, sklep na minus – wychodzi pół na pół."},
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_014",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Smaczne jedzenie i miła obsługa. Trochę czekaliśmy na deser, ale całość na duży plus."},
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_015",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Jestem zachwycona. Hotel przekroczył wszystkie nasze oczekiwania, obsługa niezwykle troskliwa, widok z pokoju bajeczny. Ani jednego minusa."},
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_016",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"review": "No brawo. Pizza przyjechała po dwóch godzinach, zimna jak lód i do tego cudze zamówienie. Naprawdę mistrzostwo świata w obsłudze klienta. Nigdy więcej tam nie zamówię."},
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_017",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Jedzenie letnie i bez smaku. Obsługa była miła, ale to nie ratuje wizyty. Raczej nie wrócimy."},
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_018",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Są plusy i minusy. Aplikacja ma przydatne funkcje i ładny wygląd, ale synchronizacja często nie działa, a bateria szybko się rozładowuje."},
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_019",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Smooth and intuitive app. I miss a dark mode, but otherwise very good."},
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_020",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Szybka dostawa, idealnie zapakowane, a sam rower – bajka. Wszystko dokładnie tak, jak w opisie. Sklep godny polecenia w 100%."},
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_021",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Zatrucie pokarmowe po krewetkach, cała noc na SOR-ze. Właściciel nie odpisał na żadną wiadomość. Odradzam każdemu."},
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_022",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"review": "Miało być „premium”, wyszło „jak zwykle”. Etui pęka na rogach po dwóch tygodniach, choć przynajmniej telefon przetrwał upadek. Niezbyt udany zakup."},
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_023",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Pizza smaczna, ale porcje małe, a ceny wysokie. Obsługa w porządku. Ot, zwykła pizzeria – ani źle, ani rewelacyjnie."},
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_024",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Dobra jakość za rozsądną cenę. Koszulka dobrze leży, po praniu nie straciła koloru. Polecam."},
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_025",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Flawless from start to finish. Ordered on Monday, arrived Tuesday, and the headphones sound incredible. Couldn't be happier."},
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_026",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"review": "🤮🤮🤮 never again. Total waste of money."},
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_027",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"review": "Below average. The app works most of the time, but it's slow, full of ads and crashes now and then. Not really worth it."},
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_028",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"review": "Great product, terrible delivery. The lamp itself is lovely and well made, but it arrived ten days late and the courier left it out in the rain. Mixed feelings overall."},
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_029",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"review": "Solidne 👍 Mały minus za słabą instrukcję, poza tym polecam."},
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_030",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"review": "Myślałem, że to kolejny przereklamowany gadżet. Myliłem się – to najlepszy zakup tego roku, bez żadnych wad. Zachwyt!"},
+      "answer": 4
+    }
+  ]
+}

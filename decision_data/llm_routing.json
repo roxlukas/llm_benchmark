@@ -1,0 +1,255 @@
+{
+  "id": "llm_routing",
+  "name": "LLM gateway: wybór modelu",
+  "description": "Measures whether the model can route a user request to the right model tier (small, large, code or web search).",
+  "type": "choice",
+  "instructions": "Which model tier should handle this request?",
+  "criteria": {
+    "small_model": "Short, simple tasks: greetings, quick facts, rephrasing a sentence, simple translation, yes/no questions",
+    "large_model": "Multi-step reasoning, long documents, analysis, planning, nuanced writing or advice",
+    "code_model": "Writing, fixing, explaining or reviewing source code, SQL or shell scripts",
+    "web_search": "Needs current information: news, prices, weather, today's schedules, recent events"
+  },
+  "items": [
+    {
+      "id": "llm_routing_001",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Cześć! Jak się masz?"},
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_002",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Przeanalizuj załączony 40-stronicowy raport roczny spółki, wypisz najważniejsze ryzyka finansowe i zaproponuj rekomendacje dla zarządu."},
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_003",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Write a Python function that checks whether a string is a palindrome, ignoring spaces and case."},
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_004",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Jaka będzie jutro pogoda w Gdańsku?"},
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_005",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "What's the capital of Australia?"},
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_006",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Help me plan a three-month go-to-market strategy for launching our B2B SaaS product in Germany, including budget allocation across channels, milestones and the main risks."},
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_007",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Napisz zapytanie SQL, które zwróci 10 klientów z największą sumą zamówień w 2025 roku (tabele: customers, orders)."},
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_008",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "What's the current price of Bitcoin in USD?"},
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_009",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Przetłumacz na angielski: „Dziękuję za szybką odpowiedź.”"},
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_010",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Mój wspólnik chce wycofać się ze spółki. Nie wiem, czy go spłacić z kredytu, czy szukać nowego inwestora, który przejmie jego udziały. Rozpisz za i przeciw obu opcji i podpowiedz, o co zapytać doradcę."},
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_011",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Dlaczego ten kod rzuca IndexError?\nfor i in range(len(lista) + 1):\n    print(lista[i])"},
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_012",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Kto wygrał wczorajszy mecz Legia – Lech i jaki był wynik?"},
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_013",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Przeredaguj to zdanie, żeby brzmiało grzeczniej: „Prześlij mi ten raport do jutra.”"},
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_014",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Pomóż mi napisać delikatny, empatyczny list do pracownika, z którym po 12 latach musimy się rozstać z powodu restrukturyzacji. Chcę docenić jego wkład, jasno przekazać decyzję i nie obiecywać niczego, czego nie możemy dotrzymać."},
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_015",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Mam w cronie polecenie, które ma usuwać logi starsze niż 7 dni, ale nic nie kasuje: find /var/log/app -name *.log -mtime 7 -delete. Co jest nie tak i jak to poprawić?"},
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_016",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "What time does the last train from Kraków to Warsaw leave tonight?"},
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_017",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Is a tomato botanically a fruit? Just yes or no."},
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_018",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "I have two job offers: a senior role at a large bank with a higher salary but long hours, and a team lead role at a 20-person startup with equity and flexible hours. Weigh career growth, money and work-life balance for someone planning to start a family in two years, and recommend one."},
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_019",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Can you review this React component? It re-renders the whole list on every keystroke in the search box and I suspect the useEffect dependencies are wrong. Code below."},
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_020",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Did the ECB change interest rates at this week's meeting?"},
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_021",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "state": {"request": "Ile dni ma luty w roku przestępnym?"},
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_022",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"request": "Przygotuj notatkę decyzyjną dla zarządu: czy w przyszłym roku migrować nasz monolit do mikroserwisów? Uwzględnij koszty, ryzyka, wpływ na zespół i realny harmonogram. Nie potrzebuję żadnego kodu, tylko argumentów i rekomendacji."},
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_023",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Explain line by line what this one-liner does: awk -F',' '{s+=$3} END {print s}' sales.csv"},
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_024",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"request": "Kurs euro?"},
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_025",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"request": "Mam za sobą ciężki dzień: szef przysłał pięć maili, klient dzwonił trzy razy w sprawie faktury, a na koniec zepsuł się ekspres w kuchni i pół biura chodzi bez kawy. W każdym razie – jak jest po angielsku „ekspres do kawy”?"},
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_026",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Our startup has to choose between PostgreSQL and MongoDB for the next five years. Write a one-page decision memo for our non-technical investors that weighs cost, hiring, vendor lock-in and risk. No code or queries, please."},
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_027",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"request": "napisz mi linijke do crona co odpala /opt/backup.sh codziennie o 3 w nocy i zapisuje output do pliku"},
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_028",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"request": "Brać dziś parasol, jak idę po pracy na spacer po Poznaniu?"},
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_029",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "state": {"request": "Some context first: our team of 12 has been fully remote for three years, we live in Slack, Jira and Confluence, and next quarter we're finally meeting in person at an offsite in Lisbon. Everyone is excited. Anyway, my question: how do you say \"thank you\" in Portuguese?"},
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_030",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "state": {"request": "Wklejam poniżej 30-stronicowy wyrok sądu apelacyjnego. Streść go i wyjaśnij, jakie konsekwencje może mieć dla naszej umowy najmu lokalu użytkowego."},
+      "answer": "large_model"
+    }
+  ]
+}

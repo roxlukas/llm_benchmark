@@ -55,3 +55,42 @@ CREATE TABLE IF NOT EXISTS model_metadata (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX (model_name)
 );
+
+-- Decision models benchmark (decision_benchmark.py)
+CREATE TABLE IF NOT EXISTS decision_runs (
+    run_id VARCHAR(32) NOT NULL,
+    model VARCHAR(100) NOT NULL,
+    ollama_version VARCHAR(20),
+    load_ms DOUBLE,
+    size_vram BIGINT,
+    order_check TINYINT DEFAULT 0,
+    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    finished_at TIMESTAMP NULL,
+    PRIMARY KEY (run_id, model)
+);
+
+CREATE TABLE IF NOT EXISTS decision_results (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    run_id VARCHAR(32) NOT NULL,
+    model VARCHAR(100) NOT NULL,
+    task_id VARCHAR(64) NOT NULL,
+    item_id VARCHAR(80) NOT NULL,
+    question_type VARCHAR(10) NOT NULL,
+    lang VARCHAR(5),
+    difficulty VARCHAR(10),
+    variant VARCHAR(20),
+    option_order VARCHAR(10) DEFAULT 'original',
+    expected VARCHAR(64),
+    predicted VARCHAR(64),
+    correct TINYINT,
+    p_expected DOUBLE,
+    confidence DOUBLE,
+    score_value DOUBLE,
+    probabilities JSON,
+    latency_ms DOUBLE,
+    input_tokens INT,
+    error TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX (run_id, model),
+    INDEX (task_id)
+);

@@ -1,0 +1,293 @@
+{
+ "generated_at": "2026-11-02T10:50:10",
+ "models": [
+  {
+   "model": "d3:4b",
+   "run_id": "20261102-104800-4f6c",
+   "items": 270,
+   "errors": 0,
+   "accuracy": 0.9629629629629629,
+   "macro_f1": 0.9619290823295272,
+   "ece": 0.050482423651540584,
+   "brier": 0.06264037062397292,
+   "log_loss": 0.13161542773865764,
+   "latency_ms_median": 68.33619999997609,
+   "latency_ms_p95": 86.45520000027318,
+   "load_ms": 6479.510000001028,
+   "size_vram": 6337331199,
+   "accuracy_standard": 0.9715447154471545,
+   "accuracy_injection": 0.875,
+   "accuracy_pl": 0.9786096256684492,
+   "accuracy_en": 0.927710843373494,
+   "accuracy_hard": 0.9259259259259259,
+   "order_consistency": 1,
+   "tasks": {
+    "banking_intent": {
+     "n": 30,
+     "accuracy": 1,
+     "macro_f1": 1.0
+    },
+    "content_moderation": {
+     "n": 30,
+     "accuracy": 1,
+     "macro_f1": 1.0
+    },
+    "llm_routing": {
+     "n": 30,
+     "accuracy": 1,
+     "macro_f1": 1.0
+    },
+    "prompt_injection_detection": {
+     "n": 30,
+     "accuracy": 0.9666666666666667,
+     "macro_f1": 0.9666295884315907
+    },
+    "review_sentiment": {
+     "n": 30,
+     "accuracy": 0.9333333333333333,
+     "macro_f1": 0.9314285714285714,
+     "mae": 0.06666666666666667,
+     "within_1": 1
+    },
+    "shell_command_safety": {
+     "n": 30,
+     "accuracy": 0.9666666666666667,
+     "macro_f1": 0.9666295884315907
+    },
+    "telco_ticket_routing": {
+     "n": 30,
+     "accuracy": 1,
+     "macro_f1": 1.0
+    },
+    "ticket_urgency": {
+     "n": 30,
+     "accuracy": 0.9666666666666667,
+     "macro_f1": 0.9641025641025641,
+     "mae": 0.03333333333333333,
+     "within_1": 1
+    },
+    "tool_call_approval": {
+     "n": 30,
+     "accuracy": 0.8333333333333334,
+     "macro_f1": 0.8285714285714285
+    }
+   }
+  },
+  {
+   "model": "kev:latest",
+   "run_id": "20261102-104800-4f6c",
+   "items": 270,
+   "errors": 0,
+   "accuracy": 0.9185185185185185,
+   "macro_f1": 0.9127894225116447,
+   "ece": 0.10994049219373983,
+   "brier": 0.14646187652204284,
+   "log_loss": 0.28708779925530437,
+   "latency_ms_median": 89.2631500000789,
+   "latency_ms_p95": 117.25189999924623,
+   "load_ms": 7862.305200000264,
+   "size_vram": 8923801189,
+   "accuracy_standard": 0.926829268292683,
+   "accuracy_injection": 0.8333333333333334,
+   "accuracy_pl": 0.9251336898395722,
+   "accuracy_en": 0.9036144578313253,
+   "accuracy_hard": 0.8518518518518519,
+   "order_consistency": 0.95,
+   "tasks": {
+    "banking_intent": {
+     "n": 30,
+     "accuracy": 0.9666666666666667,
+     "macro_f1": 0.9663299663299663
+    },
+    "content_moderation": {
+     "n": 30,
+     "accuracy": 0.9666666666666667,
+     "macro_f1": 0.9595959595959596
+    },
+    "llm_routing": {
+     "n": 30,
+     "accuracy": 1,
+     "macro_f1": 1.0
+    },
+    "prompt_injection_detection": {
+     "n": 30,
+     "accuracy": 0.9333333333333333,
+     "macro_f1": 0.9333333333333333
+    },
+    "review_sentiment": {
+     "n": 30,
+     "accuracy": 1,
+     "macro_f1": 1.0,
+     "mae": 0,
+     "within_1": 1
+    },
+    "shell_command_safety": {
+     "n": 30,
+     "accuracy": 0.9333333333333333,
+     "macro_f1": 0.9330357142857143
+    },
+    "telco_ticket_routing": {
+     "n": 30,
+     "accuracy": 1,
+     "macro_f1": 1.0
+    },
+    "ticket_urgency": {
+     "n": 30,
+     "accuracy": 0.7666666666666667,
+     "macro_f1": 0.7524801587301587,
+     "mae": 0.26666666666666666,
+     "within_1": 0.9666666666666667
+    },
+    "tool_call_approval": {
+     "n": 30,
+     "accuracy": 0.7,
+     "macro_f1": 0.6703296703296704
+    }
+   }
+  },
+  {
+   "model": "d1:latest",
+   "run_id": "20261102-104800-4f6c",
+   "items": 270,
+   "errors": 0,
+   "accuracy": 0.8481481481481481,
+   "macro_f1": 0.8363993839928296,
+   "ece": 0.029934617124893592,
+   "brier": 0.22950845562311092,
+   "log_loss": 0.39234596654079307,
+   "latency_ms_median": 55.95689999972819,
+   "latency_ms_p95": 67.05440000041563,
+   "load_ms": 5309.318899999198,
+   "size_vram": 3272154807,
+   "accuracy_standard": 0.8455284552845529,
+   "accuracy_injection": 0.875,
+   "accuracy_pl": 0.8609625668449198,
+   "accuracy_en": 0.8192771084337349,
+   "accuracy_hard": 0.7222222222222222,
+   "order_consistency": 0.9583333333333334,
+   "tasks": {
+    "banking_intent": {
+     "n": 30,
+     "accuracy": 0.8666666666666667,
+     "macro_f1": 0.8703703703703703
+    },
+    "content_moderation": {
+     "n": 30,
+     "accuracy": 0.9333333333333333,
+     "macro_f1": 0.9151515151515152
+    },
+    "llm_routing": {
+     "n": 30,
+     "accuracy": 1,
+     "macro_f1": 1.0
+    },
+    "prompt_injection_detection": {
+     "n": 30,
+     "accuracy": 0.8,
+     "macro_f1": 0.7963800904977376
+    },
+    "review_sentiment": {
+     "n": 30,
+     "accuracy": 0.9666666666666667,
+     "macro_f1": 0.9664335664335665,
+     "mae": 0.03333333333333333,
+     "within_1": 1
+    },
+    "shell_command_safety": {
+     "n": 30,
+     "accuracy": 0.7666666666666667,
+     "macro_f1": 0.76
+    },
+    "telco_ticket_routing": {
+     "n": 30,
+     "accuracy": 0.9333333333333333,
+     "macro_f1": 0.9326599326599326
+    },
+    "ticket_urgency": {
+     "n": 30,
+     "accuracy": 0.8,
+     "macro_f1": 0.7872408293460925,
+     "mae": 0.2,
+     "within_1": 1
+    },
+    "tool_call_approval": {
+     "n": 30,
+     "accuracy": 0.5666666666666667,
+     "macro_f1": 0.4993581514762516
+    }
+   }
+  },
+  {
+   "model": "laya:latest",
+   "run_id": "20261102-104800-4f6c",
+   "items": 270,
+   "errors": 0,
+   "accuracy": 0.45925925925925926,
+   "macro_f1": 0.40716671093570556,
+   "ece": 0.2234139810453202,
+   "brier": 0.6877580397622959,
+   "log_loss": 1.466274949665073,
+   "latency_ms_median": 46.02390000036394,
+   "latency_ms_p95": 70.85920000099577,
+   "load_ms": 1491.8750999986514,
+   "size_vram": 765313678,
+   "accuracy_standard": 0.46747967479674796,
+   "accuracy_injection": 0.375,
+   "accuracy_pl": 0.4117647058823529,
+   "accuracy_en": 0.5662650602409639,
+   "accuracy_hard": 0.2962962962962963,
+   "order_consistency": 0.775,
+   "tasks": {
+    "banking_intent": {
+     "n": 30,
+     "accuracy": 0.3333333333333333,
+     "macro_f1": 0.3540305010893246
+    },
+    "content_moderation": {
+     "n": 30,
+     "accuracy": 0.6333333333333333,
+     "macro_f1": 0.560952380952381
+    },
+    "llm_routing": {
+     "n": 30,
+     "accuracy": 0.5666666666666667,
+     "macro_f1": 0.4869953416149069
+    },
+    "prompt_injection_detection": {
+     "n": 30,
+     "accuracy": 0.6333333333333333,
+     "macro_f1": 0.6122209165687427
+    },
+    "review_sentiment": {
+     "n": 30,
+     "accuracy": 0.3333333333333333,
+     "macro_f1": 0.2074074074074074,
+     "mae": 1.3666666666666667,
+     "within_1": 0.6
+    },
+    "shell_command_safety": {
+     "n": 30,
+     "accuracy": 0.5333333333333333,
+     "macro_f1": 0.49760765550239233
+    },
+    "telco_ticket_routing": {
+     "n": 30,
+     "accuracy": 0.4,
+     "macro_f1": 0.3794131794131794
+    },
+    "ticket_urgency": {
+     "n": 30,
+     "accuracy": 0.16666666666666666,
+     "macro_f1": 0.12142857142857143,
+     "mae": 1.1333333333333333,
+     "within_1": 0.7333333333333333
+    },
+    "tool_call_approval": {
+     "n": 30,
+     "accuracy": 0.5333333333333333,
+     "macro_f1": 0.4444444444444444
+    }
+   }
+  }
+ ]
+}
