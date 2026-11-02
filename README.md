@@ -96,3 +96,15 @@ Dostępne pliki wizualizacji:
 - Upewnij się, że serwer web nie serwuje pliku `.env`
 - Używaj silnych haseł dla bazy danych
 - Ogranicz dostęp do plików konfiguracyjnych na serwerze
+
+
+## Publikacja wyników na aitransformation.pl
+
+`publish_to_site.py` kopiuje `results.json` i `decision_results.json` do repozytorium strony (`wwwroot/llm-benchmark/`), robi gałąź od `origin/main` w tymczasowym worktree (Twój katalog roboczy strony zostaje nietknięty), wypycha ją i otwiera PR przez `gh`. Merge robisz sam.
+
+```bash
+python publish_to_site.py --site-dir C:\htdocsitransformation.pl --refresh   # odśwież JSON z bazy i opublikuj oba pliki
+python publish_to_site.py --only decisions --dry-run                            # tylko sprawdź i pokaż różnice
+```
+
+`--site-dir` można zastąpić zmienną `SITE_REPO` (też w `.env`). Przed publikacją plik jest sprawdzany: poprawny JSON, wymagane pola, brak NaN i nie mniej modeli niż w opublikowanej wersji (`--allow-fewer-models` to wyłącza). Wymaga `git` i `gh` (zalogowanego do repozytorium strony). Testy: `python -m unittest test_publish_to_site`.
