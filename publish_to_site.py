@@ -1,11 +1,12 @@
 """Publish benchmark results to the aitransformation.pl site repository as a pull request.
 
-Copies results.json (LLM browser) and/or decision_results.json (decision-model browser) into
-wwwroot/llm-benchmark/ of the site checkout, on a new branch cut from origin/main in a temporary
-git worktree (your working copy of the site is not touched), pushes it and opens a PR with gh.
+Copies results.json (LLM browser), decision_results.json (decision models, v1 set) and/or
+decision_results_v2.json (decision models, harder v2 set) into wwwroot/llm-benchmark/ of the site
+checkout, on a new branch cut from origin/main in a temporary git worktree (your working copy of
+the site is not touched), pushes it and opens a PR with gh.
 
-  python publish_to_site.py --site-dir C:\\htdocs\\aitransformation.pl            # both files
-  python publish_to_site.py --site-dir ... --only decisions --refresh            # regenerate first
+  python publish_to_site.py --site-dir C:\\htdocs\\aitransformation.pl            # all files
+  python publish_to_site.py --site-dir ... --only decisions_v2 --refresh         # regenerate first
   python publish_to_site.py --site-dir ... --dry-run                             # validate and show the diff only
 
 --site-dir can also come from the SITE_REPO environment variable (or SITE_REPO in .env).
@@ -46,6 +47,13 @@ TARGETS = {
         'top': ('generated_at', 'tasks', 'models'),
         'model': ('model', 'display_name', 'runtime', 'items', 'accuracy', 'tasks'),
         'label': 'decision models',
+    },
+    'decisions_v2': {   # harder 900-item set (decision_data_v2); runs and results are kept apart from v1
+        'file': 'decision_results_v2.json',
+        'refresh': [sys.executable, 'decision_benchmark.py', '--data-dir', 'decision_data_v2', '--report'],
+        'top': ('generated_at', 'tasks', 'models'),
+        'model': ('model', 'display_name', 'runtime', 'items', 'accuracy', 'tasks'),
+        'label': 'decision models v2',
     },
 }
 
@@ -156,7 +164,7 @@ def publish(args):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--site-dir', default=os.environ.get('SITE_REPO'), help='Checkout of aitransformation.pl (default: $SITE_REPO)')
-    p.add_argument('--only', choices=sorted(TARGETS), help='Publish just one of the files (default: both)')
+    p.add_argument('--only', choices=sorted(TARGETS), help='Publish just one of the files (default: all)')
     p.add_argument('--refresh', action='store_true', help='Regenerate the JSON from the database first')
     p.add_argument('--dry-run', action='store_true', help='Validate and show the diff, do not commit, push or open a PR')
     p.add_argument('--allow-fewer-models', action='store_true', help='Publish even if the file has fewer models than the published copy')

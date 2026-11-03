@@ -10,6 +10,7 @@ import glob
 import json
 import math
 import os
+import re
 import statistics
 import time
 import uuid
@@ -22,6 +23,8 @@ from db_env import add_db_args
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'decision_data')
 ECE_BINS = 10
 EPS = 1e-6  # log loss clip
+# quantization at the start or after the size in a model tag: q8_0, Q5_K_M, 4b-nvfp4, 2b-mxfp8, bf16
+QUANT_TAG = re.compile(r'(?:^|-)(i?q\d\w*|bf16|f16|fp\d+|nvfp4|mxfp\d+)$', re.I)
 
 SCHEMA = [
     """CREATE TABLE IF NOT EXISTS decision_runs (
@@ -232,12 +235,14 @@ def short(model):
 
 
 def model_info(model):
-    """Runtime and quantization shown by decisions.html. hf.co/... names carry the quantization after ':';
-    '...:bf16-eager' models are served by basal-serve --mode eager, everything else by Ollama."""
+    """Runtime and quantization shown by decisions.html. A tag like Q8_0 / q8_0 / Q5_K_M after ':' is the
+    quantization (hf.co/... pulls and models made with ollama create); '...:bf16-eager' models are served by
+    basal-serve --mode eager, everything else by Ollama."""
     tag = model.split(':', 1)[1] if ':' in model else ''
     if tag.endswith('-eager'):
         return {'runtime': 'basal-serve', 'quantization': tag[:-len('-eager')]}
-    return {'runtime': 'ollama', 'quantization': tag if model.startswith('hf.co/') and tag else None}
+    quant = QUANT_TAG.search(tag)
+    return {'runtime': 'ollama', 'quantization': quant.group(1) if quant else None}
 
 
 def pct(x):

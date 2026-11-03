@@ -49,6 +49,12 @@ class ValidateTests(unittest.TestCase):
         with self.assertRaises(pub.PublishError):
             pub.validate(self.write('{oops'), pub.TARGETS['decisions'])
 
+    def test_v2_uses_same_checks(self):
+        pub.validate(self.write(DEC), pub.TARGETS['decisions_v2'])
+        with self.assertRaises(pub.PublishError):
+            pub.validate(self.write({'generated_at': 'x', 'models': DEC['models']}), pub.TARGETS['decisions_v2'])
+        self.assertIn('decision_data_v2', pub.TARGETS['decisions_v2']['refresh'])
+
     def test_fewer_models_than_published(self):
         path = self.write(DEC)
         with self.assertRaises(pub.PublishError):
@@ -74,6 +80,7 @@ class PublishTests(unittest.TestCase):
         self.here.mkdir()
         self.put('results.json', LLM)
         self.put('decision_results.json', DEC)
+        self.put('decision_results_v2.json', dict(DEC, models=[dict(DEC['models'][0], items=900)]))
         real = pub.run
 
         def fake(cmd, cwd=None, check=True):
@@ -100,6 +107,7 @@ class PublishTests(unittest.TestCase):
         _, files = self.pushed_files()
         self.assertIn('wwwroot/llm-benchmark/results.json', files)
         self.assertIn('wwwroot/llm-benchmark/decision_results.json', files)
+        self.assertIn('wwwroot/llm-benchmark/decision_results_v2.json', files)
         self.assertNotIn('benchmark-results', git(self.site, 'worktree', 'list'))   # temp worktree removed
         self.assertEqual(git(self.site, 'status', '--short'), '')                    # working copy untouched
 
@@ -108,6 +116,12 @@ class PublishTests(unittest.TestCase):
         _, files = self.pushed_files()
         self.assertIn('wwwroot/llm-benchmark/decision_results.json', files)
         self.assertNotIn('wwwroot/llm-benchmark/results.json', files)
+        self.assertNotIn('wwwroot/llm-benchmark/decision_results_v2.json', files)
+
+    def test_only_v2(self):
+        pub.publish(self.args(only='decisions_v2'))
+        _, files = self.pushed_files()
+        self.assertEqual([f for f in files if f.startswith('wwwroot/')], ['wwwroot/llm-benchmark/decision_results_v2.json'])
 
     def test_dry_run_pushes_nothing(self):
         self.assertIsNone(pub.publish(self.args(dry_run=True)))

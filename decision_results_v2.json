@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-03T10:23:05",
+ "generated_at": "2026-11-03T10:42:08",
  "tasks": {
   "banking_intent": {
    "name": "Bank: intencja klienta",
@@ -43,7 +43,7 @@
    "model": "basal-omni-1.0-max:q8_0",
    "display_name": "basal-omni-1.0-max:q8_0",
    "runtime": "ollama",
-   "quantization": null,
+   "quantization": "q8_0",
    "run_id": "20261103-094026-2a6e",
    "items": 900,
    "errors": 0,
@@ -193,7 +193,7 @@
    "model": "basal-2.0-max:q8_0",
    "display_name": "basal-2.0-max:q8_0",
    "runtime": "ollama",
-   "quantization": null,
+   "quantization": "q8_0",
    "run_id": "20261103-093539-c7d9",
    "items": 900,
    "errors": 0,

@@ -100,11 +100,12 @@ Dostępne pliki wizualizacji:
 
 ## Publikacja wyników na aitransformation.pl
 
-`publish_to_site.py` kopiuje `results.json` i `decision_results.json` do repozytorium strony (`wwwroot/llm-benchmark/`), robi gałąź od `origin/main` w tymczasowym worktree (Twój katalog roboczy strony zostaje nietknięty), wypycha ją i otwiera PR przez `gh`. Merge robisz sam.
+`publish_to_site.py` kopiuje `results.json`, `decision_results.json` (modele decyzyjne, zestaw v1) i `decision_results_v2.json` (trudniejszy zestaw v2, `decision_data_v2/`) do repozytorium strony (`wwwroot/llm-benchmark/`), robi gałąź od `origin/main` w tymczasowym worktree (Twój katalog roboczy strony zostaje nietknięty), wypycha ją i otwiera PR przez `gh`. Merge robisz sam.
 
 ```bash
-python publish_to_site.py --site-dir C:/htdocs/aitransformation.pl --refresh   # odśwież JSON z bazy i opublikuj oba pliki
+python publish_to_site.py --site-dir C:/htdocs/aitransformation.pl --refresh   # odśwież JSON z bazy i opublikuj wszystkie pliki
 python publish_to_site.py --only decisions --dry-run                            # tylko sprawdź i pokaż różnice
+python publish_to_site.py --only decisions_v2 --refresh                         # tylko v2: decision_benchmark.py --data-dir decision_data_v2 --report
 ```
 
 `--site-dir` można zastąpić zmienną `SITE_REPO` (też w `.env`). Przed publikacją plik jest sprawdzany: poprawny JSON, wymagane pola, brak NaN i nie mniej modeli niż w opublikowanej wersji (`--allow-fewer-models` to wyłącza). Wymaga `git` i `gh` (zalogowanego do repozytorium strony). Testy: `python -m unittest test_publish_to_site`.
