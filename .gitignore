@@ -6,3 +6,4 @@ evaluator_telco.bat
 models_telco.bat
 run_telco.bat
 __pycache__/
+game_runs/

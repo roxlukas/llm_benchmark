@@ -109,3 +109,21 @@ python publish_to_site.py --only decisions_v2 --refresh                         
 ```
 
 `--site-dir` można zastąpić zmienną `SITE_REPO` (też w `.env`). Przed publikacją plik jest sprawdzany: poprawny JSON, wymagane pola, brak NaN i nie mniej modeli niż w opublikowanej wersji (`--allow-fewer-models` to wyłącza). Wymaga `git` i `gh` (zalogowanego do repozytorium strony). Testy: `python -m unittest test_publish_to_site`.
+
+## Benchmark wizualny: wyścig (klon Lotus Esprit Turbo Challenge)
+
+`lotus_game/index.html` to wyścig pseudo-3D w HTML5 (canvas, bez zależności): zakręty, wzniesienia, 11 rywali, drzewa i znaki przy drodze, limit czasu 150 s. Można w niego zagrać w przeglądarce (strzałki, Spacja start, `A` włącza autopilota, `?seed=N` zmienia trasę).
+
+`game_benchmark.py` uruchamia grę headless (Playwright) i co `--hold` klatek (domyślnie 6 = 0,1 s) wysyła zrzut canvasu do `/v1/systemone` z pytaniem `choice`: `left` / `straight` / `right` / `brake`. Czas gry płynie tylko między decyzjami, więc wolny model jedzie ten sam wyścig co szybki; `--realtime` każe mu trzymać poprzednią akcję tak długo, jak trwała decyzja.
+
+```bash
+pip install playwright
+python game_benchmark.py --models oracle,random                          # punkty odniesienia, bez serwera
+python game_benchmark.py --models d3:4b,d3:9b                            # modele decyzyjne z wizją w Ollamie (obraz w "images")
+python game_benchmark.py --api basal --models basal-omni-1.0-mini        # basal-serve --mode eager --media on (obraz w "media")
+python game_benchmark.py --models d3:4b --seeds 1 --save-frames --headed # podgląd na żywo + klatki i GIF z przejazdu
+```
+
+basal-omni w GGUF (Ollama) widzi tylko tekst: enkodery obrazu są wycięte z plików GGUF. Obrazy czyta wersja bf16 przez `basal-serve --model D:/AI/basal/basal-omni-1.0-mini --mode eager --media on --port 8000`.
+
+Wynik (`game_results.json`): `score` = 100 × ukończona część trasy + do 50 pkt za szybki finisz − 2 za każde zderzenie z autem − 5 za każde uderzenie w drzewo/znak. Do tego czas, pozycja, średnia prędkość, % klatek poza drogą, zgodność z autopilotem (`oracle`, który czyta stan gry, nie obraz) i opóźnienie decyzji. Logi każdej decyzji: `game_runs/<run_id>/`.
