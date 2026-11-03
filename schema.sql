@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS decision_runs (
     load_ms DOUBLE,
     size_vram BIGINT,
     order_check TINYINT DEFAULT 0,
+    dataset VARCHAR(64) DEFAULT 'decision_data',
     started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     finished_at TIMESTAMP NULL,
     PRIMARY KEY (run_id, model)

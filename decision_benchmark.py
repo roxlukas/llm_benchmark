@@ -31,6 +31,7 @@ SCHEMA = [
         load_ms DOUBLE,
         size_vram BIGINT,
         order_check TINYINT DEFAULT 0,
+        dataset VARCHAR(64) DEFAULT 'decision_data',
         started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         finished_at TIMESTAMP NULL,
         PRIMARY KEY (run_id, model)
@@ -155,9 +156,9 @@ def run(args, conn):
         _, load_ms, _ = decide(args.systemone_url, model, task['items'][0]['state'], build_question(task))
         loaded = requests.get(f'{args.ollama}/api/ps', timeout=30).json().get('models') or []
         size_vram = next((m.get('size_vram') for m in loaded if m['name'] == model), None)
-        cur.execute('INSERT INTO decision_runs (run_id, model, ollama_version, load_ms, size_vram, order_check) '
-                    'VALUES (%s, %s, %s, %s, %s, %s)',
-                    (run_id, model, version, load_ms, size_vram, int(args.order_check)))
+        cur.execute('INSERT INTO decision_runs (run_id, model, ollama_version, load_ms, size_vram, order_check, dataset) '
+                    'VALUES (%s, %s, %s, %s, %s, %s, %s)',
+                    (run_id, model, version, load_ms, size_vram, int(args.order_check), args.dataset))
         conn.commit()
         print(f'\n== {model}: load {load_ms:.0f} ms, VRAM {size_vram / 2**30 if size_vram else 0:.2f} GiB')
 
@@ -243,14 +244,14 @@ def pct(x):
     return f'{100 * x:5.1f}' if x is not None else '    -'
 
 
-def load_rows(conn, run_id=None):
+def load_rows(conn, dataset, run_id=None):
     cur = conn.cursor(dictionary=True)
     if run_id:
         cur.execute('SELECT run_id, model, load_ms, size_vram FROM decision_runs WHERE run_id = %s', (run_id,))
-    else:  # latest finished run of every model
+    else:  # latest finished run of every model on this dataset
         cur.execute('SELECT r.run_id, r.model, r.load_ms, r.size_vram FROM decision_runs r '
                     'JOIN (SELECT model, MAX(run_id) AS run_id FROM decision_runs WHERE finished_at IS NOT NULL '
-                    'GROUP BY model) l ON l.model = r.model AND l.run_id = r.run_id')
+                    'AND dataset = %s GROUP BY model) l ON l.model = r.model AND l.run_id = r.run_id', (dataset,))
     runs = cur.fetchall()
     rows = defaultdict(list)
     for run in runs:
@@ -300,14 +301,14 @@ def summarize(run, rows):
 
 
 def tasks_meta(data_dir, task_ids):
-    """Display name and question type of every task that has results (names live in decision_data/<id>.json)."""
+    """Display name and question type of every task that has results (names live in <data_dir>/<id>.json)."""
     by_id = {t['id']: t for t in load_tasks(data_dir)}
     return {t: {'name': by_id[t]['name'], 'type': by_id[t]['type']} if t in by_id else {'name': t, 'type': None}
             for t in task_ids}
 
 
-def report(conn, run_id, output, data_dir=DATA_DIR):
-    runs, rows = load_rows(conn, run_id)
+def report(conn, dataset, run_id, output, data_dir=DATA_DIR):
+    runs, rows = load_rows(conn, dataset, run_id)
     if not runs:
         raise SystemExit('No finished decision runs in the database')
     summaries = sorted((summarize(run, rows[run['model']]) for run in runs), key=lambda s: -(s['accuracy'] or 0))
@@ -342,9 +343,13 @@ def main():
                    help='Run choice tasks a second time with options in reverse order to measure consistency')
     p.add_argument('--report', action='store_true', help='Only print metrics of the latest run of every model')
     p.add_argument('--run-id', help='Report this run instead of the latest per model')
-    p.add_argument('--output', default='decision_results.json', help='Summary JSON written by the report')
+    p.add_argument('--output', help='Summary JSON written by the report (default: decision_results.json for '
+                                    'decision_data, decision_results_<suffix>.json for decision_data_<suffix>)')
     args = p.parse_args()
     args.systemone_url = (args.systemone_url or args.ollama).rstrip('/')
+    # Runs and reports are kept apart per dataset directory (decision_data = v1, decision_data_v2, ...)
+    args.dataset = os.path.basename(os.path.normpath(args.data_dir))
+    args.output = args.output or args.dataset.replace('decision_data', 'decision_results') + '.json'
     if args.tasks:
         args.tasks = {t.strip() for t in args.tasks.split(',')}
 
@@ -353,10 +358,14 @@ def main():
     cur = conn.cursor()
     for statement in SCHEMA:
         cur.execute(statement)
+    cur.execute("SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = DATABASE() "
+                "AND table_name = 'decision_runs' AND column_name = 'dataset'")
+    if not cur.fetchone()[0]:  # tables created before datasets were versioned: existing runs used decision_data
+        cur.execute("ALTER TABLE decision_runs ADD COLUMN dataset VARCHAR(64) DEFAULT 'decision_data' AFTER order_check")
     conn.commit()
     try:
         run_id = None if args.report else run(args, conn)
-        report(conn, args.run_id or run_id, args.output, args.data_dir)
+        report(conn, args.dataset, args.run_id or run_id, args.output, args.data_dir)
     finally:
         conn.close()
 

@@ -1,0 +1,1216 @@
+{
+  "id": "review_sentiment",
+  "name": "Recenzje: ocena gwiazdkowa",
+  "description": "Maps a product, service, app, restaurant or hotel review to the star rating it expresses, including sarcasm, edits, comparisons, emoji-only and negation.",
+  "type": "score",
+  "instructions": "What star rating does this review express?",
+  "criteria": [
+    "1 star – very negative",
+    "2 stars – negative",
+    "3 stars – mixed or neutral",
+    "4 stars – positive",
+    "5 stars – very positive"
+  ],
+  "items": [
+    {
+      "id": "review_sentiment_001",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Najlepsza pizza w mieście! Ciasto cienkie i chrupiące, składniki świeże, a obsługa przemiła. Byliśmy już trzy razy i za każdym razem jest idealnie. Polecam z całego serca!"
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_002",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Allegro",
+        "review": "Zamówienie przyszło po trzech tygodniach, telefon miał pękniętą obudowę, a sprzedawca od dwóch tygodni nie odpowiada na wiadomości. Totalna porażka. Omijajcie ten sklep szerokim łukiem."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_003",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Booking.com",
+        "review": "The hotel was fine. Room clean, nothing special. Breakfast was average, coffee OK. Good location near the old town, but the street was noisy at night. An ordinary, decent place – I wouldn't go out of my way to recommend it or to warn against it."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_004",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Ceneo",
+        "review": "Słuchawki grają bardzo dobrze, basy mocne, ale nie dudnią, bateria trzyma około 25 godzin. Jedyny minus to trochę ciasny pałąk – po dwóch godzinach zaczyna uwierać. Ogólnie jestem zadowolony i polecam."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_005",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Play",
+        "review": "Aplikacja raczej słaba. Często zawiesza się przy logowaniu, powiadomienia o przesyłkach przychodzą z kilkugodzinnym opóźnieniem, a wyszukiwarka paczkomatów myli adresy. Plus za ładny wygląd, ale na co dzień bardziej męczy, niż pomaga."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_006",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "'brawo' and 'gratuluję jakości' are sarcastic; third failed charger and 'nigdy więcej' make it very negative",
+      "state": {
+        "platform": "Ceneo",
+        "review": "No brawo. Trzecia ładowarka tej firmy w tym roku i znowu padła po tygodniu. Naprawdę gratuluję jakości, panowie. Nigdy więcej."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_007",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a minor issue (kettle) is mentioned but fixed in minutes; reviewer says 'bez żadnych zastrzeżeń', so not 4",
+      "state": {
+        "platform": "Booking.com",
+        "review": "Byliśmy w hotelu Pod Modrzewiem na czterodniowym pobycie z dwójką dzieci (4 i 7 lat) i szczerze mówiąc, to był najlepszy wyjazd rodzinny od lat. Pokój rodzinny przestronny, czysty, z osobną sypialnią dla dzieci, łóżka bardzo wygodne. Śniadania – coś wspaniałego: świeże pieczywo z lokalnej piekarni, jajecznica robiona na zamówienie, dla dzieci naleśniki i owsianka. Basen ciepły, z brodzikiem i ratownikiem przez cały dzień. Personel zapamiętał imiona dzieci już drugiego dnia, a pani z recepcji sama zaproponowała nam późne wymeldowanie bez dopłaty, bo mieliśmy pociąg dopiero wieczorem.\n\nJedyne, co mogę wymienić, to że pierwszego wieczoru nie działał czajnik w pokoju – ale po telefonie na recepcję nowy był po dziesięciu minutach, razem z talerzykiem ciastek „na przeprosiny”. Trudno to nawet nazwać minusem.\n\nPodsumowując: bez żadnych zastrzeżeń, wszystko na najwyższym poziomie. Już zarezerwowaliśmy termin na ferie zimowe."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_008",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "the praised tiramisu is explicitly the only reason it is not one star; overall disappointed",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Food arrived lukewarm, the carbonara was overcooked and the waiter forgot our drinks twice. The tiramisu was genuinely nice, which is the only reason this isn't a one-star review. Disappointing overall, we won't be rushing back."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_009",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "long list of pros and cons; verdict 'dokładnie pośrodku' fixes the middle rating",
+      "state": {
+        "platform": "Google Play",
+        "review": "Używam aplikacji BudżetPlus do budżetu domowego od około pół roku, więc mogę napisać coś więcej niż pierwsze wrażenie.\n\nCo działa: dodawanie wydatków jest szybkie, kategorie da się dowolnie edytować, wykresy miesięczne są czytelne i naprawdę pomagają zobaczyć, ile idzie na jedzenie na mieście. Synchronizacja między moim telefonem a telefonem żony działa – zwykle.\n\nCo nie działa: import wyciągów obsługuje tylko dwa banki, a nasz do nich nie należy, więc wszystko wpisuję ręcznie. Co jakiś czas synchronizacja się rozjeżdża i ten sam wydatek pojawia się dwa razy. Wersja premium kosztuje 19,99 zł miesięcznie, co uważam za dużo jak na to, co oferuje. Reklamy w wersji darmowej są nachalne, ale da się z nimi żyć.\n\nPodsumowując: spełnia swoje zadanie, ale bez zachwytu. Są na rynku aplikacje lepsze i gorsze – ta jest dokładnie pośrodku. Jeśli dodadzą import z większej liczby banków, pewnie podniosę ocenę."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_010",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "complaints about space and queue are minor logistics; the reviewer recommends the place",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Kawa świetna, ciasta domowe, a sernik baskijski to mistrzostwo. Szkoda tylko, że miejsc jest mało i w weekend kolejka wychodzi na chodnik, więc trudno usiąść na dłużej. Polecam, choć w sobotę lepiej przyjść przed dziesiątą."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_011",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "praise for fast delivery is irrelevant; product disappoints but tone is moderate ('raczej nie kupię'), not a disaster",
+      "state": {
+        "platform": "Allegro",
+        "review": "Kurier przyniósł paczkę na czas, bluza zgodna ze zdjęciem. Niestety jakość wykonania słaba: po pierwszym praniu szwy na rękawach zaczęły się pruć, a kolor wyraźnie spłowiał. Za 149 zł spodziewałam się dużo więcej. Raczej nie kupię ponownie."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_012",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "clearly positive but explicitly 'loses a point' for the brush roll",
+      "state": {
+        "platform": "Amazon",
+        "review": "Solid cordless vacuum. Strong suction, easy to empty, and the battery lasts for a full clean of our two-bedroom flat. Loses a point because the brush roll tangles with long hair and needs cutting free every week or so. Would still buy it again."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_013",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "pros and cons balance out; 'w porządku' only for a one-night stop is a neutral verdict",
+      "state": {
+        "platform": "Booking.com",
+        "review": "Pokój czysty, łóżko wygodne, śniadanie przeciętne – parówki, jajka, trochę warzyw. Niestety ściany cienkie i do pierwszej w nocy słychać było rozmowy sąsiadów. Personel uprzejmy, ale za parking trzeba dopłacić 60 zł za dobę. Na jedną noc w trasie – w porządku, na dłuższy pobyt szukałbym czegoś innego."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_014",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "negations ('nie spodziewałem się', 'nie ma nic, do czego...') express top praise, not complaints",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Nie spodziewałem się wiele po barze mlecznym przy dworcu, a wyszedłem zachwycony. Pierogi ruskie jak u babci, kompot domowy, porcje ogromne, a pani przy kasie żartowała z każdym klientem. Nie ma tu absolutnie nic, do czego mógłbym się przyczepić. Rewelacja."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_015",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "long story with a sympathetic gate agent, but no redeeming element and 'zero stars if I could'",
+      "state": {
+        "platform": "Trustpilot",
+        "review": "I rarely write reviews, but I feel I have to warn people about Skyvale Air.\n\nOur flight from Gdansk to Lisbon was cancelled four hours before departure with a single text message. No explanation, no rebooking offered. The app simply showed 'contact customer service'. Customer service had a recorded message saying the wait time was over 90 minutes, and after two hours the line disconnected. We ended up buying new tickets with another airline for nearly three times the price, and lost the first night of our hotel booking as well.\n\nWe filed a compensation claim the same week, as EU rules allow. That was eleven weeks ago. Since then we have received three automated emails saying our case is 'being processed with priority', and nothing else. Our luggage, which had been checked in for an earlier connecting leg, came back to us after nine days, with a broken handle and someone else's boarding pass inside.\n\nThe only human being we spoke to in this whole process was a gate agent who told us, quite honestly and kindly, that she couldn't help either.\n\nAvoid this airline. I would give zero stars if I could."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_016",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "thankful, polite wording is sarcasm; every fact is negative and it ends with 'do zobaczenia nigdy'",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Serdecznie dziękuję za niezapomniany wieczór rocznicowy. Czterdzieści minut czekania na stolik, który zarezerwowaliśmy tydzień wcześniej, zupa podana zimna, a na koniec rachunek z dwoma daniami, których nikt nie zamawiał. Kelner był na tyle uprzejmy, że przewrócił oczami, gdy o to zapytaliśmy. Doprawdy, wieczór, który zapamiętamy na długo. Do zobaczenia nigdy."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_017",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the first part is a 1-star rant; the newer EDIT explicitly changes the rating to full 5 stars",
+      "state": {
+        "platform": "Allegro",
+        "review": "Ocena pierwotna: Ekspres przyszedł z tygodniowym opóźnieniem, karton rozerwany, w środku brak instrukcji i jednego z filtrów. Sprzedawca przez trzy dni nie odpowiadał na wiadomości. Jestem wściekła, to miał być prezent na urodziny męża i urodziny minęły bez prezentu. Na razie daję 1 gwiazdkę i czekam na reakcję.\n\nEDIT (po 5 dniach): Sprzedawca odezwał się, przeprosił, wysłał brakujący filtr kurierem na swój koszt i dorzucił w ramach rekompensaty dwa opakowania kawy. Instrukcję przysłał w PDF w ciągu godziny. A sam ekspres? Rewelacja. Kawa lepsza niż w naszej ulubionej kawiarni, spieniacz robi idealną piankę, obsługa banalna, mąż zachwycony. Po tak dobrej reakcji i przy takim sprzęcie zmieniam ocenę na pełne 5 gwiazdek – polecam i produkt, i sprzedawcę."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_018",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "excellent product but awful delivery; the reviewer explicitly says it evens out to the middle",
+      "state": {
+        "platform": "Trustpilot",
+        "review": "The lamp itself is beautiful – warm light, heavy sturdy base, exactly as pictured. But the delivery was a nightmare: two missed slots, the box arrived crushed, and I spent an hour on hold to rearrange it. Product: great. Experience of buying it: awful. For me it evens out to right in the middle."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_019",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "opens with 'gorszy niż poprzednik', but the verdict is 'nie idealny, ale bardzo dobry' – positive, not perfect",
+      "state": {
+        "platform": "Ceneo",
+        "review": "Gorszy niż poprzedni model – bateria wyraźnie słabsza, a aparat praktycznie bez zmian. Ale nadal to najlepszy telefon w tej cenie i spokojnie poleciłbym go każdemu, kto przesiada się ze starszego sprzętu. Nie idealny, ale bardzo dobry."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_020",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "'nie powiem, że totalna porażka' rules out 1 star, but 'żałuję zakupu' keeps it clearly negative",
+      "state": {
+        "platform": "Allegro",
+        "review": "Nie powiem, że to totalna porażka, bo głośnik w końcu gra. Ale co chwilę zrywa połączenie Bluetooth, bateria trzyma ledwo 3 godziny zamiast obiecanych 12, a przy większej głośności dźwięk charczy. Żałuję zakupu."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_021",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "written without diacritics; praise refers to past orders, the current verdict is quitting the service for good",
+      "state": {
+        "platform": "Pyszne.pl",
+        "review": "zamawialem od was z 20 razy i zawsze bylo git, pizza cieplutka, kierowcy mili. ale to co sie stalo w sobote to jakis zart. zamowienie na 19, przyjechalo o 21:40 zimne jak lod, sos rozlany po calej torbie, polowy frytek brak. dzwonie to pani mowi ze to wina kuriera i ze nic nie zrobi. kasy nie oddali. koniec, kasuje apke i wiecej od was nie zamawiam."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_022",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "restrained, understated tone hides top praise: rebooked for family and 'couldn't fault a single thing'",
+      "state": {
+        "platform": "TripAdvisor",
+        "review": "I'm not one for gushing, so I'll keep this short. I stay in a lot of hotels for work, and this is the first one I've ever booked again for a holiday with my own family. Couldn't fault a single thing."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_023",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "initial 5-star enthusiasm; the update after a month explicitly settles on 3/5",
+      "state": {
+        "platform": "Ceneo",
+        "review": "Pierwsze wrażenia (tydzień użytkowania): Jestem zachwycony! Robot sam mapuje mieszkanie, omija kable, aplikacja intuicyjna, mopowanie zaskakująco skuteczne. Najlepiej wydane 1800 zł w tym roku, pięć gwiazdek bez wahania!\n\nAKTUALIZACJA po miesiącu: muszę jednak zweryfikować entuzjazm. Mapa co kilka dni się resetuje i robot zaczyna sprzątać tylko połowę mieszkania. Zbiornik na wodę przecieka przy wyjmowaniu. Szczotka boczna już się wygięła. Serwis odpisał uprzejmie, ale zaproponował tylko reset do ustawień fabrycznych, który pomógł na dwa dni. Z drugiej strony, kiedy działa, sprząta naprawdę dobrze i oszczędza mi sporo czasu, więc nie mogę powiedzieć, że żałuję zakupu.\n\nPo miesiącu wychodzi mi uczciwe 3/5: ani porażka, ani sprzęt, który poleciłbym bez zastrzeżeń."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_024",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "most of the text is past praise; the current verdict after the update is explicitly two stars",
+      "state": {
+        "platform": "App Store",
+        "review": "I've used NoteNest every single day for almost three years. It was the app I recommended to everyone: fast, clean, syncs perfectly between my phone and laptop, and the handwriting search was honestly magic. I happily paid for the lifetime licence.\n\nThen came version 6. My lifetime licence is now 'legacy' and half the features I paid for – including handwriting search – moved behind a new monthly subscription. The redesign hides folders behind two extra taps, and the app takes noticeably longer to open. Sync has duplicated a few of my notes, which I had to clean up by hand.\n\nTo be fair, support answered my email within a day, politely, and my old notes are all still there and exportable. That's the only reason I'm not going lower. But I can't recommend it to anyone anymore, and I'm actively looking for a replacement. Two stars, down from five."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_025",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "'powinienem dać 5' – but the reviewer explicitly subtracts one star for the hood",
+      "state": {
+        "platform": "Zalando",
+        "review": "Właściwie powinienem dać pięć gwiazdek, bo kurtka jest ciepła, lekka i świetnie uszyta, a w zeszłym tygodniu przetrwała ulewę bez przemoknięcia. Odejmuję jedną tylko za to, że kaptur nie jest odpinany, choć w opisie wyraźnie tak stało."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_026",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Amazon",
+        "review": "Broke on the second day. The plastic hinge snapped clean off and the seller refuses a return because the box was opened. Complete waste of money."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_027",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Fryzjerka sympatyczna, ale strzyżenie takie sobie – grzywka lekko krzywo, poprawiałam w domu. Cena standardowa, termin bez problemu. Przeciętnie, bez szału i bez dramatu."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_028",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "ZnanyLekarz",
+        "review": "Pani doktor to anioł! Bałam się dentysty od dziecka, a tu leczenie kanałowe zupełnie bezboleśnie, wszystko wytłumaczone krok po kroku. Gabinet nowoczesny, terminy dotrzymane co do minuty. Najwyższa półka, polecam każdemu."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_029",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Play",
+        "review": "Really good weather app. Accurate forecasts, clean widgets, and the rain radar is great. A few too many ads in the free version, but nothing that ruins it. Recommended."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_030",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Booking.com",
+        "review": "Słabo. Pokój mniejszy niż na zdjęciach, w łazience czarny nalot przy prysznicu, śniadanie skromne. Lokalizacja dobra i tylko ona się broni. Raczej nie wrócę."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_031",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a power cut is mentioned but was handled within minutes; everything else is top praise",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Wesele mieliśmy w Dworku Nad Stawem 14 września i do dziś goście piszą, że to była najlepsza impreza, na jakiej byli.\n\nOd początku współpraca z panią Martą, koordynatorką, wyglądała wzorowo: odpisywała na maile w ciągu kilku godzin, sama przypominała o terminach (degustacja, plan stołów, menu dla dzieci), a gdy dwa tygodnie przed ślubem liczba gości zmieniła się o 12 osób, przeorganizowała salę bez żadnego problemu. Degustacja była obfita i dało się zmieniać dania bez dopłat.\n\nW dniu wesela wszystko szło jak w zegarku. Jedzenie gorące, porcje ogromne, a tort z lokalnej cukierni, którą nam polecili, zrobił furorę. Obsługa kelnerska dyskretna i szybka – nikt nie czekał na dolewkę ani zmianę talerzy. Kiedy o drugiej w nocy wysiadł prąd w części ogrodu, technik ogarnął to w kwadrans, a DJ w tym czasie grał na akustycznym zestawie, więc większość gości nawet tego nie zauważyła.\n\nNoclegi dla gości czyste i wygodne, poprawiny w niedzielę przygotowane z takim samym zaangażowaniem.\n\nGdybyśmy brali ślub jeszcze raz, nie szukalibyśmy niczego innego. Dziękujemy z całego serca – absolutnie najwyższa klasa!"
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_032",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "very short review; a single severe fact (bed bugs) is enough for the lowest rating",
+      "state": {
+        "platform": "TripAdvisor",
+        "review": "Bed bugs. That's the review."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_033",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "honest, effective repair vs. delay and a higher bill; the reviewer sums up 'w sumie wychodzi średnio'",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Oddałem auto (Skoda, 2016) z opisem „stuki z przodu przy skręcaniu”. Plusy: panowie od razu znaleźli przyczynę – wybity łącznik stabilizatora i końcówka drążka – i pokazali mi stare części, co bardzo doceniam, bo w poprzednim warsztacie wymieniano mi rzeczy „na wszelki wypadek”. Stuki zniknęły, auto jeździ jak należy.\n\nMinusy: auto miało być gotowe we wtorek, odebrałem je w piątek, a o opóźnieniu dowiedziałem się dopiero, gdy sam zadzwoniłem. Kosztorys wstępny mówił 600 zł, na fakturze wyszło 840 zł, bo „doszła geometria”, o którą nikt mnie nie pytał. Poczekalnia to jedno krzesło przy kompresorze.\n\nCzy wrócę? Może, jeśli nie będzie mi się spieszyć. Naprawa porządna, organizacja kiepska – w sumie wychodzi średnio."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_034",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "some value acknowledged ('kilka rzeczy się nauczyłem'), so not a disaster, but 'nie polecam' keeps it negative",
+      "state": {
+        "platform": "Trustpilot",
+        "review": "Kurs Pythona za 499 zł. Pierwsze moduły w porządku, ale od połowy nagrania są nieaktualne – kod z lekcji nie działa na nowej wersji biblioteki, a na pytania na forum kursu nikt nie odpowiada od miesięcy. Kilka rzeczy się nauczyłem, ale to nie jest warte tej ceny. Nie polecam."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_035",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "very positive and would return, but a few minor flaws explicitly keep it from flawless",
+      "state": {
+        "platform": "Airbnb",
+        "review": "We spent a week in this apartment in Kraków with friends and overall had a great time.\n\nThe positives first: the location is fantastic – a five-minute walk to the main square but on a quiet side street, so we slept well. The flat is bigger than it looks in the photos, the beds are comfortable, and the kitchen is properly equipped (real knives, a decent coffee machine, spices). The host, Ola, sent us a detailed guide with restaurant tips that turned out to be spot on, and she answered every message within minutes.\n\nA couple of small things kept it from being perfect. The shower pressure was weak in the mornings, the stairs to the third floor (no lift) were tough with heavy suitcases, and the Wi-Fi dropped a few times in the evenings when we were all on it. None of these spoiled the stay, but worth knowing if you need to work remotely.\n\nWould we stay again? Yes, happily – it just wasn't quite a flawless experience."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_036",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "dull decor criticised, but food rated very good; 'do ideału trochę brakuje' puts it below 5",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Bardzo dobre jedzenie: żeberka miękkie, frytki domowe, a sos BBQ robią sami. Wystrój nijaki, trochę jak w stołówce, ale przychodzi się tu jeść, nie oglądać. Bardzo dobre miejsce, choć do ideału trochę brakuje."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_037",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "praise refers to the old version; after the update the app is unusable",
+      "state": {
+        "platform": "Google Play",
+        "review": "Wcześniej świetna aplikacja, korzystałem codziennie. Po ostatniej aktualizacji w ogóle się nie uruchamia – biały ekran i wyrzuca. Od czterech dni nie mam jak sprawdzić rachunku, reinstalacja nie pomogła, infolinia każe czekać na poprawkę. Dramat, w tej chwili kompletnie bezużyteczna."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_038",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "one good dish does not lift it; 'raczej nie wrócę' is negative but mild, not a disaster",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Pierogi rozgotowane, farsz bez smaku, kotlet suchy. Barszcz za to naprawdę dobry. Raczej nie wrócę 😕"
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_039",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "complaints and modest praise balance; 'nothing to love, nothing to hate' is a neutral verdict",
+      "state": {
+        "platform": "Amazon",
+        "review": "Does what it says. The blender is loud and the jug scratches easily, but it makes decent smoothies and it was cheap. Nothing to love, nothing to hate."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_040",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a one-day courier delay is mentioned but dismissed; the product is praised without reservation",
+      "state": {
+        "platform": "Etsy",
+        "review": "The courier was a day late, but the shop emailed me before I even noticed, so no complaints there. The photo album itself is stunning – thick linen cover, perfect stitching, and the engraving is flawless. My mum cried when she opened it for her 70th. Absolutely perfect, thank you!"
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_041",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the owner's cheerful reply and 'sprzęt w porządku' are noise; the reviewer's verdict is a firm warning",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Klub fitness PowerZone – odradzam z całą stanowczością.\n\nUmowę wypowiedziałem w czerwcu, zgodnie z regulaminem, na piśmie, z potwierdzeniem odbioru. Mimo to w lipcu, sierpniu i wrześniu klub dalej pobierał ze mnie 139 zł miesięcznie. Na recepcji za każdym razem słyszałem, że „system jeszcze nie widzi wypowiedzenia” i że „trzeba wysłać maila do centrali”. Wysłałem trzy. Odpowiedź przyszła jedna, automatyczna. Pieniędzy do dziś nie odzyskałem, sprawa jest u rzecznika konsumentów.\n\nSama siłownia? Sprzęt w porządku, ale to już bez znaczenia, skoro firma w ten sposób traktuje klientów.\n\n---\nOdpowiedź właściciela:\nDziękujemy za Pana opinię! Cieszymy się, że docenił Pan nasz sprzęt. Zapraszamy ponownie i życzymy dalszych sukcesów treningowych! 💪\n\n---\nDopisek: Ta odpowiedź mówi wszystko. Nawet nie przeczytali, co napisałem."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_042",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "'terrible' opens a mock complaint; the joke is that the food is too good – 'best bao in town'",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Terrible. I now physically cannot walk past this place without going in, and my bank account hates me. Easily the best bao in town, and the staff remember my order. Ruined me for every other dumpling."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_043",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "emoji-only review; the neutral face expresses indifference, neither negative nor positive",
+      "state": {
+        "platform": "Google Play",
+        "review": "😐"
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_044",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "most complaints concern the train, weather and illness, not the hotel; the hotel itself is very good with one minor flaw",
+      "state": {
+        "platform": "Booking.com",
+        "review": "Ten wyjazd do Zakopanego był pechowy od początku do końca, ale – żeby było jasne – nie z winy hotelu. Pociąg miał trzy godziny opóźnienia, przez cały weekend lało, a w niedzielę kolejka na Kasprowy w ogóle nie jeździła przez wiatr. Do tego córka złapała przeziębienie i ostatni dzień spędziliśmy głównie w pokoju.\n\nI właśnie dlatego mogę dość dokładnie ocenić sam hotel. Pokój ciepły, czysty, z widokiem na Giewont (kiedy było go widać). Łóżka wygodne, w łazience wszystko działało. Recepcja przyniosła córce herbatę z miodem i cytryną, nie biorąc za to grosza. Śniadania bardzo dobre, regionalne sery i świeże pieczywo, choć wybór ciepłych dań mógłby być większy. Jedyna rzecz, która naprawdę przeszkadzała, to bardzo głośna wentylacja w łazience, której nie dało się wyłączyć.\n\nHotel oceniam bardzo dobrze i chętnie wrócę przy lepszej pogodzie – do pełni szczęścia zabrakło niewiele."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_045",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "'lepsza niż poprzednia wersja' sounds positive, but the final verdict is 'po prostu słabo'",
+      "state": {
+        "platform": "App Store",
+        "review": "Nowa wersja jest lepsza niż poprzednia, ale to żadna pochwała, bo tamta była tragiczna. Przynajmniej już się nie wysypuje. Nadal jednak wolno się ładuje, połowa ustawień zniknęła, a synchronizacja z zegarkiem działa co drugi raz. Z dramatu zrobiło się po prostu słabo."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_046",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "specs and screen are praised and it is 'not a disaster', but 'wouldn't buy it again, can't recommend' is clearly negative",
+      "state": {
+        "platform": "Amazon",
+        "review": "Bought the Vexon Air 14 for university after reading the spec sheet, and on paper it's a great deal: 16 GB RAM, 1 TB SSD, a lovely 2.8K screen, and under 1.3 kg. The screen really is gorgeous and it boots in seconds.\n\nThe problems started in the second week. The fan ramps up to full speed even when I'm just typing in a browser, and it's loud enough that people in the library turned around. Battery life is around four hours of light use, not the advertised twelve. The trackpad randomly stops responding until I close and reopen the lid – maybe once a day, once during an exam. Two driver updates later, nothing has changed. Support suggested a factory reset, which I did, with no effect.\n\nIt's not a disaster: it works, the screen is great, and for the price you get a lot of storage. But I wouldn't buy it again, and I can't recommend it to anyone who needs a reliable machine."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_047",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "Polish–English code-switching and slang without diacritics; '10/10, zero regrets' is top praise",
+      "state": {
+        "platform": "App Store",
+        "review": "mega spoko apka, UI super clean, sync z laptopem dziala instant, a support odpisal w 15 min w niedziele xD juz 3 tyg uzywam codziennie i nie mam do czego sie doczepic. 10/10, zero regrets"
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_048",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "very short; means even the single star the reviewer has to give is undeserved",
+      "state": {
+        "platform": "Allegro",
+        "review": "Szkoda nawet tej jednej gwiazdki."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_049",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "negation 'can't say I was disappointed' is positive; 'very happy, just not evangelical' places it at 4, not 5",
+      "state": {
+        "platform": "Trustpilot",
+        "review": "I can't say I was disappointed – quite the opposite – though it's not the life-changing mattress the ads promise. My back pain is noticeably better after a month and it sleeps cool. Very happy with it, just not evangelical."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_050",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "5-star food and 1-star service; the reviewer explicitly averages it to the middle of the scale",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Jedzenie na piątkę – kaczka idealnie różowa, deser genialny. Obsługa na jedynkę – kelnerka obrażona na cały świat, na rachunek czekaliśmy 40 minut, a o naszej rezerwacji nikt nie wiedział. Wychodzi gdzieś w połowie skali."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_051",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Bardzo dobry chleb na zakwasie i pyszne drożdżówki z rabarbarem. Ceny trochę wyższe niż w osiedlowej piekarni, ale jakość to rekompensuje. Polecam."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_052",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Play",
+        "review": "Constant crashes, lost all my saved data after the last update, and support never replied to three emails. Uninstalled. Avoid."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_053",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Allegro",
+        "review": "Wszystko idealnie! Wysyłka tego samego dnia, produkt dokładnie jak na zdjęciach, świetnie zapakowany. Sprzedawca godny polecenia, na pewno jeszcze tu kupię."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_054",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Seans w porządku, ale sala brudna, fotele poplamione, a nachosy czerstwe i drogie. Raczej słabe doświadczenie, następnym razem wybierzemy inne kino."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_055",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Steam",
+        "review": "Decent game. The story is fun for a few hours, combat gets repetitive, graphics are okay. Buy it on sale, not at full price. Very much middle of the road."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_056",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "long delivery saga; nothing positive at all and it ends with 'kategorycznie odradzam'",
+      "state": {
+        "platform": "Ceneo",
+        "review": "Zamówiliśmy narożnik „Lugano” za 3450 zł z terminem dostawy 3–4 tygodnie. Po pięciu tygodniach zadzwoniłam zapytać, co się dzieje – okazało się, że zamówienie „utknęło w systemie” i nikt nie przekazał go do produkcji. Obiecano przyspieszenie. Narożnik dotarł po jedenastu tygodniach.\n\nKurierzy wnieśli go na trzecie piętro, rzucili w przedpokoju i odjechali, choć w cenie miało być wniesienie i ustawienie. Po rozpakowaniu: rozdarta tapicerka na boku, jeden z modułów w innym odcieniu szarości niż reszta, a mechanizm spania zacina się tak, że trzeba go otwierać we dwoje. Reklamację ze zdjęciami zgłosiliśmy tego samego dnia.\n\nOd tamtej pory minęły trzy tygodnie. Sklep odpisał raz, że „sprawa została przekazana do producenta”. Producent twierdzi, że nic nie dostał. Na infolinii za każdym razem słyszę inną wersję.\n\nW skrócie: zapłaciliśmy prawie 3,5 tysiąca za uszkodzony mebel, którego nikt nie chce naprawić ani wymienić. Kategorycznie odradzam."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_057",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "'five stars isn't enough' means the maximum rating, not a complaint",
+      "state": {
+        "platform": "ZnanyLekarz",
+        "review": "Five stars isn't enough. Dr Nowak actually listened, explained everything in plain words and found the problem two other clinics had missed."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_058",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "competent teacher vs. crowded, stuffy room; the explicit verdict is 'ani rewelacja, ani rozczarowanie'",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Zajęcia jogi: prowadząca kompetentna i spokojna, ale grupa za duża – ponad 20 osób, więc korekt prawie nie ma. Sala ładna, tylko pod koniec robi się duszno. Cena karnetu w normie. Ani rewelacja, ani rozczarowanie."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_059",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "two clear flaws (slow middle, rushed ending) but strong praise; 'bardzo dobra, choć do arcydzieła brakuje' = 4",
+      "state": {
+        "platform": "Lubimyczytać",
+        "review": "„Zima w Ostrej Górze” to trzecia powieść autorki i moim zdaniem najlepsza. Klimat małego miasteczka na Podhalu oddany jest świetnie – czuć mróz, zapach dymu z kominów i to, że wszyscy wszystko o sobie wiedzą. Główna bohaterka, komisarz Hanna Wrona, jest wreszcie postacią z krwi i kości, a nie zbiorem traum, a jej relacja z ojcem to najmocniejszy wątek książki.\n\nIntryga kryminalna jest pomysłowa i aż do ostatnich rozdziałów nie domyśliłam się, kto stoi za zaginięciami. Mam jednak dwa zastrzeżenia. Środkowa część się dłuży – mniej więcej sto stron, w których niewiele się dzieje poza kolejnymi przesłuchaniami. Do tego finał jest trochę zbyt pospieszny, jakby autorce skończyło się miejsce.\n\nMimo tych wad czytało mi się ją z ogromną przyjemnością i polecam każdemu, kto lubi skandynawskie klimaty w polskim wydaniu. Bardzo dobra książka, choć do arcydzieła trochę jej brakuje."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_060",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "friendly reception acknowledged, but the stay is called a disappointment; 'choć nie dramat' rules out the lowest rating",
+      "state": {
+        "platform": "Booking.com",
+        "review": "Recepcja bardzo miła, to muszę przyznać. Ale klimatyzacja w pokoju nie działała przy 34 stopniach na zewnątrz, a zmiana pokoju „nie była możliwa”. Dostaliśmy wiatrak. Śniadanie poprawne. Za 600 zł za noc to jednak rozczarowanie, choć nie dramat."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_061",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a thin-bass reservation keeps it from unreserved praise; 'more than happy' is clearly positive",
+      "state": {
+        "platform": "Amazon",
+        "review": "Great little Bluetooth speaker for the price. Surprisingly full sound, properly waterproof, pairs instantly. The bass gets a bit thin at high volume, but for 30 quid I'm more than happy."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_062",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "very short with emoji; the superlative 'najlepsze… koniec dyskusji' is top praise",
+      "state": {
+        "platform": "Google Maps",
+        "review": "😍😍😍 Najlepsze lody w Trójmieście, koniec dyskusji."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_063",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "the knowledgeable guide is praised, but overall the tour fell short and would not be rebooked",
+      "state": {
+        "platform": "TripAdvisor",
+        "review": "The guide clearly knew his stuff and told some great stories. But the bus was 50 minutes late, half the stops were skipped 'due to time', and lunch was a sad cling-film sandwich. Not what we paid for, and I wouldn't book it again."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_064",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "'polecam z całego serca' is sarcastic – recommended only to people who want to waste money",
+      "state": {
+        "platform": "Allegro",
+        "review": "Polecam z całego serca – każdemu, kto chce wyrzucić 300 zł w błoto. Buty rozkleiły się po dwóch tygodniach chodzenia po mieście, a reklamację odrzucono jako „niewłaściwe użytkowanie”."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_065",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "'może być' and 'bez fajerwerków' are lukewarm, not positive",
+      "state": {
+        "platform": "Pyszne.pl",
+        "review": "Może być. Smakowo poprawnie, ale bez fajerwerków, porcja w sam raz, cena przeciętna, dowóz zgodnie z czasem."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_066",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "most of the text lists failures of three other repair shops; this one is praised with 'nie mam ani jednej uwagi'",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Zanim tu trafiłem, przeszedłem przez trzy inne serwisy i każdy był gorszy od poprzedniego. W pierwszym telefon leżał dwa tygodnie, po czym oddano mi go z informacją, że „płyta główna do wymiany, 900 zł”. W drugim wymieniono mi ekran na zamiennik tak kiepski, że dotyk nie działał w rogach, a gwarancji „nie było”. W trzecim po prostu nie odbierali telefonu. Byłem już przekonany, że muszę kupić nowy telefon.\n\nW serwisie FixLab przy Długiej pan Krzysztof obejrzał telefon przy mnie, w pięć minut stwierdził, że problemem jest tylko zalane kawą złącze ładowania, wyczyścił je i wymienił taśmę. Zapłaciłem 120 zł, czekałem 40 minut, dostałem 6 miesięcy gwarancji na piśmie i jeszcze krótką instrukcję, jak dbać o port. Telefon działa od dwóch miesięcy jak nowy.\n\nUczciwość, wiedza, szybkość i normalne ceny. Nie mam ani jednej uwagi. Od teraz tylko tu."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_067",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "formal 'thank you' tone is sarcasm; hidden fees, no refund and 'never again' make it very negative",
+      "state": {
+        "platform": "Trustpilot",
+        "review": "I would like to sincerely thank the management of Sunbay Holiday Park for teaching my family a valuable lesson about reading the small print. The 'all-inclusive' price turned out to exclude towels, Wi-Fi, the pool after 4 pm and, apparently, hot water. When the heating failed on our second night, we were offered a complimentary drinks voucher – valid only at the bar that was closed for the season. Lesson learned: never again."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_068",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "double negation: not disappointed, but explicitly not delighted either – a neutral verdict",
+      "state": {
+        "platform": "Ceneo",
+        "review": "Nie mogę powiedzieć, żebym był rozczarowany – czajnik gotuje szybko i nie przecieka. Ale zachwycony też nie jestem: jest głośny, a plastik po tygodniu lekko pachnie przy gotowaniu. Spełnia swoją funkcję i tyle."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_069",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the EDIT raises the rating, but only by one star from one, and the reviewer still cannot recommend it",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Oddałem do pralni chemicznej garnitur (wełna, jasny beż) do czyszczenia przed weselem brata. Odebrałem go z żółtą plamą na klapie, której wcześniej nie było, i z wyraźnie skurczonymi rękawami marynarki. Pani przy ladzie stwierdziła, że „wełna tak ma” i że plama „musiała być wcześniej”. Na wesele poszedłem w pożyczonym garniturze. Jedna gwiazdka i serdecznie odradzam.\n\nEDIT po dwóch tygodniach: Właściciel skontaktował się ze mną po przeczytaniu opinii, przeprosił za zachowanie pracownicy i zwrócił mi koszt usługi (85 zł) oraz 300 zł na poczet garnituru, który kosztował 1400 zł. Doceniam, że w ogóle zareagował, dlatego podnoszę ocenę o jedną gwiazdkę. Ale garnitur nadal jest zniszczony, a rekompensata pokrywa ułamek strat, więc polecić tej pralni nie mogę."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_070",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "opens with a rude phone call, but the visit itself was excellent; the reviewer knocks off exactly one star",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Honestly, after the phone call I almost cancelled. I rang to book a table for six for my dad's birthday and the man who answered was curt to the point of rude, told me they 'don't do special requests' when I asked about a cake, and hung up before I could confirm the time. I had to ring back to check the booking even existed.\n\nThe evening itself could not have been more different. Our waitress, Kasia, had clearly been told about the birthday and brought out a small candle on dad's dessert without us asking. The food was excellent – the beef cheeks fell apart, the duck pierogi were the best I've had in years, and her wine suggestions were spot on. Portions were generous, prices fair for the quality, and we never waited long between courses.\n\nI'm knocking one star off purely for that phone call, because it really did nearly put us off. Everything that happened inside the restaurant deserved full marks, and we'll definitely be back."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_071",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "slang without diacritics; 'zwracam i tyle, szkoda gadac' after a list of failures is the most negative verdict",
+      "state": {
+        "platform": "Allegro",
+        "review": "XD serio? dalem 400 zl a dziala gorzej niz moj stary za 50. bateria 2h, ekran mruga, kamera rozmazana jak przez sloik. zwracam i tyle, szkoda gadac"
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_072",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "unfavourable comparison with their other location, but the verdict is 'jedna z lepszych w Warszawie, polecam'",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Nie tak dobra jak ich lokal na Mokotowie – bulion odrobinę mniej intensywny, a jajko lekko przegotowane. Ale i tak to jedna z lepszych ramenowni w Warszawie, obsługa szybka i serdeczna. Polecam."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_073",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the original 4-star text is superseded by the EDIT that updates to 5",
+      "state": {
+        "platform": "Amazon",
+        "review": "Originally gave this mesh router kit 4 stars because the setup app was confusing and one node wouldn't pair. EDIT: support called me back the next morning, walked me through it in ten minutes, and coverage is now flawless across all three floors. Updating to 5."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_074",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "polite, restrained tone; decor and service praised, but the food (the point of a restaurant) is below expectations and 'raczej nie wrócę'",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Nie mam zwyczaju pisać krytycznych opinii, więc postaram się uczciwie. Wystrój i obsługa zdecydowanie na plus. Niestety jedzenie wyraźnie poniżej oczekiwań: risotto rozgotowane, dorsz bez smaku, a deser wyglądał lepiej, niż smakował. Szkoda, bo miejsce ma potencjał, ale na razie raczej nie wrócę."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_075",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "long list of pros and cons; the verdict 'an average business hotel, no more, no less' fixes the middle",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Stayed three nights at the Riverside Conference Hotel for an industry event held on site. Mixed bag.\n\nGood: the conference rooms are well equipped, projectors and mics all worked, and the coffee breaks were plentiful. The location next to the station is very convenient, and check-in was quick despite a big group arriving at once.\n\nLess good: my room was clearly due for renovation – worn carpet, a desk lamp that didn't work and a window that wouldn't fully close, so the traffic noise came in all night. Breakfast was the same every day and ran out of eggs by 8:30. The bar closed at 22:00, which is odd for a conference hotel where everyone wants to network in the evening. Wi-Fi in the rooms was slow, though fine in the conference area.\n\nFor a work event it did the job. I wouldn't choose it for a private trip, but I wouldn't actively avoid it either – it's an average business hotel, no more, no less."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_076",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Rejestracja niemiła, lekarz spóźniony godzinę, a sama wizyta trwała trzy minuty. Najgorsza przychodnia, w jakiej byłem. Dałbym zero gwiazdek, gdyby się dało."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_077",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Booking.com",
+        "review": "Perfect stay! Spotless room, amazing breakfast, and the staff went above and beyond to help us. Can't wait to come back."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_078",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Play",
+        "review": "Gra całkiem przyjemna na kilka minut w autobusie, ale reklamy co trzy poziomy męczą. Grafika ładna, poziomy dość powtarzalne. Średniak."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_079",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Coffee was bitter and the croissant stale. Staff seemed uninterested. Not great, probably won't return."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_080",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "platform": "Allegro",
+        "review": "Fajny plecak, pojemny i wygodny, dużo kieszeni. Materiał mógłby być trochę grubszy, ale za tę cenę jest naprawdę dobrze. Polecam."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_081",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "long account with no redeeming element; the hotel's polite template reply is not a positive",
+      "state": {
+        "platform": "Booking.com",
+        "review": "Booked the 'Superior Sea View Room' at Hotel Marina Bay for our tenth anniversary, paying a premium of €80 per night over the standard room.\n\nOn arrival we were given a ground-floor room facing the car park and the bins. Reception said the sea-view rooms were 'overbooked' and promised to move us the next day. The next day the manager was 'unavailable', and the day after that we were told the matter had been 'resolved' because we had 'accepted the room by staying in it'.\n\nThe room itself had a broken air conditioner, a shower that alternated between freezing and scalding, and a strong smell of damp. Housekeeping skipped us twice. At breakfast, the 'gourmet buffet' was down to tinned fruit and dry rolls by 9 am.\n\nAfter we got home I emailed asking for a refund of the difference. The reply, in full: 'Dear Guest, thank you for choosing Hotel Marina Bay. We hope to welcome you again soon.' I have since written twice more and heard nothing.\n\nOur anniversary trip was ruined and the hotel doesn't care. Please book anywhere else."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_082",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "the idiom 'nic dodać, nic ująć' means nothing to improve – top praise",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Nic dodać, nic ująć. Masaż leczniczy pleców zrobiony fachowo, pani fizjoterapeutka dokładnie wypytała o dolegliwości, a po dwóch wizytach ból zniknął. Do tego punktualnie i w miłej atmosferze."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_083",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "pros acknowledged and 'nie zupełnie zmarnowane pieniądze', but the reviewer won't renew and 'raczej nie polecam'",
+      "state": {
+        "platform": "Google Play",
+        "review": "Kupiłam roczną subskrypcję LinguaGo do nauki hiszpańskiego (299 zł) i po trzech miesiącach mam mieszane, ale raczej negatywne odczucia.\n\nNa plus: aplikacja jest ładna, lekcje krótkie, więc łatwo wpleść je w dzień, a powtórki słówek działają nieźle – faktycznie zapamiętałam sporo słownictwa.\n\nNa minus – i to są dla mnie rzeczy ważniejsze: gramatyka praktycznie nie jest tłumaczona, tylko „wyczuwana z przykładów”, więc po trzech miesiącach dalej nie wiem, kiedy użyć którego czasu przeszłego. Rozpoznawanie mowy zalicza mi zdania, które wymawiam ewidentnie źle, a odrzuca poprawne. Moduł konwersacji z „AI-tutorem” zawiesza się co drugą sesję. Na zgłoszenie błędu dostałam odpowiedź po 12 dniach z prośbą o reinstalację.\n\nNie powiem, że to zupełnie zmarnowane pieniądze, bo słówka zostały w głowie. Ale za tę cenę oczekiwałam znacznie więcej i subskrypcji nie przedłużę. Raczej nie polecam."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_084",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "'it's fine' and 'does the job' are neutral, not a recommendation",
+      "state": {
+        "platform": "Google Maps",
+        "review": "It's fine. Equipment is a bit dated but everything works, it's rarely packed, and the changing rooms could be cleaner. Does the job for the price."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_085",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "very warm review, but the explicit verdict 'prawie idealnie' with two minor minuses puts it at 4, not 5",
+      "state": {
+        "platform": "Booking.com",
+        "review": "Spędziliśmy tydzień w pensjonacie Trzy Sosny nad Śniardwami i to był bardzo udany urlop. Pokój z balkonem prosto na jezioro, codziennie sprzątany, łóżko wygodne, ciepła woda bez żadnych kaprysów. Gospodarze, pani Ewa i pan Zbyszek, to przemili ludzie – pożyczyli nam rowery i kajak, doradzili trasy, a jednego wieczoru zaprosili wszystkich gości na ognisko z kiełbaskami.\n\nŚniadania domowe i obfite: jajecznica na maśle, wędzona ryba z pobliskiej wędzarni, konfitury pani Ewy. Obiadokolacje równie dobre, choć menu powtarzało się co trzy dni i pod koniec tygodnia jedliśmy niektóre dania drugi raz.\n\nDo minusów zaliczyłabym tylko dwie drobne rzeczy: Wi-Fi w pokojach ledwo działało (w jadalni było w porządku) i komary wieczorami – choć na to akurat gospodarze niewiele poradzą, a moskitiery w oknach były.\n\nPrawie idealnie. Na pewno wrócimy, może na dłużej."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_086",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "very short; 'ściema' and no goods, no contact, no refund describe a scam",
+      "state": {
+        "platform": "Allegro",
+        "review": "Jedna wielka ściema. Zero kontaktu, zero towaru, zero zwrotu pieniędzy."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_087",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "'a few rough edges' is a minor reservation; the reviewer is happy and recommends it",
+      "state": {
+        "platform": "App Store",
+        "review": "Does 90% of what the expensive photo editors do for a fraction of the price. A few rough edges in the export menu, but I'm happy with it and would recommend it to hobbyists."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_088",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "patient instructor vs. cancelled lessons; the reviewer can't say whether they'd recommend it – neutral",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Kurs prawa jazdy: instruktor cierpliwy i dobrze tłumaczy, ale samochód często był w naprawie i jazdy kilka razy przekładano. Zdałem za drugim podejściem. Ogólnie poprawnie, a czy poleciłbym? Sam nie wiem."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_089",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "the complaint about parking is explicitly not the restaurant's fault; the reviewer gives the full five",
+      "state": {
+        "platform": "Google Maps",
+        "review": "Daję pełne pięć, choć muszę ponarzekać na parking – ale to nie wina restauracji, tylko miasta. W środku wszystko perfekcyjne: tatar, polędwica, obsługa i wino."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_090",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "wanting to love it and 'a good game buried in here' are hopes; the verdict 'can't recommend it' is negative but not hateful",
+      "state": {
+        "platform": "Steam",
+        "review": "I really wanted to love this – I backed it on Kickstarter. But it's buggy, the save system loses progress, and the promised co-op still isn't there a year after launch. There's a good game buried in here somewhere, it just isn't finished. Can't recommend it in this state."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_091",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the original rating is 1; the EDIT explicitly changes it to 3 (product okay, service poor)",
+      "state": {
+        "platform": "Allegro",
+        "review": "Pierwotna opinia: Odkurzacz pionowy przyszedł bez ładowarki. Napisałem do sprzedawcy – cisza. Zadzwoniłem – „sprawdzimy”. Po tygodniu dalej nic. Sprzęt bez ładowarki to dla mnie cegła za 799 zł. Ocena: 1.\n\nEDIT po trzech tygodniach: Ładowarka w końcu dotarła, wysłana z magazynu producenta, a nie od sprzedawcy, i to dopiero po mojej trzeciej wiadomości. Sam odkurzacz okazał się przyzwoity: ciągnie dobrze, bateria wystarcza na całe mieszkanie, choć pojemnik jest mały i trzeba go opróżniać w trakcie sprzątania. Nie jest to sprzęt, który bym komuś szczególnie polecał, ale też nie mam już powodu odradzać. Zmieniam ocenę na 3 – produkt w porządku, obsługa kiepska, nerwy zostały."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_092",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "'amazing' and 'world-class' with clapping emoji are sarcastic; charged for a delivery that never came",
+      "state": {
+        "platform": "Trustpilot",
+        "review": "Wow, amazing service 🙃 Waited in all day for a 'priority' delivery that never came, then got charged the priority fee anyway. Truly world-class 👏👏"
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_093",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "opening caveats (price, not for everyone) are not complaints; 'nie znalazłem nic, co bym zmienił' and 'najlepszy zakup' = 5",
+      "state": {
+        "platform": "Ceneo",
+        "review": "Nie jest tania i nie jest dla każdego – do twardego skoku klawiszy trzeba się przyzwyczaić. Ale po miesiącu nie wyobrażam sobie pisania na innej klawiaturze. Nie żałuję ani złotówki i nie znalazłem nic, co bym w niej zmienił. Najlepszy zakup do biura od lat."
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_094",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "would buy again 'without a second thought', but explicitly not flawless: 'very good with a few frustrations' = 4",
+      "state": {
+        "platform": "Amazon",
+        "review": "I've shot with the Orbis M5 for two months now, mainly street photography and a couple of weddings as a second shooter, so here's a proper review rather than an unboxing.\n\nImage quality is excellent. The 33 MP sensor gives clean files up to ISO 6400 and very usable ones at 12800, and the colours straight out of the camera are lovely – I've barely touched my presets. Autofocus is the big step up from my old M3: eye detection locks on even in dim reception halls and tracks people walking towards me without hunting. The body is weather-sealed and survived a drizzly outdoor ceremony with no issues.\n\nIt's not perfect, though. Battery life is mediocre – I needed three batteries for a full wedding day. The menus are still a maze, and the rear screen only tilts, which is annoying for vertical shots. At this price I'd also expect two card slots of the same type, not one fast and one slow.\n\nWould I buy it again? Yes, without a second thought. Is it the flawless camera some reviewers make it out to be? No. A very good camera with a few real frustrations."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_095",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the product itself would get zero, but the reviewer explicitly awards two stars (delivery and packaging)",
+      "state": {
+        "platform": "Allegro",
+        "review": "Dwie gwiazdki: jedna za błyskawiczną dostawę, druga za ładne opakowanie. Za sam blender nie dałbym ani jednej – po tygodniu pęknięty dzbanek i swąd spalenizny."
+      },
+      "answer": 1
+    },
+    {
+      "id": "review_sentiment_096",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "understated, hesitant opening; a cockroach, leaving a day early and demanding a refund make it the lowest rating",
+      "state": {
+        "platform": "Booking.com",
+        "review": "Hmm. Cóż. Powiedzmy, że nie tego spodziewałam się po hotelu z pięcioma gwiazdkami na szyldzie. Karaluch w łazience pierwszej nocy, drugi w szafie następnego dnia, a recepcja zaproponowała „spray z apteki”. Wyjechaliśmy dzień wcześniej i domagamy się zwrotu za cały pobyt. Nikomu nie życzę."
+      },
+      "answer": 0
+    },
+    {
+      "id": "review_sentiment_097",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "glowing review, but the reviewer says the two-day delay cost them the full set of stars – 4, not 5",
+      "state": {
+        "platform": "Oferteo",
+        "review": "Firma MebloStyl robiła nam zabudowę kuchni na wymiar w mieszkaniu w bloku z lat 70., gdzie żadna ściana nie jest prosta – i poradzili sobie znakomicie.\n\nPan Tomek przyjechał na pomiar dzień po telefonie, zaproponował dwa warianty rozmieszczenia szafek i doradził, żeby zrezygnować z narożnej karuzeli na rzecz cargo, co okazało się świetnym pomysłem. Projekt 3D dostaliśmy w tydzień, z możliwością dwóch bezpłatnych poprawek. Wycena była przejrzysta i końcowa faktura zgadzała się z nią co do złotówki.\n\nMontaż zaplanowany na poniedziałek przesunął się o dwa dni, bo hurtownia spóźniła się z blatem – firma dała nam znać dopiero w niedzielę wieczorem, a ja miałam już wzięty urlop. Sam montaż trwał dwa dni, panowie sprzątnęli po sobie wszystko, a fronty są spasowane idealnie, mimo krzywych ścian.\n\nPo pół roku użytkowania wszystko działa, zawiasy i prowadnice chodzą cicho. Bardzo dobra, rzetelna firma i polecam ją z czystym sumieniem. Gdyby nie to przesunięcie terminu ogłoszone w ostatniej chwili, dałabym komplet gwiazdek."
+      },
+      "answer": 3
+    },
+    {
+      "id": "review_sentiment_098",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "emoji-only review; heart eyes, OK hand and 100 together express top praise",
+      "state": {
+        "platform": "Google Maps",
+        "review": "😍👌💯"
+      },
+      "answer": 4
+    },
+    {
+      "id": "review_sentiment_099",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "comparisons point both ways (better than cheap, worse than expensive); 'you get what you pay for' at a middle price is neutral",
+      "state": {
+        "platform": "Amazon",
+        "review": "Better than the cheap ones, worse than the expensive ones, and priced exactly in between. Picks up dust fine, struggles with pet hair. You get what you pay for."
+      },
+      "answer": 2
+    },
+    {
+      "id": "review_sentiment_100",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "written without diacritics; pros and a helpful seller are listed and 'nie totalny bubel', but 'rozczarowanie, nie polecilbym' = negative",
+      "state": {
+        "platform": "Allegro",
+        "review": "kupilem ta kierownice do gier (GT-Pro 900) bo na yt wszyscy chwalili. pisze po 3 tyg uzywania.\n\nplusy: wyglada dobrze, pedaly solidne, metalowe, w grach wyscigowych dziala od razu bez kombinowania, sterowniki zainstalowaly sie same. force feedback jest, czuc tarke i krawezniki.\n\nminusy: no i tu sie zaczyna. kierownica ma luz ok 3-4 stopni na srodku, czyli jak jedziesz prosto to auto plywa. przy mocniejszym FFB slychac zebatki, taki terkot, ze zona z drugiego pokoju pyta co sie dzieje. przyssawki do biurka trzymaja slabo, w ferworze walki cala kierownica sie przesuwa, musialem dokupic scisk za 40 zl. a lopatki do zmiany biegow po 2 tyg zaczely skrzypiec.\n\nsprzedawca odpisal szybko i grzecznie, zaproponowal zwrot, ale juz wyrzucilem karton wiec sie nie da.\n\npodsumowujac: nie jest to totalny bubel, da sie grac, ale za 1100 zl to rozczarowanie i znajomym bym jej nie polecil."
+      },
+      "answer": 1
+    }
+  ]
+}

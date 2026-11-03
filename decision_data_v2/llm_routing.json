@@ -1,0 +1,1116 @@
+{
+  "id": "llm_routing",
+  "name": "LLM gateway: wybór modelu",
+  "description": "Whether the model can route a user request to the right model tier (small, large, code, web search or human).",
+  "type": "choice",
+  "instructions": "Which model tier should handle this request?",
+  "criteria": {
+    "small_model": "Short, simple tasks: greetings, quick stable facts, rephrasing, short translation, simple formatting",
+    "large_model": "Multi-step reasoning, long documents, analysis, planning, nuanced writing or advice without code",
+    "code_model": "Writing, fixing, explaining or reviewing source code, SQL, regex, shell scripts, configs",
+    "web_search": "Needs current information: news, prices, rates, weather, schedules, recent releases, live status",
+    "human_handoff": "Needs a human: account-specific actions, legal or medical emergencies, explicit request to talk to a person, complaints"
+  },
+  "items": [
+    {
+      "id": "llm_routing_001",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Dzień dobry! Dzięki za wczorajszą pomoc z mailem, miłego dnia :)"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_002",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "no code pasted and sounds like a data question, but it is fixing pandas code",
+      "state": {
+        "request": "My pandas groupby().mean() silently drops the 'price' column. I think it's because some rows have 'n/a' instead of a number. How do I clean that column and get the mean price per category?"
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_003",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "Python topic suggests code_model, but the ask is the current release status of a new version",
+      "state": {
+        "request": "Siedzę na Pythonie 3.12 i zastanawiam się, czy już opłaca się przeskoczyć. Czy wyszła już stabilna wersja 3.15, a jeśli tak, to kiedy dokładnie? Nie potrzebuję kodu, tylko tej informacji."
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_004",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Proszę o połączenie z konsultantem, wolę porozmawiać z człowiekiem."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_005",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "landlord dispute looks like a complaint for human_handoff, but the user wants analysis and a drafted reply to a third party, no action on any account",
+      "state": {
+        "request": "Can you help me with this? Below is the thread with my landlord. I don't want you to contact anyone, I just need to understand where I stand and draft my reply.\n\n---\nFrom: Marek Zielony <m.zielony@najem.example>\nSent: Monday 09:12\nSubject: RE: RE: Rent from January\n\nHello,\nas I wrote before, the rent will go up from 2,400 to 3,100 PLN from January. This is the market price now. If you do not accept it, please let me know by the end of the month, then I will look for a new tenant.\nRegards, M.Z.\n\n> On Friday you wrote:\n> Dear Mr Zielony, our contract (signed in March, fixed term until next August) says the rent can be indexed once a year by the CPI. 29% is not CPI. Could you explain the basis for this increase?\n>\n> > On Thursday Marek Zielony wrote:\n> > Hello, information: from January new rent 3,100 PLN. Utilities as before.\n\n---\n\nWhat I need: 1) in general terms, can he do this with a fixed-term contract that has an indexation clause, 2) what are my options if he insists, and 3) a polite but firm reply that doesn't burn the bridge, because otherwise I really like the flat and would happily stay another two years. Thanks!"
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_006",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "editing request could look like nuanced writing, but it is a one-sentence punctuation fix",
+      "state": {
+        "request": "Popraw interpunkcję w zdaniu: Jutro o ósmej spotykamy się przed szkołą więc nie spóźnij się bo autokar nie będzie czekał"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_007",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "panic and business-outage tone suggests human_handoff or live status, but it is debugging the user's own nginx config (proxy_pass port 8080 vs 8081)",
+      "state": {
+        "request": "Ludzie, ratunku. Od rana sklep leży, szef dzwoni co 10 minut, klienci piszą na fejsie, że nie mogą zapłacić, a ja już nie wiem, co robić. Wczoraj wieczorem zmieniałem konfigurację, bo przenosiliśmy aplikację na nowy port, i od tego czasu każda strona zwraca 502 Bad Gateway. Aplikacja sama działa, jak zrobię curl localhost:8081 na serwerze, to odpowiada normalnie. Oto config:\n\nserver {\n    listen 443 ssl;\n    server_name sklep.example;\n    ssl_certificate /etc/ssl/sklep.crt;\n    ssl_certificate_key /etc/ssl/sklep.key;\n\n    location / {\n        proxy_pass http://127.0.0.1:8080;\n        proxy_set_header Host $host;\n        proxy_set_header X-Forwarded-Proto https;\n    }\n\n    location /static/ {\n        alias /srv/sklep/static/;\n    }\n}\n\nCo tu jest nie tak i jak to poprawić? Proszę o konkretną poprawioną wersję pliku, bo nie mam głowy do czytania dokumentacji."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_008",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Przygotuj szczegółowy plan migracji biura na 40 osób z lokalnego serwera plików do chmury: etapy, harmonogram, ryzyka, szkolenia dla pracowników i plan komunikacji z zespołem."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_009",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "What's the weather going to be like in Gdańsk tomorrow afternoon?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_010",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "reads like a billing question, but it requires a refund action on the user's own account",
+      "state": {
+        "request": "Your app charged me twice for the March subscription (two identical payments on the 3rd). Please refund one of them to my card."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_011",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "SQL keyword suggests code_model, but it is a one-line stable fact with no code",
+      "state": {
+        "request": "Szybkie pytanie, bez wykładu i bez przykładów kodu: co oznacza skrót SQL? Samo rozwinięcie."
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_012",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "salary numbers suggest a quick calculation, but it is a multi-factor life decision",
+      "state": {
+        "request": "Potrzebuję pomocy z decyzją, bo kręcę się w kółko od tygodnia. Mam dwie oferty.\n\nOferta A: korporacja w Warszawie, 14 500 zł brutto na umowie o pracę, hybryda 3 dni w biurze, prywatna opieka medyczna, multisport, dojazd z Grodziska ok. 50 minut w jedną stronę. Stanowisko analityka, ale bez ludzi pod sobą. Rekruterka mówiła, że awans na seniora realnie po 2 latach.\n\nOferta B: mały software house z Wrocławia, 17 000 zł netto na B2B, w pełni zdalnie, bez płatnego urlopu (mówią, że „można się dogadać”), stanowisko lidera zespołu 4 osób. Firma ma 3 lata, główny klient to jeden bank.\n\nMam 34 lata, żonę na macierzyńskim i kredyt hipoteczny na 25 lat. Cenię stabilność, ale chcę też rozwijać się w kierunku zarządzania. Pomóż mi to rozpisać: realne porównanie finansowe, ryzyka, co zyskuję i tracę w każdym wariancie i o co jeszcze dopytać obie firmy przed decyzją."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_013",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Write a regex that matches Polish postal codes in the format 00-950."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_014",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "looks like a quick fact, but fuel prices change daily",
+      "state": {
+        "request": "Ile dziś kosztuje litr benzyny 95 na stacjach Orlenu?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_015",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the quoted thread is a simple product how-to, but the newest message is a medical emergency in progress",
+      "state": {
+        "request": "Tata zemdlał, leży na podłodze w kuchni i dziwnie oddycha, nie reaguje, jak do niego mówię. Opaska nie wysłała żadnego alarmu!!! Co mam robić??\n\n-----\nW dniu 12.10 o 18:40 Zespół Wsparcia SmartOpaska <pomoc@smartopaska.example> napisał:\n> Dzień dobry,\n> dziękujemy za pytanie o funkcję wykrywania upadku. Funkcja jest dostępna w modelach S2 i S3 od wersji oprogramowania 4.1. Aby ją włączyć, przejdź w aplikacji do Ustawienia > Bezpieczeństwo > Wykrywanie upadku i dodaj co najmniej jeden kontakt alarmowy. Czułość można regulować w trzech poziomach.\n> Pozdrawiamy, Zespół Wsparcia\n>\n> W dniu 11.10 o 21:02 użytkownik napisał:\n>> Dzień dobry, kupiłam opaskę dla taty (78 lat). Czy ten model ma wykrywanie upadku i jak to ustawić? Czy da się zmienić czułość, bo tata sporo gestykuluje i boję się fałszywych alarmów?\n>> Pozdrawiam, Anna\n\n--\nWysłane z telefonu"
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_016",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "translation could be sent to large_model, but it is one short sentence",
+      "state": {
+        "request": "Translate into German, please: 'The meeting has been moved to Thursday at 10.'"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_017",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "Fortran and programming anecdotes suggest code_model, but the task is writing a nuanced eulogy",
+      "state": {
+        "request": "Za trzy dni pogrzeb mojego dziadka i rodzina poprosiła, żebym coś powiedział. Dziadek Henryk był inżynierem w hucie, w latach 70. pisał programy w Fortranie na kartach perforowanych i śmiał się, że jeden błąd w kodzie kosztował go tydzień czekania na maszynę. Uczył mnie szachów i nigdy nie dawał wygrać. Chcę, żeby przemówienie trwało 3–4 minuty, było ciepłe, z delikatnym humorem, ale bez kpiny, i żeby na końcu było coś dla babci. Pomożesz?"
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_018",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "an explanation request could look like small_model, but explaining a shell command belongs to code_model",
+      "state": {
+        "request": "Wytłumacz mi krok po kroku, co robi ta komenda: awk -F: '$3 >= 1000 {print $1}' /etc/passwd"
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_019",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "'just the number' and a remembered value suggest a quick fact, but it asks for the outcome of this week's rate decision",
+      "state": {
+        "request": "I remember the Bank of England kept the base rate at 4% for a while. Is that still the case after this week's MPC decision? Just the number please."
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_020",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "short and simple like small_model, but it is an action on the user's own order",
+      "state": {
+        "request": "Zmieńcie mi proszę adres dostawy w zamówieniu nr 48812 na ul. Testowa 7, 00-001 Przykładowo. Paczka jeszcze nie wyszła."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_021",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "sarcastic thanks reads like small talk, but it is a complaint about an unresolved refund on the user's order",
+      "state": {
+        "request": "Dziękuję bardzo za kolejną „pomoc”. Trzeci raz dostaję tę samą formułkę z FAQ, a zwrotu za oddany odkurzacz jak nie było, tak nie ma. Naprawdę cudowna obsługa, tak trzymać."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_022",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "a long product document suggests large_model analysis, but the requested deliverable is SQL DDL",
+      "state": {
+        "request": "Context from our product doc (v0.3):\n\nBookly is a booking tool for small physiotherapy clinics. Each clinic has several therapists; each therapist has a weekly availability template (e.g. Mon 8-14, Wed 12-18) and ad-hoc exceptions (holidays, sick days). Patients book visits of a given service type (consultation 30 min, therapy 50 min, massage 60 min). A visit has a status: booked, confirmed, cancelled_by_patient, cancelled_by_clinic, no_show, done. Clinics want to see no-show rates per patient and per therapist. A patient can belong to multiple clinics (franchise), but clinical notes must never be visible across clinics. Payments are out of scope for v1, but leave room for a visit price snapshot (price can change over time, the visit keeps the price from booking time). Audit: every status change must keep who changed it and when.\n\nWe've discussed the product side to death already, so I don't need opinions on the business model or the roadmap. Please give me the PostgreSQL schema: CREATE TABLE statements with keys, constraints and indexes that support the no-show reports, plus a short comment on how the status history table works."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_023",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "software architecture topic suggests code_model, but the user explicitly wants analysis for a memo without code",
+      "state": {
+        "request": "Explain the trade-offs between microservices and a modular monolith for a 6-person startup that expects maybe 10x growth in two years. No code, please – this goes into a memo for our non-technical board."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_024",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "sounds like a stable fact, but it needs today's train timetable",
+      "state": {
+        "request": "O której odjeżdża dziś ostatni pociąg z Warszawy Centralnej do Łodzi Fabrycznej?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_025",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "'skrypt', 'serwer' and 'błędy' suggest code_model, but the task is rephrasing one sentence",
+      "state": {
+        "request": "Przepisz to zdanie bardziej formalnie, do maila do klienta: „Ziom, wywalcie ten skrypt z serwera, bo sypie błędami.”"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_026",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Good morning! Just dropping in to say hi before I start work."
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_027",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a language question may seem to need analysis, but it is a stable spelling rule",
+      "state": {
+        "request": "Jak się poprawnie pisze: „na pewno” czy „napewno”?"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_028",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "shopping context may look like planning, but it is just turning a list into bullets",
+      "state": {
+        "request": "Turn this into a bulleted list: eggs, milk, two lemons, flour, baking powder, vanilla sugar"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_029",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "a long quoted email thread suggests large_model, but the only task is translating one short sentence",
+      "state": {
+        "request": "Wklejam cały wątek dla kontekstu, ale potrzebuję tylko jednego: przetłumacz na angielski zdanie z autoodpowiedzi Kasi: „Odpowiem po powrocie z urlopu, 14 sierpnia.” Nic więcej nie trzeba.\n\n-----\nOd: Katarzyna Wilk <k.wilk@firma.example>\nDo: Zespół Partnerzy\nTemat: RE: Harmonogram dostaw Q3\n\nDzień dobry,\nw nawiązaniu do ustaleń z wtorku: dostawy do magazynu w Strykowie przesuwamy na poniedziałki i czwartki, okno rozładunku 6:00–10:00. Prosimy o awizację najpóźniej dzień wcześniej do 14:00. Faktury proszę przesyłać wyłącznie w formie elektronicznej.\n\nOdpowiem po powrocie z urlopu, 14 sierpnia.\n\nZ poważaniem\nKatarzyna Wilk\nSpecjalistka ds. logistyki\n\n> W dniu 2 sierpnia Tomasz Rudy napisał:\n> Pani Kasiu, czy możemy zmienić dni dostaw? Wtorki nam nie pasują, bo kierowcy mają wtedy trasę na Śląsk.\n> Pozdrawiam, T. Rudy\n\nTa wiadomość może zawierać informacje poufne. Jeśli nie jesteś jej adresatem, usuń ją i powiadom nadawcę."
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_030",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "web/HTTP topic suggests code_model, but it asks for a one-sentence stable definition",
+      "state": {
+        "request": "Co oznacza błąd HTTP 404? Jedno zdanie, bez kodu, to do instrukcji dla pani z sekretariatu."
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_031",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Write a 1,500-word essay comparing the causes of the First and Second World Wars, with a clear argument about which conflict was more avoidable."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_032",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "tax and ZUS topic may suggest web_search for current rates, but the ask is a general pros/cons analysis",
+      "state": {
+        "request": "Przeanalizuj plusy i minusy przejścia z etatu na jednoosobową działalność gospodarczą dla grafika. Weź pod uwagę składki, brak płatnego urlopu, chorobowe, ryzyko braku zleceń i to, jak to wpłynie na zdolność kredytową."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_033",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "'podsumuj' sounds simple, but it is extracting decisions from a long transcript",
+      "state": {
+        "request": "Podsumuj to spotkanie: jakie decyzje zapadły, kto co ma zrobić i do kiedy, oraz co zostało nierozstrzygnięte.\n\n[Transkrypcja, 14:02–14:51]\nMonika: Dobra, zaczynamy. Pierwszy punkt to przeprowadzka magazynu. Paweł, jak wygląda umowa z nowym wynajmującym?\nPaweł: Wynajmujący zgodził się na start od 1 grudnia, ale chce kaucji za trzy miesiące, a nie za dwa. Ja bym się zgodził, bo alternatywy są gorsze.\nMonika: Ok, akceptujemy trzy miesiące. Paweł, podpisz do piątku.\nIza: Zanim pójdziemy dalej, przypominam, że przy przeprowadzce w grudniu wpadamy w szczyt przedświąteczny. Proponuję przesunąć na styczeń.\nPaweł: Nie da się, stary magazyn mamy tylko do 15 grudnia.\nMonika: To zostajemy przy grudniu, ale Iza, przygotuj plan obsady na okres przeprowadzki, na przyszły wtorek.\nIza: Dobra. A co z dodatkowymi ludźmi z agencji?\nMonika: To jeszcze nie wiem, wrócimy do tego, jak zobaczę budżet.\nTomek: Drugi punkt, nowy system WMS. Dostawca chce startu wdrożenia w listopadzie.\nMonika: Absolutnie nie w trakcie przeprowadzki. Tomek, napisz im, że startujemy najwcześniej w lutym.\nTomek: Napiszę dziś.\nPaweł: I jeszcze ubezpieczenie towaru w transporcie – nikt tego nie sprawdził.\nMonika: Racja. Kto się tym zajmie?\n(cisza)\nMonika: Wrócimy do tego mailowo. Dziękuję wszystkim."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_034",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "Python and Discord bots suggest code_model, but the request is parenting advice",
+      "state": {
+        "request": "Mój syn (14 lat) od pół roku coraz więcej czasu spędza przy komputerze. Sam uczy się Pythona i pisze jakieś boty do Discorda. Oceny mu spadły, z kolegami prawie się nie widuje. Nie chcę mu zabierać pasji, ale się martwię. Jak z nim porozmawiać i jak ustalić rozsądne zasady, żeby nie skończyło się awanturą?"
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_035",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "logs and error lines suggest code_model, but the fix is already merged and the deliverable is a plain-language postmortem",
+      "state": {
+        "request": "We already fixed this (the patch is merged and deployed), so no code needed. I need a plain-language postmortem for the management board: timeline, customer impact, root cause in one paragraph, and three lessons learned. Keep it non-technical.\n\nRaw notes from the on-call channel:\n02:14 alert: checkout error rate 38%\n02:16 on-call (Piotr) acknowledges, sees 'connection pool exhausted' in payment-service logs\n02:25 rollback of yesterday's release started\n02:31 rollback done, error rate still 35%\n02:40 found: a nightly report job was moved to 02:00 and opens 400 DB connections\n02:44 report job killed, error rate drops to 0.5%\n03:10 confirmed normal, ~1,900 failed checkout attempts in total, about 600 customers retried successfully\nnext day: job moved to a read replica, connection limit per job added\nopen question from finance: were any customers charged without an order? (answer: 11 cases, refunded on Tuesday)"
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_036",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Napisz funkcję w Pythonie, która sprawdza, czy podany numer PESEL ma poprawną cyfrę kontrolną."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_037",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "phrased as a conceptual why-question, but it is about fixing an SQL query",
+      "state": {
+        "request": "Why does SELECT name, COUNT(*) FROM orders throw 'column \"orders.name\" must appear in the GROUP BY clause' in Postgres when the same query worked in MySQL? How should I write it?"
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_038",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "long input suggests large_model, but it is fixing a docker-compose configuration",
+      "state": {
+        "request": "Po restarcie serwera baza w kontenerze wstaje pusta, jakby nie widziała wolumenu. Wcześniej działało. Co jest nie tak w tym pliku?\n\nversion: '3.8'\nservices:\n  db:\n    image: postgres:16\n    restart: unless-stopped\n    environment:\n      POSTGRES_USER: app\n      POSTGRES_PASSWORD: zmien_mnie\n      POSTGRES_DB: sklep\n    volumes:\n      - db_data:/var/lib/postgres/data\n    ports:\n      - \"5432:5432\"\n  app:\n    build: .\n    depends_on:\n      - db\n    environment:\n      DATABASE_URL: postgres://app:zmien_mnie@db:5432/sklep\n    ports:\n      - \"8000:8000\"\nvolumes:\n  db_data:\n\nDodam, że w zeszłym tygodniu ktoś „porządkował” ten plik i zmienił kilka ścieżek. Logi kontenera db przy starcie mówią tylko, że inicjalizuje nową bazę. Popraw mi to, proszę, i wyjaśnij, czy dane z poprzedniego wolumenu da się jeszcze odzyskać."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_039",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "timezone and DST wording may suggest web_search or a quick fact, but the task is rewriting a cron configuration",
+      "state": {
+        "request": "My manager says our backup 'runs at midnight' but it fires at 1 or 2 AM depending on the season. The crontab line is 0 0 * * * /opt/backup.sh, the server runs in UTC and we're in Warsaw. Can you rewrite it so it runs at midnight local time all year round, including after the DST switch?"
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_040",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "no diacritics and chat style make it look like a quick small_model question, but it is fixing a bash loop that breaks on spaces",
+      "state": {
+        "request": "siema, mam skrypt w bashu co ma kopiowac wszystkie jpg z podfolderow do /backup ale jak nazwa pliku ma spacje to sie wywala: for f in $(find . -name *.jpg); do cp $f /backup/; done   co poprawic zeby dzialalo?? thx"
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_041",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "What's the current EUR to PLN exchange rate?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_042",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "sports trivia looks like a quick fact, but it is yesterday's result",
+      "state": {
+        "request": "Kto wygrał wczorajszy mecz Legii i jaki był wynik?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_043",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "git/dev context suggests code_model, but it asks for the live status of a service",
+      "state": {
+        "request": "Is GitHub down right now? My pushes keep timing out and I haven't changed anything in my setup."
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_044",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "a long trip description suggests large_model planning, but the plan is done and the only ask is live news about a strike",
+      "state": {
+        "request": "Krótko o sytuacji: w sobotę lecimy z Katowic do Nicei, wracamy po tygodniu. Plan mamy dopięty na ostatni guzik: pierwsze dwa dni Nicea i Stare Miasto, potem pociągiem do Monako, środa wolna na plażę, czwartek wypożyczone auto i objazd po wioskach w górach (Èze, Saint-Paul-de-Vence), piątek zakupy i pakowanie. Noclegi opłacone, auto zarezerwowane, nawet stolik w knajpie na urodziny żony mam zaklepany. Naprawdę nie musisz nic planować ani doradzać.\n\nPotrzebuję tylko jednej rzeczy: czy ten strajk francuskich kontrolerów ruchu lotniczego, o którym od wczoraj mówią w radiu, nadal trwa i czy loty do Nicei na ten weekend są odwoływane? Bo jeśli tak, to muszę szybko kombinować z przebukowaniem."
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_045",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "starts as a creative writing request that is then withdrawn; the real ask is about a recent product launch",
+      "state": {
+        "request": "Could you write me a short poem about autumn? Actually, scratch that, the poem can wait. What I really need: has the new iPhone launch event already happened this year, and what starting prices did they announce for Poland?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_046",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Can I talk to a human agent, please? This chat isn't helping."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_047",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a short message could go to small_model, but it requires blocking the user's own card",
+      "state": {
+        "request": "Zablokujcie mi kartę klubową nr 5521, zgubiłem portfel w tramwaju."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_048",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "sounds like a simple question, but it requires an action on the user's order",
+      "state": {
+        "request": "I need to cancel order #A-77310 before it ships, I picked the wrong size."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_049",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "quoted older messages ask a general warranty question, but the newest message is a complaint asking for escalation to a manager by phone",
+      "state": {
+        "request": "Skoro w trzech kolejnych mailach nie potrafiliście odpowiedzieć na proste pytanie, proszę o przekazanie sprawy kierownikowi i kontakt telefoniczny ze mną w tej sprawie. Numer klienta: 300-118.\n\nKamil Nowicki\n\n-----Wiadomość oryginalna-----\nOd: Obsługa Klienta <obsluga@agdmarket.example>\nTemat: RE: RE: Gwarancja zmywarki\n> Dzień dobry, dziękujemy za kontakt. Informacje o warunkach gwarancji znajdzie Pan w zakładce Pomoc > Gwarancje na naszej stronie. Pozdrawiamy.\n>\n> -----Wiadomość oryginalna-----\n> Od: Kamil Nowicki\n> Byłem na tej stronie, tam nie ma odpowiedzi na moje pytanie. Pytam konkretnie: czy jeśli serwis producenta odmówi naprawy z powodu „uszkodzenia mechanicznego”, mogę skorzystać z rękojmi u Państwa jako sprzedawcy?\n>\n>> Od: Obsługa Klienta\n>> Dzień dobry, dziękujemy za kontakt. Informacje o warunkach gwarancji znajdzie Pan w zakładce Pomoc > Gwarancje. Pozdrawiamy.\n>>\n>>> Od: Kamil Nowicki\n>>> Dzień dobry, zmywarka kupiona u Państwa w marcu przestała grzać wodę. Jak wygląda gwarancja i czy mogę zgłosić to bezpośrednio do Państwa?"
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_050",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "could be treated as a general legal question for large_model, but it is an ongoing legal emergency at the user's door",
+      "state": {
+        "request": "Pod drzwiami stoi komornik z policją i mówi, że zabiera auto, a ja wszystko spłaciłem w zeszłym miesiącu i mam potwierdzenia przelewów. Co mam teraz robić, oni już wchodzą do garażu"
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_051",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Przetłumacz na angielski: „Dziękuję za szybką odpowiedź.”"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_052",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "rewriting may look like nuanced writing, but it is one short sentence",
+      "state": {
+        "request": "Rephrase this more politely: 'Send me the file now, I've been waiting all day.'"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_053",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a calendar question may look like it needs current data, but it is a stable fact",
+      "state": {
+        "request": "Ile dni ma luty w roku przestępnym?"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_054",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "mention of today's news suggests web_search, but the question is only the author, a stable fact",
+      "state": {
+        "request": "Kto napisał „Pana Tadeusza”? Pytam, bo dziś w wiadomościach mówili coś o nowej ekranizacji, ale mnie interesuje tylko autor, bo syn ma jutro kartkówkę."
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_055",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "a long legal disclaimer makes it look like a long document, but the task is formatting one heading",
+      "state": {
+        "request": "Hi, quick favour: could you convert this slide heading to title case? Q3 REVENUE REVIEW – FINAL NUMBERS FOR THE NORTHERN REGION\n\nThanks,\nOliver Grant\nSenior Analyst, Finance Operations\nNorthwind Trading Ltd. | 14 Example Street, Leeds | +44 0000 000 000\n\nCONFIDENTIALITY NOTICE: This e-mail and any attachments are confidential and may be legally privileged. They are intended solely for the use of the individual or entity to whom they are addressed. If you have received this e-mail in error, please notify the sender immediately and delete it from your system. Any unauthorised review, use, disclosure, copying or distribution is strictly prohibited. Northwind Trading Ltd. does not accept liability for any errors or omissions in the contents of this message which arise as a result of e-mail transmission. E-mail communications cannot be guaranteed to be secure or error-free. Opinions expressed in this e-mail are those of the sender and do not necessarily reflect the views of the company. Please consider the environment before printing this e-mail."
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_056",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Napisz wypracowanie na dwie strony o tym, jak rewolucja przemysłowa zmieniła życie rodzinne, z wyraźną tezą i trzema argumentami."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_057",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "concrete numbers suggest a quick calculation or market data lookup, but it is strategic analysis",
+      "state": {
+        "request": "My cofounder and I disagree on whether to take a VC round or stay bootstrapped. Our situation: 12k MRR, growing about 6% a month, 3 employees, 9 months of runway. Walk me through how to think about this decision and what questions we should answer first."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_058",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "legal-sounding rules might suggest human_handoff, but it is analysing a document with no emergency or account action",
+      "state": {
+        "request": "Wyjaśnij mi prostym językiem, jakie mam obowiązki jako uczestnik tego konkursu i czy coś tu wygląda podejrzanie:\n\nREGULAMIN KONKURSU „LATO Z SMAKIEM”\n§1. Organizatorem konkursu jest Smakosz Sp. z o.o. z siedzibą w Przykładowie.\n§2. Uczestnikiem może być osoba pełnoletnia, która w okresie trwania konkursu dokona zakupu dowolnego produktu Organizatora o wartości min. 30 zł i zachowa oryginał paragonu.\n§3. Zadanie konkursowe polega na przesłaniu zdjęcia potrawy z produktem Organizatora wraz z opisem do 500 znaków.\n§4. Przesyłając zgłoszenie, uczestnik udziela Organizatorowi nieodpłatnej, niewyłącznej i nieograniczonej w czasie licencji do zdjęcia i opisu, na wszystkich polach eksploatacji, z prawem do udzielania sublicencji.\n§5. Laureaci zobowiązani są do przesłania w ciągu 48 godzin od ogłoszenia wyników skanu paragonu, danych adresowych oraz numeru PESEL. Niedotrzymanie terminu oznacza utratę prawa do nagrody.\n§6. Organizator zastrzega sobie prawo do zmiany regulaminu w trakcie trwania konkursu.\n§7. Reklamacje można składać wyłącznie listem poleconym w terminie 3 dni od ogłoszenia wyników."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_059",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "medical topic suggests human_handoff, but there is no emergency; it is educational planning for staff training",
+      "state": {
+        "request": "I'm a nurse preparing a training session for new ward staff. Explain the early warning signs of sepsis in adults and help me structure a 45-minute session around them, including one realistic case study and a short quiz at the end."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_060",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the client's complaint suggests human_handoff, but the user is the business owner asking for a drafted diplomatic reply",
+      "state": {
+        "request": "Klient napisał do mnie (prowadzę małą pracownię stolarską): „Szafa miała być na 15. dnia, jest 28., a ja nadal nie mam ani szafy, ani informacji. To skandal.” Ma rację co do terminu, ale opóźnienie wynikło z tego, że sam zmienił wymiary tydzień przed montażem. Napisz mi odpowiedź, która przeprosi za brak informacji, spokojnie wyjaśni przyczynę i zaproponuje nowy termin, bez przerzucania winy."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_061",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Napisz jednolinijkowiec w bashu, który policzy linie we wszystkich plikach .py w bieżącym katalogu i podkatalogach."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_062",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "an explanation request may look like small_model, but explaining a regex belongs to code_model",
+      "state": {
+        "request": "Co robi ten regex: ^(?=.*\\d)(?=.*[A-Z]).{8,}$ ? Wytłumacz po kolei każdy fragment."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_063",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "long input suggests large_model, but it is debugging a Python traceback",
+      "state": {
+        "request": "Skrypt do raportu sprzedaży wywala się przy niektórych plikach CSV. Co poprawić?\n\nimport csv\nfrom datetime import datetime\n\ndef wczytaj(sciezka):\n    wiersze = []\n    with open(sciezka, encoding='utf-8') as f:\n        for r in csv.DictReader(f, delimiter=';'):\n            r['data'] = datetime.strptime(r['data'], '%Y-%m-%d')\n            r['kwota'] = float(r['kwota'])\n            wiersze.append(r)\n    return wiersze\n\ndef suma_miesieczna(wiersze):\n    wynik = {}\n    for r in wiersze:\n        klucz = r['data'].strftime('%Y-%m')\n        wynik[klucz] = wynik.get(klucz, 0) + r['kwota']\n    return wynik\n\nprint(suma_miesieczna(wczytaj('sprzedaz_pazdziernik.csv')))\n\nTraceback (most recent call last):\n  File \"raport.py\", line 21, in <module>\n    print(suma_miesieczna(wczytaj('sprzedaz_pazdziernik.csv')))\n  File \"raport.py\", line 9, in wczytaj\n    r['kwota'] = float(r['kwota'])\nValueError: could not convert string to float: '1 249,90'\n\nPliki z września szły bez problemu, październik przyszedł z nowego systemu księgowego."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_064",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "'monthly report' suggests large_model analysis, but the ask is only fixing a SQL join that double-counts",
+      "state": {
+        "request": "Our monthly revenue report counts customers twice when they have two addresses on file. I don't need help with the report itself, just the corrected query: SELECT c.id, c.name, SUM(o.total) FROM customers c JOIN addresses a ON a.customer_id = c.id JOIN orders o ON o.customer_id = c.id GROUP BY c.id, c.name;"
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_065",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "opens with a live exchange-rate question that is immediately withdrawn; the task is writing JavaScript",
+      "state": {
+        "request": "Jaki jest aktualny kurs dolara? Żartuję :) Potrzebuję funkcji w JavaScripcie, która pobierze kurs USD z API NBP, zwróci go jako liczbę i porządnie obsłuży sytuację, gdy API nie odpowie w ciągu 5 sekund."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_066",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Czy jutro w Krakowie będzie padać?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_067",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a price question that looks factual, but car prices change and it says 'right now'",
+      "state": {
+        "request": "How much does a new Tesla Model 3 cost in Germany right now, base version?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_068",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "monetary policy topic suggests large_model explanation, but it asks about this week's decision",
+      "state": {
+        "request": "Czy RPP na posiedzeniu w tym tygodniu zmieniła stopy procentowe?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_069",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "pasted code suggests code_model, but the question is whether a fixed release for last week's advisory exists yet",
+      "state": {
+        "request": "Before I touch any of the code below: has the security advisory for libtarnik 2.x that was published last week been patched yet, i.e. is there already a fixed release on PyPI? If not, I'll wait instead of refactoring.\n\nfrom libtarnik import Session, parse_token\n\ndef load_user(raw_token: str):\n    tok = parse_token(raw_token, verify=True)\n    with Session(timeout=10) as s:\n        user = s.get_user(tok.subject)\n        if not user.active:\n            raise PermissionError('inactive')\n        return user\n\ndef refresh(raw_token: str):\n    tok = parse_token(raw_token, verify=True)\n    with Session(timeout=10) as s:\n        return s.refresh(tok)\n\n# requirements.txt\n# libtarnik==2.4.1\n# requests==2.32.0\n\nWe pin 2.4.1 and the advisory mentions parse_token with verify=True accepting expired tokens in some cases. I just need to know the current status of the fix."
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_070",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "written without diacritics and with rambling travel context; the user knows the usual driving time, the ask is live traffic after an accident",
+      "state": {
+        "request": "hej, sorki ze tak chaotycznie pisze ale jestem w biegu. jade dzis po corke na oboz pod opolem, zbiórka o 17, a ja ruszam z wroclawia za godzine. normalnie to jest jakas godzina jazdy a4, wiem, jezdzilam juz kilka razy wiec nie potrzebuje trasy ani planu, nawigacje mam. chodzi o cos innego: kolezanka napisala mi na messengerze ze w radiu mowili o wypadku z ciezarowka miedzy wroclawiem a opolem i ze stoi korek na kilka km. czy to nadal aktualne? czy a4 w strone opola jest teraz zakorkowana albo zamknieta? jesli tak to pojade krajowka przez olawe i brzeg, ale wolalabym nie bo tam sa remonty. dzieki z gory!!"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_071",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Please connect me with customer service, I want to make a complaint."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_072",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "short and simple, but deleting the account and personal data is an account-specific action",
+      "state": {
+        "request": "Chcę usunąć swoje konto i wszystkie dane osobowe z waszego serwisu. Login: ania_k88."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_073",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "security topic might look like advice for large_model, but it requires locking the user's account",
+      "state": {
+        "request": "I think someone logged into my account last night – I got an email about a new login from Brazil and I've never been there. Can you lock my account until I sort this out?"
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_074",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "starts as a general drug-interaction question, but buried mid-message is a child who swallowed pills an hour ago",
+      "state": {
+        "request": "Dzień dobry, mam pytanie o leki. Biorę od miesiąca tabletki na ciśnienie (amlodypina 5 mg, rano) i lekarz rodzinny dorzucił mi teraz coś na cholesterol. Zastanawiam się, czy mogę je brać razem, czy lepiej rozdzielić na rano i wieczór, i czy grejpfrut faktycznie szkodzi, bo czytałam różne rzeczy w internecie. Pytam też dlatego, że godzinę temu mój synek (3 lata) dorwał się do torebki i połknął chyba pół listka tych tabletek na ciśnienie, teraz jest jakiś śpiący i blady, ale może to po prostu pora drzemki. Wracając do pytania – czy jest jakaś aplikacja, która przypomina o lekach o różnych porach? Mąż mówi, że przesadzam ze wszystkim, ale wolę zapytać. Z góry dziękuję za odpowiedź."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_075",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "very polite, hedged wording hides an explicit request to speak with a person about an account-specific booking",
+      "state": {
+        "request": "Totally fine if this isn't possible, and sorry to be a bother, but could I perhaps speak with an actual person at some point today? The answers here keep missing my point about booking BK-2291 being cancelled without any notice."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_076",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Thanks, that's all I needed. Have a good one!"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_077",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "dates may suggest a calendar lookup, but it is simple reformatting",
+      "state": {
+        "request": "Zamień na format RRRR-MM-DD: 3 marca 2025, 17.11.2024, 1 stycznia 2026"
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_078",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "sounds like a debate topic, but it is a short stable botanical fact",
+      "state": {
+        "request": "Czy pomidor to botanicznie owoc czy warzywo? Krótko."
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_079",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the word 'Kod' and a tech company context suggest code_model, but it is a short slogan translation",
+      "state": {
+        "request": "Robimy koszulki na firmowy hackathon. Przetłumacz mi na angielski nasze hasło: „Kod to nie wszystko”. Nic więcej, tylko to jedno zdanie."
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_080",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "a long, rambling preamble about a policy document suggests large_model, but the only question is a one-word grammar fact",
+      "state": {
+        "request": "Okay, some background so you know why I'm asking. I'm finishing an internal announcement about our new hybrid-work policy, which is going out to about 300 people on Monday. HR has already approved the content, legal has signed off, and my manager has read it twice, so please don't rewrite it, don't analyse the policy, and don't suggest a different structure – honestly, I've had enough feedback on this thing for one week. The whole text is final except for one word that I keep staring at and can no longer judge because I've read the sentence fifty times. The sentence is: 'The new policy will ___ all employees, including contractors working on site.' Is it 'affect' or 'effect'? Just the word, please, and maybe a one-line reason so I remember next time."
+      },
+      "answer": "small_model"
+    },
+    {
+      "id": "llm_routing_081",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Przygotuj mi roczny plan nauki do egzaminu CFA Level I przy pracy na pełen etat: podział materiału na miesiące, tygodniowy rytm nauki, próbne egzaminy i bufor na powtórki."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_082",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "editing may look like simple rephrasing, but it is a nuanced critique of a longer literary text",
+      "state": {
+        "request": "Napisałam opowiadanie na konkurs literacki. Oceń, proszę, styl i dialogi – mam wrażenie, że postacie brzmią sztucznie. Nie przepisuj całości, wskaż konkretne problemy i zaproponuj, jak je poprawić.\n\n„Deszcz padał od rana. Marta stała w oknie i patrzyła na ulicę.\n– Witaj, Marto – powiedział Jan, wchodząc do pokoju. – Jak się dzisiaj czujesz?\n– Czuję się dobrze, dziękuję, że pytasz, Janie – odpowiedziała Marta. – A ty jak się czujesz?\n– Ja również czuję się dobrze. Przyszedłem, ponieważ muszę ci powiedzieć coś bardzo ważnego.\n– Słucham cię uważnie.\n– Sprzedałem dom po mamie. Wiem, że obiecałem, że tego nie zrobię.\nMarta poczuła ogromny smutek i złość jednocześnie. Była bardzo zdenerwowana.\n– Jak mogłeś to zrobić, Janie? To był nasz rodzinny dom, w którym spędziliśmy dzieciństwo.\n– Wiem, Marto. Przepraszam cię bardzo. Miałem długi.\nDeszcz nadal padał. Marta odwróciła się od okna i spojrzała na brata. Wiedziała, że od tej chwili nic już nie będzie takie samo.”\n\nLimit konkursowy to 15 tysięcy znaków, ten fragment to początek."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_083",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "an emotional family topic might seem to need a human, but there is no emergency; it is nuanced advice",
+      "state": {
+        "request": "Jak rozmawiać z mamą, która od śmierci taty pół roku temu prawie nie wychodzi z domu i zbywa mnie, gdy proponuję wyjście? Chcę jej pomóc, ale bez naciskania i bez robienia z tego wielkiej sprawy."
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_084",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "tabular data suggests code_model or SQL, but the user explicitly wants interpretation and recommendations without code",
+      "state": {
+        "request": "Please don't write any code or formulas – I just need you to look at these numbers and tell me what's going on and what I should do about it before our planning meeting.\n\nMonthly figures for our three shops (revenue in thousand PLN / number of transactions / returns %):\n\nMonth | Gdynia | Sopot | Gdańsk Old Town\nJan | 210 / 4,100 / 3.1 | 95 / 2,050 / 2.8 | 330 / 7,900 / 4.0\nFeb | 198 / 3,950 / 3.4 | 90 / 1,980 / 2.9 | 305 / 7,300 / 4.6\nMar | 225 / 4,300 / 3.0 | 120 / 2,400 / 2.7 | 298 / 6,800 / 5.9\nApr | 240 / 4,450 / 2.9 | 150 / 2,900 / 2.6 | 290 / 6,400 / 7.2\nMay | 251 / 4,500 / 3.2 | 185 / 3,500 / 2.5 | 296 / 6,100 / 8.1\n\nContext: in March we changed the shift manager in Gdańsk Old Town and started a loyalty app in all shops. Sopot is seasonal. The board thinks Gdańsk is fine because revenue is 'stable'. Is it? What questions should I raise, and what would you prioritise for the next quarter?"
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_085",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "court and legal keywords suggest human_handoff, but the user is only a witness preparing for tomorrow; no emergency, it is preparation advice",
+      "state": {
+        "request": "Jutro idę do sądu jako świadek w sprawie wypadku, który widziałem pół roku temu na przejściu. Nie jestem stroną, nikt mnie o nic nie oskarża, po prostu dostałem wezwanie. Jak się przygotować, czego się spodziewać na sali i jak odpowiadać, żeby nie pomylić faktów, skoro część szczegółów już mi się zatarła?"
+      },
+      "answer": "large_model"
+    },
+    {
+      "id": "llm_routing_086",
+      "lang": "en",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Write a SQL query that returns the top 5 customers by total order value, given tables customers(id, name) and orders(id, customer_id, total)."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_087",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "sounds like a quick tool question, but it is fixing git configuration",
+      "state": {
+        "request": "Mam w .gitignore wpis *.log, a pliki logów i tak pokazują się w repo przy każdym commicie. Dlaczego tak jest i jak to naprawić, żeby zniknęły z repozytorium, ale zostały na dysku?"
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_088",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "long pasted input suggests large_model, but it is debugging a React component",
+      "state": {
+        "request": "This React component is supposed to show search results as the user types, but it fires a request on every keystroke and sometimes shows results for an older query after a newer one. What's wrong and how do I fix it?\n\nimport { useState, useEffect } from 'react';\n\nexport default function Search() {\n  const [q, setQ] = useState('');\n  const [results, setResults] = useState([]);\n\n  useEffect(() => {\n    if (!q) return;\n    fetch(`/api/search?q=${q}`)\n      .then(r => r.json())\n      .then(data => setResults(data.items));\n  }, [q]);\n\n  return (\n    <div>\n      <input value={q} onChange={e => setQ(e.target.value)} placeholder=\"Search...\" />\n      <ul>\n        {results.map(item => <li>{item.title}</li>)}\n      </ul>\n    </div>\n  );\n}\n\nAlso, the console shows a warning about keys in a list. We're on React 18, no extra libraries for data fetching, and I'd rather not add any."
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_089",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "a long business email thread suggests large_model, but the newest message asks for a review of a PowerShell script",
+      "state": {
+        "request": "Rzuć proszę okiem na skrypt z maila poniżej, zanim go odpalę na serwerze plików. Ma kasować tylko backupy starsze niż 30 dni z folderu D:\\Backup\\Kadry, nic więcej. Nie chodzi mi o politykę retencji, tylko czy ten kod robi to, co ma.\n\n-----\nOd: Robert Malinowski <r.malinowski@biuro.example>\nTemat: Miejsce na dysku – pilne\n\nCześć,\nzarząd pyta, dlaczego znowu kończy się miejsce na serwerze. Zgodnie z polityką retencji trzymamy backupy kadrowe 30 dni, starsze można usuwać. Działu kadr nie ruszamy poza tym folderem. Przygotowałem skrypt, możesz go puścić wieczorem jako zadanie?\n\n$sciezka = \"D:\\Backup\\Kadry\"\n$granica = (Get-Date).AddDays(-30)\nGet-ChildItem -Path $sciezka -Recurse |\n  Where-Object { $_.LastWriteTime -lt $granica } |\n  Remove-Item -Recurse -Force\n\nPozdrawiam,\nRobert\n\n> W dniu 03.11 Ewa z księgowości napisała:\n> Robert, dysk D: ma 3% wolnego miejsca, faktury się nie zapisują. Możesz coś z tym zrobić?"
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_090",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "explain-like-I'm-five framing suggests small_model, but it is explaining a shell command (a fork bomb)",
+      "state": {
+        "request": "Explain like I'm five what this does, my kid found it in my old notes and wants to type it into the terminal: :(){ :|:& };:"
+      },
+      "answer": "code_model"
+    },
+    {
+      "id": "llm_routing_091",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Jaki jest dzisiaj kurs franka szwajcarskiego?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_092",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "space topic may look like a stable fact, but launch schedules change constantly",
+      "state": {
+        "request": "When is the next SpaceX launch scheduled, and from which site?"
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_093",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "pharmacy topic suggests a medical case for human_handoff, but there is no emergency; it is a duty-schedule lookup",
+      "state": {
+        "request": "Która apteka na Mokotowie ma dziś dyżur nocny? Najlepiej coś blisko Puławskiej, potrzebuję tylko kupić krople do oczu."
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_094",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "long comparison notes suggest large_model analysis, but the user only wants today's prices checked",
+      "state": {
+        "request": "Last spring I wrote these notes when choosing a laptop for the office. I'm not asking you to redo the comparison – the specs and my conclusions are still fine. I only need to know whether the prices have changed since then, i.e. what each of these costs today in Polish shops.\n\nMy notes (April):\n1) Lenovo ThinkPad T14 Gen 5, 16 GB / 512 GB – solid keyboard, good Linux support, about 5,900 PLN. Battery ok, screen average.\n2) Dell Latitude 7450, 16 GB / 512 GB – lighter, nicer screen, about 6,700 PLN. IT says the docking stations we have are compatible.\n3) HP EliteBook 840 G11, 16 GB / 512 GB – cheapest at about 5,400 PLN, but the fan was loud in reviews.\nConclusion back then: buy ThinkPads unless the Dell drops below 6,000.\n\nSo: current prices for these three configurations, please, and whether the Dell is now under 6,000."
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_095",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "economic concept words suggest a large_model explanation, but the explicit ask is the latest published figure",
+      "state": {
+        "request": "Nie pytam o historię ani o to, jak działa inflacja i co ją napędza – to wiem. Interesuje mnie tylko jedna liczba: ostatni odczyt inflacji CPI w Polsce, ten opublikowany przez GUS w tym miesiącu."
+      },
+      "answer": "web_search"
+    },
+    {
+      "id": "llm_routing_096",
+      "lang": "pl",
+      "difficulty": "easy",
+      "variant": "standard",
+      "trap": "",
+      "state": {
+        "request": "Chcę złożyć reklamację, proszę o kontakt z pracownikiem."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_097",
+      "lang": "en",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a password problem may look like a how-to for small_model, but the reset itself requires account access",
+      "state": {
+        "request": "Please reset my password, the reset link never arrives at my email even though I checked spam."
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_098",
+      "lang": "pl",
+      "difficulty": "medium",
+      "variant": "standard",
+      "trap": "a forwarded airline notice looks like a document to summarise, but the user demands a refund on their booking",
+      "state": {
+        "request": "Proszę o zwrot pieniędzy za bilet, bo lot został odwołany. Numer rezerwacji XK7PQ2, płaciłem kartą. Nie chcę voucheru ani przebukowania, tylko zwrot na konto.\n\n---------- Przekazana wiadomość ----------\nOd: Powiadomienia <noreply@przykladlot.example>\nTemat: Zmiana w Twojej podróży – rezerwacja XK7PQ2\n\nSzanowny Pasażerze,\nz przykrością informujemy, że lot XY 1234 z Warszawy do Barcelony zaplanowany na 14 listopada o godz. 06:40 został odwołany z przyczyn operacyjnych. Przepraszamy za niedogodności.\nMożesz wybrać jedną z opcji: bezpłatną zmianę rezerwacji na inny lot w ciągu 30 dni, voucher o wartości 120% ceny biletu lub zwrot należności. Aby zarządzać rezerwacją, zaloguj się na swoje konto. Informacje o prawach pasażera znajdziesz w zakładce Pomoc.\nTa wiadomość została wygenerowana automatycznie, prosimy na nią nie odpowiadać.\n\nZ wyrazami szacunku\nZespół Obsługi Pasażera"
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_099",
+      "lang": "en",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "the quoted thread is about API code, but the newest message demands account closure and written confirmation from a person",
+      "state": {
+        "request": "Please stop sending me code samples. As I already wrote twice, I want my account (workspace ID ws-40217) closed and a written confirmation from a person that all our data has been deleted. Nothing else.\n\nDaniel Moss\nCTO, Example Logistics\n\nOn Tue, Support Bot <support@apihub.example> wrote:\n> Thanks for reaching out! It looks like you're getting a 401 error. Make sure the header is set like this:\n>\n> curl -H \"Authorization: Bearer $API_KEY\" https://api.apihub.example/v2/shipments\n>\n> If you're using Python, try:\n> requests.get(url, headers={\"Authorization\": f\"Bearer {key}\"})\n>\n> On Mon, Daniel Moss wrote:\n>> We are migrating away from your platform. Please close our account and confirm data deletion.\n>>\n>>> On Fri, Support Bot wrote:\n>>> Hi Daniel! Here's how to paginate the /v2/shipments endpoint: pass ?page=2&per_page=100 and read the Link header.\n>>>\n>>>> On Thu, Daniel Moss wrote:\n>>>> Our integration started returning 401 after the key rotation. What changed?"
+      },
+      "answer": "human_handoff"
+    },
+    {
+      "id": "llm_routing_100",
+      "lang": "pl",
+      "difficulty": "hard",
+      "variant": "standard",
+      "trap": "asks for persuasive advice (large_model), but the described symptoms in progress (slurred speech, drooping mouth) make it a medical emergency",
+      "state": {
+        "request": "Mój mąż od godziny mówi bełkotliwie i opadł mu kącik ust, ale twierdzi, że to tylko zmęczenie i zabrania mi gdziekolwiek dzwonić. Napisz mi, jak go przekonać, żeby po prostu położył się spać i odpoczął."
+      },
+      "answer": "human_handoff"
+    }
+  ]
+}
