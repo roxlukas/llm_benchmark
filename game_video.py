@@ -37,7 +37,7 @@ def font(size):
 F_BIG, F_MID, F_SMALL = font(44), font(26), font(20)
 
 
-def panel(draw, model, seed, row, total):
+def panel(draw, model, seed, row, total, crashed=False):
     top = GAME_H
     draw.rectangle([0, top, GAME_W, top + PANEL_H], fill=BG)
     action = row['action']
@@ -56,6 +56,8 @@ def panel(draw, model, seed, row, total):
         draw.rectangle([x0 + 120, y + 4, x0 + 120 + bar_w, y + 24], fill=(40, 40, 46))
         draw.rectangle([x0 + 120, y + 4, x0 + 120 + int(bar_w * p), y + 24], fill=COLORS[a])
         draw.text((x0 + 130 + bar_w, y), f'{100 * p:5.1f}%', font=F_SMALL, fill=FG if a == action else DIM)
+    if crashed:  # the car stood still for the crash time before this frame (game rules v2+)
+        draw.text((24 + draw.textlength(action.upper(), font=F_BIG) + 24, top + 96), 'CRASH', font=F_MID, fill=(239, 68, 68))
     if row.get('latency_ms') is not None:
         draw.text((260, top + 128), f'{row["latency_ms"]:.0f} ms', font=F_SMALL, fill=DIM)
 
@@ -97,10 +99,12 @@ def render(args, label, items, path):
                     ('decision model drives from screenshots', F_SMALL, DIM)]), round(fps * 2))
         files = sorted(os.listdir(frames))
         img = None
-        for row, name in zip(rows, files):
+        for i, (row, name) in enumerate(zip(rows, files)):
             img = Image.new('RGB', (GAME_W, GAME_H + PANEL_H), BG)
             img.paste(Image.open(os.path.join(frames, name)).convert('RGB').resize((GAME_W, GAME_H), Image.NEAREST))
-            panel(ImageDraw.Draw(img), model, seed, row, len(rows))
+            # frame i is taken after decision i-1 was driven: flag a crash that happened while driving it
+            crashed = i > 0 and rows[i - 1]['crashes'] > (rows[i - 2]['crashes'] if i > 1 else 0)
+            panel(ImageDraw.Draw(img), model, seed, row, len(rows), crashed)
             write(img)
         if img:
             write(img, round(fps))  # hold the last frame for a second

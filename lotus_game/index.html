@@ -51,6 +51,11 @@ const CAR = { w: 80, h: 34 };
 const PLAYER_W = CAR.w * SPRITE_SCALE;
 const N_CARS = 11;
 const TIME_LIMIT = 150;             // seconds of game time before "TIME UP"
+const CRASH_TIME = 3;               // seconds standing still after hitting a tree or a sign
+const CRASH_X = 0.8;                // the car comes back at this edge of the road, on the side it left it
+// game rules; 2: a crash puts the car back in the middle after 1.5 s; 3: 3 s and back at the edge
+// (with 1.5 s, full throttle without ever steering still finished every track)
+const VERSION = 3;
 const TARGET_SEGS = 2600;           // track length before the run-in to the finish
 
 const COLORS = {
@@ -206,7 +211,7 @@ function drawLayer(layer, offset, dy) {
 // ---------- game state ----------
 let segments, trackLength, cars, rng, seed, laps;
 let position, dist, playerX, speed, time, frame, skyOffset, hillOffset;
-let collisions, crashes, offroadFrames, touching, finished, timeout, finishTime, finishPos, countdown, lastSteer;
+let collisions, crashes, offroadFrames, recover, finished, timeout, finishTime, finishPos, countdown, lastSteer;
 const input = { left: false, right: false, accel: false, brake: false };
 
 function lastY() { return segments.length ? segments[segments.length - 1].p2.world.y : 0; }
@@ -301,7 +306,7 @@ function reset(opts = {}) {
     });
   }
   position = 0; dist = 0; playerX = 0; speed = 0; time = 0; frame = 0; skyOffset = 0; hillOffset = 0;
-  collisions = 0; crashes = 0; offroadFrames = 0; touching = false; lastSteer = 0;
+  collisions = 0; crashes = 0; offroadFrames = 0; recover = 0; lastSteer = 0;
   finished = false; timeout = false; finishTime = null; finishPos = null;
   countdown = BOT || opts.noCountdown ? 0 : 3;
   Object.assign(input, { left: false, right: false, accel: false, brake: false });
@@ -337,6 +342,12 @@ function updateCars(dt) {
 function update(dt) {
   if (finished || timeout) { speed = Math.max(0, speed + BRAKE * 0.5 * dt); position = wrap(position + speed * dt, trackLength); return; }
   if (countdown > 0) { countdown -= dt; return; }
+  if (recover > 0) {
+    recover -= dt; time += dt;
+    if (recover <= 0) { playerX = Math.sign(playerX) * CRASH_X; lastSteer = 0; }
+    if (time >= TIME_LIMIT) timeout = true;
+    return;
+  }
   const playerSeg = findSegment(position + PLAYER_Z);
   const speedPct = speed / MAX_SPEED;
   const dx = dt * 2 * speedPct;
@@ -358,20 +369,19 @@ function update(dt) {
   if (offroad) {
     offroadFrames++;
     if (speed > OFF_LIMIT) speed += OFF_DECEL * dt;
-    let hit = false;
     for (const sp of playerSeg.sprites) {
       const sw = SPRITES[sp.type].w * SPRITE_SCALE;
       if (overlap(playerX, PLAYER_W, sp.offset + sw / 2 * Math.sign(sp.offset), sw)) {
-        hit = true;
-        if (!touching) crashes++;
-        speed = Math.min(speed, MAX_SPEED / 5);
+        // as in Lotus: the car stops, the clock runs on, then the car is put back on the road
+        crashes++;
+        speed = 0;
+        recover = CRASH_TIME;
         const back = wrap(position + PLAYER_Z, trackLength) - playerSeg.p1.world.z;
         position = wrap(position - back, trackLength); dist -= back;
         break;
       }
     }
-    touching = hit;
-  } else touching = false;
+  }
 
   for (const car of playerSeg.cars) {
     if (speed > car.speed && overlap(playerX, PLAYER_W, car.offset, CAR.w * SPRITE_SCALE, 0.8)) {
@@ -523,6 +533,7 @@ function drawHud() {
 
   if (countdown > 0) text(String(Math.ceil(countdown)), W / 2, H / 2 - 60, 48, '#ffd400', 'center');
   if (finished) text(`FINISH  P${finishPos}`, W / 2, H / 2 - 60, 36, '#ffd400', 'center');
+  if (recover > 0 && Math.floor(recover * 6) % 2 === 0) text('CRASH', W / 2, H / 2 - 60, 40, '#ff4040', 'center');
   if (timeout) text('TIME UP', W / 2, H / 2 - 60, 40, '#ff4040', 'center');
   if (!BOT && !running) {
     ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0, H / 2 - 70, W, 120);
@@ -574,6 +585,7 @@ function state() {
     curve: seg.curve, position: finishPos ?? racePosition(), cars: N_CARS + 1,
     collisions, crashes, offroad_frames: offroadFrames,
     finished, timeout, done: finished || timeout, finish_time: finishTime, time_limit: TIME_LIMIT,
+    version: VERSION,
   };
 }
 window.LOTUS = {
@@ -583,6 +595,8 @@ window.LOTUS = {
     if (!a) throw new Error(`unknown action ${action}`);
     Object.assign(input, { left: false, right: false, accel: false, brake: false }, a);
     for (let i = 0; i < frames && !(finished || timeout); i++) { update(STEP); frame++; }
+    // a crash plays out before the next decision: the model next sees the car back on the road
+    while (recover > 0 && !(finished || timeout)) { update(STEP); frame++; }
     render();
     return state();
   },

@@ -9,7 +9,8 @@ Two servers answer /v1/systemone with images:
   --api ollama  Ollama decision models with vision (d3, d1): the image goes in "images"
   --api basal   basal-serve --mode eager --media on (basal-omni bf16; the GGUF files in Ollama are text only):
                 the image goes in "media"
-Baselines that need no server: --models oracle (autopilot that reads the game state) and random.
+Baselines that need no server: --models oracle (autopilot that reads the game state), random and straight
+(full throttle, never steers: with crash recovery it still finishes, so a model has to beat it).
 
 Per decision the log keeps the action, its probabilities, the autopilot's action and the car state
 (game_runs/<run_id>/<model>_s<seed>.jsonl, with --save-frames also the frames and a replay GIF). The summary
@@ -47,7 +48,7 @@ QUESTION = {
     },
 }
 ACTIONS = list(QUESTION['criteria'])
-BASELINES = ('oracle', 'random')
+BASELINES = ('oracle', 'random', 'straight')
 
 
 def state_text(state, telemetry):
@@ -108,6 +109,8 @@ def race(args, page, model, seed, out_dir):
                 action = oracle
             elif model == 'random':
                 action = rnd.choice(ACTIONS)
+            elif model == 'straight':
+                action = 'straight'
             else:
                 try:
                     action, row['probabilities'], row['latency_ms'] = decide(
@@ -147,7 +150,7 @@ def race_summary(seed, info, state, rows):
     score = (100 * state['progress'] + (50 * (1 - finish_time / state['time_limit']) if state['finished'] else 0)
              - 2 * state['collisions'] - 5 * state['crashes'])
     return {
-        'seed': seed, 'segments': info['segments'], 'finished': state['finished'], 'progress': state['progress'],
+        'seed': seed, 'game_version': state.get('version', 1), 'segments': info['segments'], 'finished': state['finished'], 'progress': state['progress'],
         'finish_time': finish_time, 'race_time': state['time'], 'position': state['position'],
         'avg_speed_kmh': statistics.mean(r['speed_kmh'] for r in rows) if rows else None,
         'collisions': state['collisions'], 'crashes': state['crashes'],
@@ -169,7 +172,7 @@ def mean_of(races, key):
 def model_summary(args, model, run_id, races, load_ms):
     return {
         'model': model, 'api': 'baseline' if model in BASELINES else args.api, 'run_id': run_id,
-        'hold_frames': args.hold, 'realtime': args.realtime, 'telemetry': args.telemetry, 'laps': args.laps,
+        'game_version': races[0]['game_version'] if races else None, 'hold_frames': args.hold, 'realtime': args.realtime, 'telemetry': args.telemetry, 'laps': args.laps,
         'seeds': [r['seed'] for r in races], 'load_ms': load_ms,
         'finished': sum(r['finished'] for r in races), 'races': len(races),
         **{k: mean_of(races, k) for k in ('score', 'progress', 'finish_time', 'position', 'avg_speed_kmh',
@@ -180,15 +183,25 @@ def model_summary(args, model, run_id, races, load_ms):
     }
 
 
+def settings(s):
+    return (s.get('game_version', 1), s['hold_frames'], s['realtime'], s['telemetry'], s['laps'], tuple(s['seeds']))
+
+
 def save_results(path, summaries):
-    """Keep earlier results; a model run again with the same settings replaces its old entry."""
-    key = lambda s: (s['model'], s['api'], s['hold_frames'], s['realtime'], s['telemetry'], s['laps'], tuple(s['seeds']))
+    """Keep earlier results; a model run again with the same settings and game rules replaces its old entry.
+    score_vs_straight: score minus that of the straight baseline (never steers) with the same settings and rules;
+    a model at or below 0 does not steer from the picture any better than not steering at all."""
+    key = lambda s: (s['model'], s['api'], *settings(s))
     data = {'models': []}
     if os.path.exists(path):
         with open(path, encoding='utf-8') as f:
             data = json.load(f)
     new_keys = {key(s) for s in summaries}
     models = [s for s in data['models'] if key(s) not in new_keys] + summaries
+    straight = {settings(s): s['score'] for s in models if s['model'] == 'straight'}
+    for s in models:
+        base = straight.get(settings(s))
+        s['score_vs_straight'] = s['score'] - base if base is not None and s['score'] is not None else None
     with open(path, 'w', encoding='utf-8') as f:
         json.dump({'generated_at': time.strftime('%Y-%m-%dT%H:%M:%S'), 'game': 'lotus_game',
                    'question': QUESTION, 'models': sorted(models, key=lambda s: -(s['score'] or 0))},
@@ -196,11 +209,12 @@ def save_results(path, summaries):
 
 
 def print_table(summaries):
-    print(f'\n{"model":<34}{"score":>7}{"done":>6}{"prog%":>7}{"time s":>8}{"pos":>5}{"km/h":>6}{"hits":>6}'
+    print(f'\n{"model":<34}{"score":>7}{"vs str":>7}{"done":>6}{"prog%":>7}{"time s":>8}{"pos":>5}{"km/h":>6}{"hits":>6}'
           f'{"trees":>6}{"off%":>6}{"=auto%":>7}{"med ms":>8}{"err":>5}')
     for s in sorted(summaries, key=lambda s: -(s['score'] or 0)):
         f = lambda v, fmt: format(v, fmt) if v is not None else '-'
-        print(f'{s["model"][:33]:<34}{f(s["score"], ".1f"):>7}{s["finished"]:>3}/{s["races"]:<2}'
+        print(f'{s["model"][:33]:<34}{f(s["score"], ".1f"):>7}{f(s.get("score_vs_straight"), "+.1f"):>7}'
+              f'{s["finished"]:>3}/{s["races"]:<2}'
               f'{f(100 * s["progress"], ".1f"):>7}{f(s["finish_time"], ".1f"):>8}{f(s["position"], ".1f"):>5}'
               f'{f(s["avg_speed_kmh"], ".0f"):>6}{f(s["collisions"], ".1f"):>6}{f(s["crashes"], ".1f"):>6}'
               f'{f(100 * s["offroad_ratio"], ".1f"):>6}'
@@ -221,7 +235,7 @@ def launch(p, args):
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--models', default='oracle',
-                   help='Comma-separated models; "oracle" and "random" are baselines (default: oracle). With --api basal '
+                   help='Comma-separated models; "oracle", "random" and "straight" are baselines (default: oracle). With --api basal '
                         'the name is only a label: basal-serve answers with the model it was started with')
     p.add_argument('--api', choices=['ollama', 'basal'], default='ollama')
     p.add_argument('--url', help='Server answering /v1/systemone (default: http://localhost:11434 for ollama, '
@@ -274,8 +288,8 @@ def main():
         if errors:
             print('Game errors:', *errors[:5], sep='\n  ')
 
+    save_results(args.output, summaries)  # also sets score_vs_straight
     print_table(summaries)
-    save_results(args.output, summaries)
     print(f'\nWrote {args.output}')
 
 
