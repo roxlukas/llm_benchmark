@@ -126,6 +126,15 @@ python game_benchmark.py --models d3:4b --seeds 1 --save-frames --headed # podgl
 
 basal-omni w GGUF (Ollama) widzi tylko tekst: enkodery obrazu są wycięte z plików GGUF. Obrazy czyta wersja bf16 przez `basal-serve --model D:/AI/basal/basal-omni-1.0-mini --mode eager --media on --port 8000`.
 
+basal-omni-1.0-max w bf16 (~24 GB) nie mieści się na RTX 3090. Jeździ checkpoint FP8 (`Remek/basal-omni-1.0-max-FP8`, 13 GB) przez vLLM w WSL i basal ≥ 2.5 (obrazy dla modeli Gemma 4 Unified w `--mode vllm`). Na Ampere vLLM używa jądra Marlin (wagi FP8, obliczenia bf16). W checkpoincie trzeba dopisać `model.vision_embedder*` do `quantization_config.ignore` w `config.json` i do `exclude_modules` w `hf_quant_config.json`, inaczej vLLM ładuje wagi bf16 `vision_embedder.patch_dense` jako FP8 i każde zapytanie z obrazem kończy się NaN.
+
+```bash
+basal-serve --model ~/models/basal-omni-1.0-max-FP8 --mode vllm --media on --gpu-memory 0.88 --max-len 8192 --port 8000   # w WSL
+python game_benchmark.py --api basal --models basal-omni-1.0-max-FP8                                                    # w Windows
+```
+
+Do serwera w WSL łącz się przez `127.0.0.1`, nie `localhost`: `localhost` najpierw próbuje IPv6 i każde zapytanie traci ~2 s.
+
 Wynik (`game_results.json`): `score` = 100 × ukończona część trasy + do 50 pkt za szybki finisz − 2 za każde zderzenie z autem − 5 za każde uderzenie w drzewo/znak. Do tego czas, pozycja, średnia prędkość, % klatek poza drogą, zgodność z autopilotem (`oracle`, który czyta stan gry, nie obraz) i opóźnienie decyzji. Logi każdej decyzji: `game_runs/<run_id>/`.
 
 `straight` (pełny gaz, nigdy nie skręca) to dolna granica: `score_vs_straight` (kolumna `vs str`) to wynik modelu minus wynik `straight` przy tych samych ustawieniach i zasadach. Model z wynikiem ≤ 0 nie steruje z obrazu lepiej niż brak sterowania. Na zasadach v3: `oracle` 128,8, `straight` 26,8 (1/3 ukończone), `random` 20,6. Na v2 (kara 1,5 s) `straight` kończył każdą trasę i miał tyle samo co basal-omni-1.0-mini (58,0 vs 58,2), stąd zaostrzenie.

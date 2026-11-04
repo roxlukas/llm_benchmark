@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-03T17:29:01",
+ "generated_at": "2026-11-04T09:18:52",
  "game": "lotus_game",
  "question": {
   "type": "choice",
@@ -233,6 +233,117 @@
     }
    ],
    "score_vs_straight": 101.97403199930639
+  },
+  {
+   "model": "basal-omni-1.0-max-FP8",
+   "api": "basal",
+   "run_id": "20261104-090350-b62a",
+   "game_version": 3,
+   "hold_frames": 6,
+   "realtime": false,
+   "telemetry": false,
+   "laps": 1,
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "load_ms": 48.286799999914365,
+   "finished": 3,
+   "races": 3,
+   "score": 60.83703703703873,
+   "progress": 1,
+   "finish_time": 119.48888888888378,
+   "position": 12,
+   "avg_speed_kmh": 142.09247177542426,
+   "collisions": 1.3333333333333333,
+   "crashes": 9.333333333333334,
+   "offroad_ratio": 0.20034096866917742,
+   "oracle_agreement": 0.20180270069844927,
+   "latency_ms_median": 253.3562666662874,
+   "latency_ms_p95": 278.0852666671005,
+   "errors": 0,
+   "per_seed": [
+    {
+     "seed": 1,
+     "game_version": 3,
+     "segments": 3050,
+     "finished": true,
+     "progress": 1,
+     "finish_time": 108.13333333332848,
+     "race_time": 108.13333333332848,
+     "position": 12,
+     "avg_speed_kmh": 146.16309287773004,
+     "collisions": 3,
+     "crashes": 7,
+     "offroad_ratio": 0.218711467324291,
+     "decisions": 873,
+     "errors": 0,
+     "oracle_agreement": 0.13172966781214204,
+     "actions": {
+      "left": 96,
+      "straight": 689,
+      "right": 88,
+      "brake": 0
+     },
+     "latency_ms_median": 256.21119999959774,
+     "latency_ms_p95": 278.2193000002735,
+     "score": 72.95555555555717
+    },
+    {
+     "seed": 2,
+     "game_version": 3,
+     "segments": 3050,
+     "finished": true,
+     "progress": 1,
+     "finish_time": 129.38333333332844,
+     "race_time": 129.38333333332844,
+     "position": 12,
+     "avg_speed_kmh": 132.08979662185453,
+     "collisions": 0,
+     "crashes": 11,
+     "offroad_ratio": 0.2283910859203916,
+     "decisions": 967,
+     "errors": 0,
+     "oracle_agreement": 0.22750775594622544,
+     "actions": {
+      "left": 129,
+      "straight": 716,
+      "right": 122,
+      "brake": 0
+     },
+     "latency_ms_median": 256.4122999992833,
+     "latency_ms_p95": 288.98580000077345,
+     "score": 51.872222222223854
+    },
+    {
+     "seed": 3,
+     "game_version": 3,
+     "segments": 3225,
+     "finished": true,
+     "progress": 1,
+     "finish_time": 120.94999999999442,
+     "race_time": 120.94999999999442,
+     "position": 12,
+     "avg_speed_kmh": 148.02452582668818,
+     "collisions": 1,
+     "crashes": 10,
+     "offroad_ratio": 0.15392035276284965,
+     "decisions": 914,
+     "errors": 0,
+     "oracle_agreement": 0.2461706783369803,
+     "actions": {
+      "left": 25,
+      "straight": 703,
+      "right": 186,
+      "brake": 0
+     },
+     "latency_ms_median": 247.44529999998122,
+     "latency_ms_p95": 267.05070000025444,
+     "score": 57.683333333335185
+    }
+   ],
+   "score_vs_straight": 34.03884681412217
   },
   {
    "model": "basal-omni-1.0-mini",
