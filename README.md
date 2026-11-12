@@ -144,3 +144,44 @@ Film z przejazdu (wymaga przebiegu z `--save-frames` i ffmpeg): pod każdą klat
 ```bash
 python game_video.py game_runs/<run_id> --ffmpeg D:/ffmpeg.exe   # game_runs/<run_id>/<model>.mp4
 ```
+
+## Benchmark embeddingów: wyszukiwanie w dokumentacji (EN + PL)
+
+Korpus to Pomoc LibreOffice (`help.libreoffice.org/latest`): te same 911 stron po angielsku (en-US) i po polsku (pl), pocięte na fragmenty według nagłówków h1/h2 (do 1500 znaków). Wychodzi 3101 fragmentów EN i 3200 PL. Na każdy język przypada 500 zapytań, każde z innej strony. Zapytania wygenerował lokalnie `mistral-small3.2:24b`, czyli model spoza rodzin testowanych embedderów. Każde zapytanie ma jeden złoty fragment, a style są trzy po równo: `goal` (cel opisany bez nazwy funkcji czy menu), `keyword` (krótka fraza wyszukiwania) i `howto` (konkretne pytanie o szczegół).
+
+Każdy model ma w każdym języku osobną kolekcję `embbench_<lang>_<model>` w osobnej instancji Qdrant na NIAGARA: `D:\AI\qdrant-embedbench`, port 6343, nasłuch tylko na 127.0.0.1. Prefiksy zapytań i dokumentów są takie, jak zaleca karta modelu (`MODELS` w `embedding_benchmark.py`). `bm25` (Python, bez stemmingu) to dolna granica.
+
+```bash
+D:\AI\qdrant-embedbench\qdrant.exe --config-path D:\AI\qdrant-embedbench\config\config.yaml   # uruchom w tym katalogu
+python embedding_corpus.py                       # pobiera strony (cache: embedding_data/raw/, poza gitem) -> embedding_data/<lang>/corpus.jsonl
+python embedding_queries.py --n 500              # -> embedding_data/<lang>/queries.jsonl (wznawia przerwane)
+python embedding_benchmark.py                    # wszystkie modele -> embedding_results.json, rangi zapytań: embedding_runs/<run_id>/
+python embedding_benchmark.py --models bge-m3:latest --langs pl --reindex
+```
+
+Metryki: Hit@1/5/10, MRR@10 i nDCG@10 dla złotego fragmentu. Do tego `pgH@k`: trafienie, jeśli w top-k jest dowolny fragment złotej strony.
+
+Wyniki z 2026-11-12 (MRR@10 na poziomie fragmentu; GPU z limitem 200 W, więc prędkości nie porównuj ze starszymi pomiarami):
+
+| model | EN MRR | EN Hit@10 | PL MRR | PL Hit@10 | wymiar | doc/s |
+|---|---|---|---|---|---|---|
+| qwen3-embedding:8b | **78,4** | **96,0** | **73,2** | **94,4** | 4096 | 12–17 |
+| qwen3-embedding:4b | 74,7 | 95,4 | 70,8 | 93,8 | 2560 | 20–26 |
+| embeddinggemma (v1, 300m) | 71,2 | 89,8 | 70,8 | 90,0 | 768 | ~51 |
+| snowflake-arctic-embed2 | 71,0 | 90,2 | 71,6 | 90,4 | 1024 | ~47 |
+| qwen3-embedding:0.6b | 69,6 | 90,4 | 63,6 | 85,8 | 1024 | ~44 |
+| embeddinggemma-2 (każdy tag) | 68,0 | 87,8 | 64,6 | 88,0 | 768 | ~44 |
+| nomic-embed-text-v2-moe | 67,8 | 87,8 | 65,6 | 87,4 | 768 | ~63 |
+| bge-m3 | 65,5 | 86,6 | 68,3 | 88,6 | 1024 | ~45 |
+| granite-embedding:278m | 64,8 | 86,8 | 57,6 | 77,0 | 768 | ~67 |
+| mxbai-embed-large (tylko EN) | 66,0 | 84,8 | 30,1 | 48,2 | 1024 | ~49 |
+| nomic-embed-text (v1, tylko EN) | 62,7 | 83,0 | 39,1 | 57,2 | 768 | ~72 |
+| bm25 | 62,2 | 83,2 | 54,1 | 78,6 | – | – |
+| paraphrase-multilingual | 49,3 | 73,4 | 41,6 | 62,6 | 768 | ~79 |
+
+- Tagi `embeddinggemma-2:270m/440m/570m/740m` w Ollamie mają ten sam model tekstowy 271M (ten sam blob, wektory identyczne bit w bit). Większe tagi dokładają tylko enkodery obrazu (440m), audio (570m) albo obu (740m). Do tekstu wystarczy `270m`.
+- embeddinggemma-2 wypada gorzej od embeddinggemma v1: −3,1 MRR po angielsku (95% CI [+0,9; +5,5] na korzyść v1) i −6,2 po polsku ([+3,3; +8,8]). Inny format prefiksu nic nie daje: `title: <tytuł>` w miejscu `title: none` zmienia wynik o ±1, a brak prefiksów obniża go o 2–3 pkt.
+- Przewaga qwen3-embedding:8b pochodzi głównie z zapytań `goal`, czyli opisu celu bez nazwy funkcji: 74,7 EN / 67,0 PL wobec ~60 u modeli 300M–600M. Po polsku jego różnica do snowflake-arctic-embed2 (+1,6) mieści się w szumie (CI [−1,4; +4,9]).
+- Najlepszy stosunek jakości do kosztu w obu językach mają embeddinggemma v1 i snowflake-arctic-embed2: ok. 71 MRR i ~50 doc/s.
+- Wynik HNSW w Qdrancie zgadza się z dokładnym przeszukaniem w numpy (sprawdzone na embeddinggemma-2), więc przybliżone wyszukiwanie niczego nie gubi.
+- Zapytania pisał LLM, który widział fragment, więc część zapytań `howto` powtarza słowa z tekstu. Dlatego BM25 wypada w nich mocno (76 EN), a słabo w `goal` (43 EN).
