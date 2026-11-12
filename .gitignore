@@ -7,3 +7,5 @@ models_telco.bat
 run_telco.bat
 __pycache__/
 game_runs/
+embedding_data/raw/
+embedding_runs/
