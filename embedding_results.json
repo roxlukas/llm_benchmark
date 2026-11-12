@@ -1040,6 +1040,5 @@
  "updated": "2026-11-12T18:24:20",
  "corpus": "LibreOffice Help (latest), en-US + pl, 911 pages",
  "query_generator": "mistral-small3.2:24b",
- "top_k": 10,
- "note": "GPU power limit 200 W since 2026-10-30; speeds not comparable with older runs"
+ "top_k": 10
 }

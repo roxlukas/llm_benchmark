@@ -161,7 +161,7 @@ python embedding_benchmark.py --models bge-m3:latest --langs pl --reindex
 
 Metryki: Hit@1/5/10, MRR@10 i nDCG@10 dla złotego fragmentu. Do tego `pgH@k`: trafienie, jeśli w top-k jest dowolny fragment złotej strony.
 
-Wyniki z 2026-11-12 (MRR@10 na poziomie fragmentu; GPU z limitem 200 W, więc prędkości nie porównuj ze starszymi pomiarami):
+Wyniki z 2026-11-12 (MRR@10 na poziomie fragmentu; RTX 3090 przy nominalnych 350 W):
 
 | model | EN MRR | EN Hit@10 | PL MRR | PL Hit@10 | wymiar | doc/s |
 |---|---|---|---|---|---|---|

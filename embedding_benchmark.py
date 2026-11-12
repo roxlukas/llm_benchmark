@@ -255,8 +255,7 @@ def main():
                   f'idx {m.get("docs_per_second", "-")} doc/s  ({time.time() - t0:.0f}s)', flush=True)
             results.update({'updated': datetime.now().isoformat(timespec='seconds'),
                             'corpus': 'LibreOffice Help (latest), en-US + pl, 911 pages',
-                            'query_generator': queries[0].get('generator'), 'top_k': TOP_K,
-                            'note': 'GPU power limit 200 W since 2026-10-30; speeds not comparable with older runs'})
+                            'query_generator': queries[0].get('generator'), 'top_k': TOP_K})
             RESULTS.write_text(json.dumps(results, ensure_ascii=False, indent=1), encoding='utf-8')
         if model != 'bm25':
             unload(url, model)
