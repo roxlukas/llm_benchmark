@@ -240,7 +240,9 @@ class LLMBenchmark:
         result = {
             "prompt_id": prompt['id'],
             "model": model,
-            "success": True,
+            # success = the model answered; an empty answer is a failure (human thumbs live in human_rating)
+            "success": bool(response_data.get('response', '').strip()),
+            "error": None if response_data.get('response', '').strip() else 'Empty response',
             "response_text": response_data.get('response', ''),
             "total_duration": end_time - start_time,
             "eval_count": response_data.get('eval_count', 0),
@@ -263,7 +265,8 @@ class LLMBenchmark:
         Returns:
             ID of inserted record
         """
-        if not result['success']:
+        if 'response_text' not in result:
+            # request error: no answer and no metrics
             query = """
                 INSERT INTO benchmark_results 
                 (prompt_id, model, success, error, timestamp)
@@ -279,15 +282,16 @@ class LLMBenchmark:
         else:
             query = """
                 INSERT INTO benchmark_results 
-                (prompt_id, model, success, response_text, total_duration, 
-                eval_count, eval_duration, load_duration, 
+                (prompt_id, model, success, error, response_text, total_duration,
+                eval_count, eval_duration, load_duration,
                 prompt_eval_count, prompt_eval_duration, timestamp)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
             values = (
                 result['prompt_id'],
                 result['model'],
                 result['success'],
+                result.get('error'),
                 result['response_text'],
                 result['total_duration'],
                 result['eval_count'],

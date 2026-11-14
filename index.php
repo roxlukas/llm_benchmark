@@ -99,7 +99,8 @@ try {
             br.model, 
             response_text,
             br.success,
-            total_duration, 
+            br.human_rating,
+            total_duration,
             eval_count, 
             eval_duration,
             prompt_eval_count, 
@@ -630,11 +631,13 @@ header('Content-Type: text/html; charset=utf-8');
                                                 </div>
                                             </span>
                                         <?php endif; ?>
-                                        <?php 
-                                                if ($result['success'] == 1) {
+                                        <?php
+                                                // human_rating: 1 good, 0 bad, NULL not rated (null == 0 in PHP, so compare strictly)
+                                                $hr = $result['human_rating'] === null ? null : (int)$result['human_rating'];
+                                                if ($hr === 1) {
                                                     $human_rating = 'Good';
                                                     $human_style = 'score-5';
-                                                } else if ($result['success'] == 0) {
+                                                } else if ($hr === 0) {
                                                     $human_rating = 'Bad';
                                                     $human_style = 'score-1';
                                                 } else {
@@ -666,11 +669,11 @@ header('Content-Type: text/html; charset=utf-8');
                                         <i class="fas fa-copy"></i>
                                     </button>
                                     <div class="rating-buttons-group">
-                                        <button class="rating-btn thumbs-up <?php echo ($result['success'] == 1) ? 'selected' : 'not-selected'; ?>" 
+                                        <button class="rating-btn thumbs-up <?php echo ($hr === 1) ? 'selected' : 'not-selected'; ?>"
                                                 data-value="1" aria-label="Thumbs up">
                                             <i class="fas fa-thumbs-up"></i>
                                         </button>
-                                        <button class="rating-btn thumbs-down <?php echo ($result['success'] == 0) ? 'selected' : 'not-selected'; ?>" 
+                                        <button class="rating-btn thumbs-down <?php echo ($hr === 0) ? 'selected' : 'not-selected'; ?>"
                                                 data-value="0" aria-label="Thumbs down">
                                             <i class="fas fa-thumbs-down"></i>
                                         </button>
@@ -794,7 +797,7 @@ header('Content-Type: text/html; charset=utf-8');
                             }
                         }
                     };
-                    xhr.send(`id=${responseId}&success=${value}`);
+                    xhr.send(`id=${responseId}&rating=${value}`);
                 });
             });
         });

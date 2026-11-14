@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS benchmark_results (
     id INT AUTO_INCREMENT PRIMARY KEY,
     prompt_id INT NOT NULL,
     model VARCHAR(100) NOT NULL,
-    success BOOLEAN NOT NULL,
+    success BOOLEAN NOT NULL,          -- the model returned an answer (non-empty response_text)
+    human_rating TINYINT NULL,         -- thumbs in index.php: 1 good, 0 bad, NULL not rated
     response_text TEXT,
     error TEXT,
     total_duration FLOAT,
