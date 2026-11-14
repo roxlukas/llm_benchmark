@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-02T07:13:51Z",
+ "generated_at": "2026-11-14T11:11:34Z",
  "evaluator": "anthropic/claude-haiku-5-5",
  "dimensions": [
   "accuracy",
@@ -27,7 +27,7 @@
   },
   {
    "name": "Education",
-   "prompts": 2
+   "prompts": 3
   },
   {
    "name": "Factography",
@@ -165,7 +165,7 @@
     "domain_expertise": 2.662,
     "helpfulness": 2.437
    },
-   "tokens_per_second": 223.7
+   "tokens_per_second": 223.2
   },
   {
    "name": "command-r7b:latest",
@@ -253,7 +253,7 @@
     "domain_expertise": 2.885,
     "helpfulness": 2.987
    },
-   "tokens_per_second": 118.2
+   "tokens_per_second": 118.1
   },
   {
    "name": "deepseek-r1:32b",
@@ -613,18 +613,18 @@
     "domain_expertise": 2.741,
     "helpfulness": 2.847
    },
-   "tokens_per_second": 137.1
+   "tokens_per_second": 137.0
   },
   {
    "name": "flint:latest",
-   "family": null,
-   "params_b": null,
-   "quantization": null,
-   "context_length": null,
-   "size_bytes": null,
+   "family": "flint",
+   "params_b": 39.8,
+   "quantization": "NVFP4",
+   "context_length": 262144,
+   "size_bytes": 24377500000,
    "size_estimated": true,
    "installed": false,
-   "min_memory_gb": null,
+   "min_memory_gb": 25.9,
    "overall": 3.759,
    "rated": 88,
    "failed": 0,
@@ -989,10 +989,10 @@
    "params_b": 12.2,
    "quantization": "Q4_K_M",
    "context_length": 131072,
-   "size_bytes": 8149190253,
-   "size_estimated": false,
-   "installed": true,
-   "min_memory_gb": 9.6,
+   "size_bytes": 7472500000,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": 9.0,
    "overall": 3.829,
    "rated": 83,
    "failed": 5,
@@ -1073,7 +1073,7 @@
     "domain_expertise": 3.446,
     "helpfulness": 3.687
    },
-   "tokens_per_second": 68.3
+   "tokens_per_second": 69.2
   },
   {
    "name": "gemma3:1b",
@@ -1081,10 +1081,10 @@
    "params_b": 1.0,
    "quantization": "Q4_K_M",
    "context_length": 32768,
-   "size_bytes": 815319791,
-   "size_estimated": false,
-   "installed": true,
-   "min_memory_gb": 2.3,
+   "size_bytes": 612432625,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": 2.1,
    "overall": 2.48,
    "rated": 75,
    "failed": 33,
@@ -1149,7 +1149,7 @@
     "domain_expertise": 2.2,
     "helpfulness": 2.333
    },
-   "tokens_per_second": 270.1
+   "tokens_per_second": 270.2
   },
   {
    "name": "gemma3:27b",
@@ -1241,7 +1241,7 @@
     "domain_expertise": 3.482,
     "helpfulness": 3.759
    },
-   "tokens_per_second": 31.8
+   "tokens_per_second": 32.0
   },
   {
    "name": "gemma3:4b",
@@ -1249,10 +1249,10 @@
    "params_b": 4.3,
    "quantization": "Q4_K_M",
    "context_length": 131072,
-   "size_bytes": 3338801804,
-   "size_estimated": false,
-   "installed": true,
-   "min_memory_gb": 4.8,
+   "size_bytes": 2633750000,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": 4.1,
    "overall": 3.67,
    "rated": 77,
    "failed": 11,
@@ -1325,7 +1325,7 @@
     "domain_expertise": 3.26,
     "helpfulness": 3.532
    },
-   "tokens_per_second": 155.6
+   "tokens_per_second": 155.9
   },
   {
    "name": "gemma3:latest",
@@ -1417,7 +1417,7 @@
     "domain_expertise": 3.094,
     "helpfulness": 3.247
    },
-   "tokens_per_second": 77.3
+   "tokens_per_second": 77.8
   },
   {
    "name": "gemma3n:e2b",
@@ -1509,7 +1509,7 @@
     "domain_expertise": 2.929,
     "helpfulness": 3.19
    },
-   "tokens_per_second": 57.2
+   "tokens_per_second": 57.9
   },
   {
    "name": "gemma3n:latest",
@@ -1809,7 +1809,7 @@
     "domain_expertise": 3.639,
     "helpfulness": 3.778
    },
-   "tokens_per_second": 113.3
+   "tokens_per_second": 113.2
   },
   {
    "name": "gemma4:31b",
@@ -1913,7 +1913,7 @@
     "domain_expertise": 3.738,
     "helpfulness": 3.981
    },
-   "tokens_per_second": 31.5
+   "tokens_per_second": 31.4
   },
   {
    "name": "gemma4:e2b",
@@ -2121,7 +2121,7 @@
     "domain_expertise": 3.318,
     "helpfulness": 3.458
    },
-   "tokens_per_second": 126.8
+   "tokens_per_second": 126.7
   },
   {
    "name": "gemma:latest",
@@ -2289,7 +2289,7 @@
     "domain_expertise": 3.477,
     "helpfulness": 3.709
    },
-   "tokens_per_second": 87.8
+   "tokens_per_second": 88.0
   },
   {
    "name": "gpt-oss:20b",
@@ -2853,7 +2853,7 @@
     "domain_expertise": 3.128,
     "helpfulness": 3.244
    },
-   "tokens_per_second": 75.6
+   "tokens_per_second": 76.6
   },
   {
    "name": "hf.co/lmstudio-community/Qwen3-4B-Thinking-2507-GGUF:Q6_K",
@@ -2949,7 +2949,7 @@
     "domain_expertise": 3.287,
     "helpfulness": 2.989
    },
-   "tokens_per_second": 68.0
+   "tokens_per_second": 77.4
   },
   {
    "name": "hf.co/speakleash/Bielik-1.5B-v3.0-Instruct-GGUF:Q8_0",
@@ -3125,7 +3125,7 @@
     "domain_expertise": 2.976,
     "helpfulness": 3.012
    },
-   "tokens_per_second": 19.0
+   "tokens_per_second": 53.3
   },
   {
    "name": "hf.co/speakleash/Bielik-11B-v2.6-Instruct-GGUF:Q5_K_M",
@@ -3469,7 +3469,7 @@
     "domain_expertise": 2.826,
     "helpfulness": 2.64
    },
-   "tokens_per_second": 110.5
+   "tokens_per_second": 110.6
   },
   {
    "name": "huggingface.co/NikolayKozloff/PLLuM-12B-instruct-Q5_K_M-GGUF:latest",
@@ -3941,7 +3941,7 @@
     "domain_expertise": 3.435,
     "helpfulness": 3.62
    },
-   "tokens_per_second": 125.9
+   "tokens_per_second": 125.8
   },
   {
    "name": "lfm2.5-thinking:1.2b",
@@ -4037,7 +4037,7 @@
     "domain_expertise": 1.884,
     "helpfulness": 1.86
    },
-   "tokens_per_second": 508.3
+   "tokens_per_second": 508.1
   },
   {
    "name": "lfm2:24b",
@@ -4341,7 +4341,7 @@
     "domain_expertise": 2.12,
     "helpfulness": 2.222
    },
-   "tokens_per_second": 322.7
+   "tokens_per_second": 322.6
   },
   {
    "name": "lfm3-vl:latest",
@@ -4621,7 +4621,7 @@
     "domain_expertise": 2.085,
     "helpfulness": 2.106
    },
-   "tokens_per_second": 234.1
+   "tokens_per_second": 234.0
   },
   {
    "name": "llama3.3:latest",
@@ -4897,7 +4897,7 @@
     "domain_expertise": 3.345,
     "helpfulness": 3.517
    },
-   "tokens_per_second": 76.1
+   "tokens_per_second": 76.2
   },
   {
    "name": "ministral-3:3b",
@@ -4993,7 +4993,7 @@
     "domain_expertise": 2.733,
     "helpfulness": 2.767
    },
-   "tokens_per_second": 191.6
+   "tokens_per_second": 191.8
   },
   {
    "name": "ministral-3:8b",
@@ -5093,7 +5093,7 @@
     "domain_expertise": 3.261,
     "helpfulness": 3.284
    },
-   "tokens_per_second": 113.4
+   "tokens_per_second": 113.6
   },
   {
    "name": "mistral-nemo:latest",
@@ -5277,7 +5277,7 @@
     "domain_expertise": 3.314,
     "helpfulness": 3.488
    },
-   "tokens_per_second": 30.2
+   "tokens_per_second": 26.2
   },
   {
    "name": "mistral:7b",
@@ -5369,7 +5369,7 @@
     "domain_expertise": 2.776,
     "helpfulness": 2.624
    },
-   "tokens_per_second": 151.9
+   "tokens_per_second": 151.7
   },
   {
    "name": "mistral:latest",
@@ -5453,7 +5453,7 @@
     "domain_expertise": 2.795,
     "helpfulness": 2.756
    },
-   "tokens_per_second": 142.8
+   "tokens_per_second": 142.3
   },
   {
    "name": "mistral_telco:latest",
@@ -5545,7 +5545,7 @@
     "domain_expertise": 2.612,
     "helpfulness": 2.341
    },
-   "tokens_per_second": 139.1
+   "tokens_per_second": 138.8
   },
   {
    "name": "muse-glimmer:30b-q4_K_M-dflash",
@@ -5649,7 +5649,7 @@
     "domain_expertise": 3.981,
     "helpfulness": 4.046
    },
-   "tokens_per_second": 31.1
+   "tokens_per_second": 31.2
   },
   {
    "name": "nemotron-3-nano:30b",
@@ -5849,7 +5849,7 @@
     "domain_expertise": 3.657,
     "helpfulness": 3.685
    },
-   "tokens_per_second": 108.4
+   "tokens_per_second": 108.3
   },
   {
    "name": "nemotron-cascade-2:latest",
@@ -5953,14 +5953,14 @@
   },
   {
    "name": "ornith-1.5:35b",
-   "family": "qwen35moe",
-   "params_b": 35.5,
+   "family": "clip",
+   "params_b": 0.45,
    "quantization": "Q4_K_M",
    "context_length": 262144,
-   "size_bytes": 22616285024,
-   "size_estimated": false,
-   "installed": true,
-   "min_memory_gb": 24.1,
+   "size_bytes": 273524125,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": 1.8,
    "overall": 3.552,
    "rated": 88,
    "failed": 0,
@@ -6197,7 +6197,7 @@
     "domain_expertise": 2.224,
     "helpfulness": 2.118
    },
-   "tokens_per_second": 203.7
+   "tokens_per_second": 203.6
   },
   {
    "name": "phi3:medium",
@@ -6473,7 +6473,7 @@
     "domain_expertise": 3.54,
     "helpfulness": 3.575
    },
-   "tokens_per_second": 5.2
+   "tokens_per_second": 33.2
   },
   {
    "name": "phi4-reasoning:plus",
@@ -6665,7 +6665,7 @@
     "domain_expertise": 3.305,
     "helpfulness": 3.415
    },
-   "tokens_per_second": 77.1
+   "tokens_per_second": 77.2
   },
   {
    "name": "qwen2.5-coder:1.5b-base",
@@ -6749,7 +6749,7 @@
     "domain_expertise": 1.653,
     "helpfulness": 1.56
    },
-   "tokens_per_second": 321.8
+   "tokens_per_second": 314.8
   },
   {
    "name": "qwen2.5-coder:14b",
@@ -7033,7 +7033,7 @@
     "domain_expertise": 2.465,
     "helpfulness": 2.395
    },
-   "tokens_per_second": 94.9
+   "tokens_per_second": 97.4
   },
   {
    "name": "qwen2.5-coder:7b",
@@ -7125,10 +7125,10 @@
    "params_b": 1.5,
    "quantization": "Q4_K_M",
    "context_length": 32768,
-   "size_bytes": 986061892,
-   "size_estimated": false,
-   "installed": true,
-   "min_memory_gb": 2.5,
+   "size_bytes": 918750000,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": 2.4,
    "overall": 2.489,
    "rated": 74,
    "failed": 14,
@@ -7201,7 +7201,7 @@
     "domain_expertise": 2.149,
     "helpfulness": 2.135
    },
-   "tokens_per_second": 336.1
+   "tokens_per_second": 334.4
   },
   {
    "name": "qwen2.5:3b",
@@ -7209,9 +7209,9 @@
    "params_b": 3.1,
    "quantization": "Q4_K_M",
    "context_length": 32768,
-   "size_bytes": 1929912432,
-   "size_estimated": false,
-   "installed": true,
+   "size_bytes": 1898750000,
+   "size_estimated": true,
+   "installed": false,
    "min_memory_gb": 3.4,
    "overall": 2.914,
    "rated": 79,
@@ -7301,9 +7301,9 @@
    "params_b": 7.6,
    "quantization": "Q4_K_M",
    "context_length": 32768,
-   "size_bytes": 4683087332,
-   "size_estimated": false,
-   "installed": true,
+   "size_bytes": 4655000000,
+   "size_estimated": true,
+   "installed": false,
    "min_memory_gb": 6.2,
    "overall": 3.407,
    "rated": 83,
@@ -7381,7 +7381,7 @@
     "domain_expertise": 3.036,
     "helpfulness": 3.205
    },
-   "tokens_per_second": 129.9
+   "tokens_per_second": 133.6
   },
   {
    "name": "qwen3-coder:30b",
@@ -7653,7 +7653,7 @@
     "domain_expertise": 3.153,
     "helpfulness": 3.318
    },
-   "tokens_per_second": 11.2
+   "tokens_per_second": 43.0
   },
   {
    "name": "qwen3.5:27b",
@@ -8269,7 +8269,7 @@
     "domain_expertise": 3.778,
     "helpfulness": 3.972
    },
-   "tokens_per_second": 95.4
+   "tokens_per_second": 95.0
   },
   {
    "name": "qwen3.8:27b",
@@ -8373,7 +8373,7 @@
     "domain_expertise": 3.87,
     "helpfulness": 4.074
    },
-   "tokens_per_second": 55.6
+   "tokens_per_second": 55.7
   },
   {
    "name": "qwen3:1.7b",
@@ -8465,7 +8465,7 @@
     "domain_expertise": 2.283,
     "helpfulness": 2.475
    },
-   "tokens_per_second": 252.5
+   "tokens_per_second": 255.9
   },
   {
    "name": "qwen3:14b",
@@ -8565,7 +8565,7 @@
     "domain_expertise": 3.453,
     "helpfulness": 3.698
    },
-   "tokens_per_second": 66.5
+   "tokens_per_second": 66.8
   },
   {
    "name": "qwen3:30b",
@@ -8857,7 +8857,7 @@
     "domain_expertise": 3.106,
     "helpfulness": 3.388
    },
-   "tokens_per_second": 85.2
+   "tokens_per_second": 92.0
   },
   {
    "name": "qwen3:8b",
@@ -8953,7 +8953,7 @@
     "domain_expertise": 3.322,
     "helpfulness": 3.506
    },
-   "tokens_per_second": 55.4
+   "tokens_per_second": 55.6
   },
   {
    "name": "smollm:latest",
@@ -9037,7 +9037,7 @@
     "domain_expertise": 1.53,
     "helpfulness": 1.455
    },
-   "tokens_per_second": 391.4
+   "tokens_per_second": 391.0
   },
   {
    "name": "speakleash/bielik-1.5b-v3.0-instruct:Q8_0",
@@ -9129,7 +9129,7 @@
     "domain_expertise": 1.424,
     "helpfulness": 1.318
    },
-   "tokens_per_second": 279.0
+   "tokens_per_second": 277.7
   },
   {
    "name": "speakleash/bielik-11b-v2.3-instruct:Q4_K_M",
@@ -9312,6 +9312,110 @@
    "tokens_per_second": 69.9
   },
   {
+   "name": "speakleash/bielik-11b-v3.1-instruct:Q6_K",
+   "family": "llama",
+   "params_b": 11.2,
+   "quantization": "Q6_K",
+   "context_length": 32768,
+   "size_bytes": 9164032991,
+   "size_estimated": false,
+   "installed": true,
+   "min_memory_gb": 10.7,
+   "overall": 3.029,
+   "rated": 109,
+   "failed": 0,
+   "categories": {
+    "AI": {
+     "avg": 3.6,
+     "n": 1
+    },
+    "Classification - Few shot": {
+     "avg": 3.94,
+     "n": 10
+    },
+    "Classification - Zero shot": {
+     "avg": 4.26,
+     "n": 10
+    },
+    "Creative": {
+     "avg": 3.4,
+     "n": 1
+    },
+    "Education": {
+     "avg": 3.2,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 1.6,
+     "n": 2
+    },
+    "HR": {
+     "avg": 3.2,
+     "n": 2
+    },
+    "Health": {
+     "avg": 3.2,
+     "n": 1
+    },
+    "LLM": {
+     "avg": 3.5,
+     "n": 2
+    },
+    "Linux": {
+     "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 4.0,
+     "n": 1
+    },
+    "Polski": {
+     "avg": 3.667,
+     "n": 3
+    },
+    "Programming": {
+     "avg": 2.224,
+     "n": 33
+    },
+    "RAG": {
+     "avg": 3.2,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.6,
+     "n": 1
+    },
+    "Role prompting": {
+     "avg": 3.433,
+     "n": 6
+    },
+    "Structured output": {
+     "avg": 4.073,
+     "n": 11
+    },
+    "Telco": {
+     "avg": 3.45,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 1.84,
+     "n": 10
+    }
+   },
+   "dimensions": {
+    "accuracy": 2.954,
+    "completeness": 3.009,
+    "clarity": 3.844,
+    "domain_expertise": 2.734,
+    "helpfulness": 2.606
+   },
+   "tokens_per_second": 74.2
+  },
+  {
    "name": "speakleash/bielik-4.5b-v3.0-instruct:Q8_0",
    "family": "llama",
    "params_b": 4.8,
@@ -9401,7 +9505,7 @@
     "domain_expertise": 1.976,
     "helpfulness": 1.894
    },
-   "tokens_per_second": 113.5
+   "tokens_per_second": 113.4
   },
   {
    "name": "tinyllama:latest",
@@ -9461,7 +9565,7 @@
     "domain_expertise": 1.176,
     "helpfulness": 1.157
    },
-   "tokens_per_second": 489.4
+   "tokens_per_second": 488.3
   }
  ]
 }
