@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-14T15:52:43Z",
+ "generated_at": "2026-11-14T22:51:16Z",
  "evaluator": "anthropic/claude-haiku-5-5",
  "dimensions": [
   "accuracy",
@@ -59,7 +59,7 @@
   },
   {
    "name": "Polski",
-   "prompts": 3
+   "prompts": 23
   },
   {
    "name": "Programming",
@@ -1901,8 +1901,8 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 19.5,
-   "overall": 3.928,
-   "rated": 108,
+   "overall": 3.949,
+   "rated": 129,
    "failed": 0,
    "categories": {
     "AI": {
@@ -1922,8 +1922,8 @@
      "n": 1
     },
     "Education": {
-     "avg": 3.9,
-     "n": 2
+     "avg": 3.867,
+     "n": 3
     },
     "Factography": {
      "avg": 2.8,
@@ -1954,8 +1954,8 @@
      "n": 1
     },
     "Polski": {
-     "avg": 1.8,
-     "n": 3
+     "avg": 3.774,
+     "n": 23
     },
     "Programming": {
      "avg": 3.461,
@@ -1987,13 +1987,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.778,
-    "completeness": 4.009,
-    "clarity": 4.454,
-    "domain_expertise": 3.639,
-    "helpfulness": 3.778
+    "accuracy": 3.806,
+    "completeness": 4.023,
+    "clarity": 4.473,
+    "domain_expertise": 3.659,
+    "helpfulness": 3.798
    },
-   "tokens_per_second": 113.2
+   "tokens_per_second": 115.9
   },
   {
    "name": "gemma4:31b",
@@ -2005,8 +2005,8 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 21.4,
-   "overall": 4.059,
-   "rated": 108,
+   "overall": 4.085,
+   "rated": 129,
    "failed": 0,
    "categories": {
     "AI": {
@@ -2027,7 +2027,7 @@
     },
     "Education": {
      "avg": 3.8,
-     "n": 2
+     "n": 3
     },
     "Factography": {
      "avg": 2.1,
@@ -2058,8 +2058,8 @@
      "n": 1
     },
     "Polski": {
-     "avg": 1.667,
-     "n": 3
+     "avg": 3.904,
+     "n": 23
     },
     "Programming": {
      "avg": 3.842,
@@ -2091,13 +2091,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 4.028,
-    "completeness": 4.037,
-    "clarity": 4.556,
-    "domain_expertise": 3.713,
-    "helpfulness": 3.963
+    "accuracy": 4.047,
+    "completeness": 4.054,
+    "clarity": 4.589,
+    "domain_expertise": 3.752,
+    "helpfulness": 3.984
    },
-   "tokens_per_second": 31.5
+   "tokens_per_second": 29.8
   },
   {
    "name": "gemma4:e2b",
@@ -2493,8 +2493,8 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 15.3,
-   "overall": 3.889,
-   "rated": 108,
+   "overall": 3.826,
+   "rated": 129,
    "failed": 0,
    "categories": {
     "AI": {
@@ -2514,8 +2514,8 @@
      "n": 1
     },
     "Education": {
-     "avg": 4.0,
-     "n": 2
+     "avg": 4.267,
+     "n": 3
     },
     "Factography": {
      "avg": 1.5,
@@ -2546,8 +2546,8 @@
      "n": 1
     },
     "Polski": {
-     "avg": 3.533,
-     "n": 3
+     "avg": 3.452,
+     "n": 23
     },
     "Programming": {
      "avg": 3.636,
@@ -2579,13 +2579,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.639,
-    "completeness": 4.13,
-    "clarity": 4.389,
-    "domain_expertise": 3.546,
-    "helpfulness": 3.759
+    "accuracy": 3.527,
+    "completeness": 4.078,
+    "clarity": 4.395,
+    "domain_expertise": 3.481,
+    "helpfulness": 3.667
    },
-   "tokens_per_second": 132.9
+   "tokens_per_second": 138.9
   },
   {
    "name": "granite4.2:3b",
@@ -3301,8 +3301,8 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 11.6,
-   "overall": 2.874,
-   "rated": 108,
+   "overall": 2.967,
+   "rated": 128,
    "failed": 1,
    "categories": {
     "AI": {
@@ -3354,8 +3354,8 @@
      "n": 1
     },
     "Polski": {
-     "avg": 3.4,
-     "n": 2
+     "avg": 3.464,
+     "n": 22
     },
     "Programming": {
      "avg": 2.109,
@@ -3387,13 +3387,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.843,
-    "completeness": 2.824,
-    "clarity": 3.62,
-    "domain_expertise": 2.593,
-    "helpfulness": 2.491
+    "accuracy": 2.93,
+    "completeness": 2.969,
+    "clarity": 3.68,
+    "domain_expertise": 2.68,
+    "helpfulness": 2.578
    },
-   "tokens_per_second": 72.9
+   "tokens_per_second": 73.3
   },
   {
    "name": "hf.co/speakleash/Bielik-1.5B-v3.0-Instruct-GGUF:Q8_0",
@@ -3607,14 +3607,14 @@
    "name": "hf.co/speakleash/Bielik-11B-v2.6-Instruct-GGUF:Q5_K_M",
    "family": "llama",
    "params_b": 11.2,
-   "quantization": "unknown",
+   "quantization": "Q5_K_M",
    "context_length": 32768,
-   "size_bytes": 6860000000,
-   "size_estimated": true,
-   "installed": false,
-   "min_memory_gb": 8.4,
-   "overall": 3.108,
-   "rated": 109,
+   "size_bytes": 7907042580,
+   "size_estimated": false,
+   "installed": true,
+   "min_memory_gb": 9.4,
+   "overall": 3.126,
+   "rated": 129,
    "failed": 0,
    "categories": {
     "AI": {
@@ -3666,8 +3666,8 @@
      "n": 1
     },
     "Polski": {
-     "avg": 3.667,
-     "n": 3
+     "avg": 3.278,
+     "n": 23
     },
     "Programming": {
      "avg": 2.388,
@@ -3699,13 +3699,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.963,
-    "completeness": 3.138,
-    "clarity": 3.927,
-    "domain_expertise": 2.771,
-    "helpfulness": 2.734
+    "accuracy": 2.969,
+    "completeness": 3.194,
+    "clarity": 3.907,
+    "domain_expertise": 2.798,
+    "helpfulness": 2.752
    },
-   "tokens_per_second": 79.1
+   "tokens_per_second": 79.9
   },
   {
    "name": "hf.co/speakleash/Bielik-11B-v3.0-Instruct-GGUF:Q6_K",
@@ -6241,8 +6241,8 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 21.3,
-   "overall": 4.211,
-   "rated": 108,
+   "overall": 4.2,
+   "rated": 129,
    "failed": 0,
    "categories": {
     "AI": {
@@ -6262,8 +6262,8 @@
      "n": 1
     },
     "Education": {
-     "avg": 3.9,
-     "n": 2
+     "avg": 4.0,
+     "n": 3
     },
     "Factography": {
      "avg": 2.0,
@@ -6294,8 +6294,8 @@
      "n": 1
     },
     "Polski": {
-     "avg": 4.4,
-     "n": 3
+     "avg": 4.174,
+     "n": 23
     },
     "Programming": {
      "avg": 3.976,
@@ -6327,13 +6327,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 4.194,
-    "completeness": 4.269,
-    "clarity": 4.565,
-    "domain_expertise": 3.981,
-    "helpfulness": 4.046
+    "accuracy": 4.202,
+    "completeness": 4.256,
+    "clarity": 4.574,
+    "domain_expertise": 3.953,
+    "helpfulness": 4.016
    },
-   "tokens_per_second": 31.2
+   "tokens_per_second": 31.9
   },
   {
    "name": "nemotron-3-nano:30b",
@@ -9109,8 +9109,8 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 19.2,
-   "overall": 4.169,
-   "rated": 108,
+   "overall": 4.133,
+   "rated": 129,
    "failed": 0,
    "categories": {
     "AI": {
@@ -9130,8 +9130,8 @@
      "n": 1
     },
     "Education": {
-     "avg": 4.1,
-     "n": 2
+     "avg": 4.067,
+     "n": 3
     },
     "Factography": {
      "avg": 2.3,
@@ -9162,8 +9162,8 @@
      "n": 1
     },
     "Polski": {
-     "avg": 4.4,
-     "n": 3
+     "avg": 4.009,
+     "n": 23
     },
     "Programming": {
      "avg": 3.848,
@@ -9195,13 +9195,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.861,
-    "completeness": 4.426,
-    "clarity": 4.611,
-    "domain_expertise": 3.87,
-    "helpfulness": 4.074
+    "accuracy": 3.814,
+    "completeness": 4.38,
+    "clarity": 4.636,
+    "domain_expertise": 3.814,
+    "helpfulness": 4.023
    },
-   "tokens_per_second": 55.7
+   "tokens_per_second": 58.3
   },
   {
    "name": "qwen3:1.7b",
@@ -10129,8 +10129,8 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 10.7,
-   "overall": 3.029,
-   "rated": 109,
+   "overall": 3.143,
+   "rated": 129,
    "failed": 0,
    "categories": {
     "AI": {
@@ -10182,8 +10182,8 @@
      "n": 1
     },
     "Polski": {
-     "avg": 3.667,
-     "n": 3
+     "avg": 3.748,
+     "n": 23
     },
     "Programming": {
      "avg": 2.224,
@@ -10215,13 +10215,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.954,
-    "completeness": 3.009,
-    "clarity": 3.844,
-    "domain_expertise": 2.734,
-    "helpfulness": 2.606
+    "accuracy": 3.054,
+    "completeness": 3.163,
+    "clarity": 3.915,
+    "domain_expertise": 2.845,
+    "helpfulness": 2.736
    },
-   "tokens_per_second": 74.2
+   "tokens_per_second": 74.1
   },
   {
    "name": "speakleash/bielik-4.5b-v3.0-instruct:Q8_0",
