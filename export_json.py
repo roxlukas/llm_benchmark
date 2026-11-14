@@ -104,6 +104,9 @@ def main():
         if not m['scores']:
             continue
         meta = metadata.get(name, {})
+        if (meta.get('architecture') or '').lower() in ('clip', 'mmproj'):
+            # a vision projector's row (old model_metadata.py bug), not the language model: don't size from it
+            meta = {k: v for k, v in meta.items() if k not in ('architecture', 'parameters')}
         tag = installed.get(name)
         details = (tag or {}).get('details', {})
         params_b = parse_params_b(details.get('parameter_size')) or parse_params_b(meta.get('parameters'))

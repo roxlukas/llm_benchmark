@@ -82,22 +82,18 @@ def parse_model_metadata(model_name):
     }
     
     section = None
-    for line in output.splitlines():
-        line = line.strip()
-        
-        # Detect section headers
-        if line == "Model":
-            section = "model"
-            continue
-        elif line == "Parameters":
-            section = "parameters"
-            continue
-        elif line == "License":
-            section = "license"
-            continue
-        
+    for raw in output.splitlines():
+        line = raw.strip()
+
         # Skip empty lines
         if not line:
+            continue
+
+        # Section headers (Model, Capabilities, Projector, Parameters, License, ...) are indented
+        # by 2 spaces, their entries by 4. Every header switches the section, so the vision
+        # projector's "architecture clip / parameters 446M" never overwrites the language model's.
+        if len(raw) - len(raw.lstrip()) <= 2:
+            section = line.lower()
             continue
         
         # Parse model section
