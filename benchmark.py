@@ -8,17 +8,40 @@ import os
 from typing import Dict, List, Any, Tuple
 from db_env import add_db_args
 
+# A model stuck in a loop is a failed answer: generation stops at the token limit or as soon as
+# the last LOOP_WINDOW characters repeat exactly with a period of LOOP_MIN_PERIOD..LOOP_MAX_PERIOD.
+DEFAULT_MAX_TOKENS = 32768
+LOOP_WINDOW = 3000
+LOOP_MIN_PERIOD = 10
+LOOP_MAX_PERIOD = 1000
+LOOP_CHECK_EVERY = 200  # stream chunks (about one token each)
+
+
+def find_loop_period(text: str) -> int:
+    """Return the period if the tail of text is one block repeated over LOOP_WINDOW chars, else 0."""
+    if len(text) < LOOP_WINDOW + LOOP_MIN_PERIOD:
+        return 0
+    tail = text[-LOOP_WINDOW:]
+    for p in range(LOOP_MIN_PERIOD, min(LOOP_MAX_PERIOD, len(text) - LOOP_WINDOW) + 1):
+        if text[-LOOP_WINDOW - p:-p] == tail:
+            return p
+    return 0
+
+
 class LLMBenchmark:
-    def __init__(self, db_config: Dict[str, str], ollama_base_url: str = "http://localhost:11434"):
+    def __init__(self, db_config: Dict[str, str], ollama_base_url: str = "http://localhost:11434",
+                 max_tokens: int = DEFAULT_MAX_TOKENS):
         """
         Initialize the LLM benchmarking framework.
-        
+
         Args:
             db_config: Dictionary with MySQL connection parameters
             ollama_base_url: Base URL for Ollama API
+            max_tokens: num_predict limit; an answer that reaches it is saved as a failure
         """
         self.db_config = db_config
         self.ollama_base_url = ollama_base_url
+        self.max_tokens = max_tokens
         self.conn = None
         self.cursor = None
         
@@ -203,14 +226,16 @@ class LLMBenchmark:
         request_data = {
             "model": model,
             "prompt": prompt['prompt_text'],
-            "stream": False
+            "stream": True,
+            "options": {"num_predict": self.max_tokens}
         }
-        
+
         start_time = time.time()
         try:
             response = requests.post(
                 f"{self.ollama_base_url}/api/generate",
-                json=request_data
+                json=request_data,
+                stream=True
             )
         except requests.exceptions.RequestException as e:
             print(f"Error calling Ollama API: {e}")
@@ -222,10 +247,9 @@ class LLMBenchmark:
                 "error": f"Request failed: {e}",
                 "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
-        end_time = time.time()
-
         if response.status_code != 200:
             print(f"Error calling Ollama API: {response.status_code}")
+            response.close()
             return {
                 "prompt_id": prompt['id'],
                 "model": model,
@@ -234,25 +258,88 @@ class LLMBenchmark:
                 "error": f"API Error: {response.status_code}",
                 "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
-            
-        response_data = response.json()
-        
+
+        text, thinking = [], []
+        final = {}
+        chunks = 0
+        loop_error = None
+        first_token_time = None
+        try:
+            for line in response.iter_lines():
+                if not line:
+                    continue
+                chunk = json.loads(line)
+                if chunk.get('error'):
+                    raise requests.exceptions.RequestException(chunk['error'])
+                if chunk.get('response'):
+                    text.append(chunk['response'])
+                if chunk.get('thinking'):
+                    thinking.append(chunk['thinking'])
+                if chunk.get('done'):
+                    final = chunk
+                    break
+                chunks += 1
+                if first_token_time is None:
+                    first_token_time = time.time()
+                if chunks % LOOP_CHECK_EVERY == 0:
+                    for part, label in ((text, 'answer'), (thinking, 'thinking')):
+                        period = find_loop_period(''.join(part))
+                        if period:
+                            loop_error = f"Runaway generation: {label} repeats every {period} chars after {chunks} tokens"
+                            break
+                    if loop_error:
+                        break  # closing the connection makes Ollama stop generating
+        except (requests.exceptions.RequestException, ValueError) as e:
+            response.close()
+            print(f"Error reading Ollama stream: {e}")
+            return {
+                "prompt_id": prompt['id'],
+                "model": model,
+                "success": False,
+                "transient": True,
+                "error": f"Stream failed: {e}",
+                "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
+        finally:
+            response.close()
+        end_time = time.time()
+
+        response_text = ''.join(text)
+        if loop_error is None and final.get('done_reason') == 'length':
+            loop_error = f"Runaway generation: hit the {self.max_tokens}-token limit"
+
+        if loop_error:
+            # success = the model gave a usable answer; a loop never is (human thumbs live in human_rating)
+            success, error = False, loop_error
+            print(f"   - {loop_error}")
+        elif not response_text.strip():
+            success, error = False, 'Empty response'
+        else:
+            success, error = True, None
+
+        if final:
+            eval_count = final.get('eval_count', 0)
+            eval_duration = final.get('eval_duration', 0)
+        else:
+            # stopped early: no final stats from Ollama, estimate from the stream
+            eval_count = chunks
+            eval_duration = int((end_time - (first_token_time or start_time)) * 1e9)
+
         result = {
             "prompt_id": prompt['id'],
             "model": model,
-            # success = the model answered; an empty answer is a failure (human thumbs live in human_rating)
-            "success": bool(response_data.get('response', '').strip()),
-            "error": None if response_data.get('response', '').strip() else 'Empty response',
-            "response_text": response_data.get('response', ''),
+            "success": success,
+            "error": error,
+            "response_text": response_text,
             "total_duration": end_time - start_time,
-            "eval_count": response_data.get('eval_count', 0),
-            "eval_duration": response_data.get('eval_duration', 0),
-            "load_duration": response_data.get('load_duration', 0),
-            "prompt_eval_count": response_data.get('prompt_eval_count', 0),
-            "prompt_eval_duration": response_data.get('prompt_eval_duration', 0),
+            "eval_count": eval_count,
+            "eval_duration": eval_duration,
+            "load_duration": final.get('load_duration', 0),
+            "prompt_eval_count": final.get('prompt_eval_count', 0),
+            "prompt_eval_duration": final.get('prompt_eval_duration', 0),
             "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
-        
+
         return result
     
     def save_result(self, result: Dict[str, Any]) -> int:
@@ -438,7 +525,9 @@ if __name__ == "__main__":
     parser.add_argument('--report', action='store_true', help='Generate report only')
     parser.add_argument('--prompt-id', type=int, help='Run benchmark for a specific prompt ID')
     parser.add_argument('--force', action='store_true', help='Force regeneration of results even if they exist')
-    
+    parser.add_argument('--max-tokens', type=int, default=DEFAULT_MAX_TOKENS,
+                        help=f'num_predict limit; reaching it marks the answer as failed (default {DEFAULT_MAX_TOKENS})')
+
     args = parser.parse_args()
     
     db_config = {
@@ -450,7 +539,7 @@ if __name__ == "__main__":
         'charset': 'utf8mb4'
     }
     
-    benchmark = LLMBenchmark(db_config, args.ollama)
+    benchmark = LLMBenchmark(db_config, args.ollama, args.max_tokens)
     
     if args.report:
         report = benchmark.generate_report()

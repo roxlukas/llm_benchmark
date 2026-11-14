@@ -68,6 +68,8 @@ python export_json.py
 
 Parametry bazy pochodzą z `.env`. Flagi `--host`, `--port`, `--user`, `--password`, `--database` nadal działają i nadpisują `.env` (np. `--database llm_benchmark_mistral_telco`).
 
+`success` w `benchmark_results` znaczy tylko tyle, że model dał użyteczną odpowiedź. Kciuki z `index.php` zapisują się osobno, w `human_rating` (1 dobra, 0 zła, NULL nieoceniona). Pusta odpowiedź i pętla to `success = 0` z opisem w `error`, więc nie liczą się do wyników. `benchmark.py` czyta odpowiedź strumieniowo i przerywa ją, gdy ostatnie 3000 znaków to jeden fragment powtarzany w kółko (zwykle po 1–2 tys. tokenów) albo gdy dojdzie do limitu `--max-tokens` (domyślnie 32 768, zostawia miejsce na myślenie). Model, który wpada w pętle, nie nadaje się na produkcję, nawet jeśli pozostałe odpowiedzi ma dobre.
+
 ### Wizualizacja (PHP)
 Uruchom serwer web i otwórz `index.php` w przeglądarce.
 
