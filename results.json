@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-14T11:11:34Z",
+ "generated_at": "2026-11-14T14:26:51Z",
  "evaluator": "anthropic/claude-haiku-5-5",
  "dimensions": [
   "accuracy",
@@ -101,9 +101,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 3.4,
-   "overall": 2.823,
-   "rated": 71,
-   "failed": 17,
+   "overall": 2.577,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -125,6 +125,10 @@
      "avg": 3.7,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.2,
+     "n": 2
+    },
     "HR": {
      "avg": 2.6,
      "n": 2
@@ -137,35 +141,55 @@
      "avg": 3.4,
      "n": 2
     },
+    "Linux": {
+     "avg": 1.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.0,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.8,
      "n": 1
     },
+    "Polski": {
+     "avg": 1.067,
+     "n": 3
+    },
     "Programming": {
-     "avg": 2.305,
-     "n": 19
+     "avg": 2.235,
+     "n": 23
+    },
+    "RAG": {
+     "avg": 2.1,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.8,
+     "n": 1
     },
     "Role prompting": {
      "avg": 1.333,
      "n": 6
     },
     "Structured output": {
-     "avg": 3.4,
-     "n": 10
+     "avg": 3.236,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.8,
-     "n": 6
+     "avg": 3.25,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.789,
-    "completeness": 2.887,
-    "clarity": 3.352,
-    "domain_expertise": 2.662,
-    "helpfulness": 2.437
+    "accuracy": 2.523,
+    "completeness": 2.636,
+    "clarity": 3.114,
+    "domain_expertise": 2.42,
+    "helpfulness": 2.205
    },
-   "tokens_per_second": 223.2
+   "tokens_per_second": 167.8
   },
   {
    "name": "command-r7b:latest",
@@ -177,9 +201,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 6.6,
-   "overall": 3.277,
-   "rated": 78,
-   "failed": 10,
+   "overall": 3.102,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -201,9 +225,13 @@
      "avg": 3.2,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.4,
+     "n": 2
+    },
     "HR": {
-     "avg": 2.8,
-     "n": 1
+     "avg": 2.6,
+     "n": 2
     },
     "Health": {
      "avg": 3.4,
@@ -212,6 +240,14 @@
     "LLM": {
      "avg": 3.8,
      "n": 2
+    },
+    "Linux": {
+     "avg": 1.8,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.6,
+     "n": 1
     },
     "Philosophy": {
      "avg": 4.4,
@@ -222,12 +258,12 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.591,
-     "n": 22
+     "avg": 2.583,
+     "n": 23
     },
     "RAG": {
-     "avg": 3.4,
-     "n": 1
+     "avg": 2.3,
+     "n": 2
     },
     "Reasoning": {
      "avg": 2.8,
@@ -242,18 +278,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.0,
-     "n": 5
+     "avg": 3.15,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.154,
-    "completeness": 3.359,
-    "clarity": 4.0,
-    "domain_expertise": 2.885,
-    "helpfulness": 2.987
+    "accuracy": 2.943,
+    "completeness": 3.159,
+    "clarity": 3.898,
+    "domain_expertise": 2.716,
+    "helpfulness": 2.795
    },
-   "tokens_per_second": 118.1
+   "tokens_per_second": 59.7
   },
   {
    "name": "deepseek-r1:32b",
@@ -265,9 +301,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 21.6,
-   "overall": 3.361,
-   "rated": 83,
-   "failed": 5,
+   "overall": 3.28,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -290,8 +326,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 2.2,
-     "n": 1
+     "avg": 1.8,
+     "n": 2
     },
     "HR": {
      "avg": 3.4,
@@ -309,17 +345,29 @@
      "avg": 3.0,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Polski": {
      "avg": 1.533,
      "n": 3
     },
     "Programming": {
-     "avg": 2.964,
-     "n": 22
+     "avg": 2.983,
+     "n": 23
     },
     "RAG": {
      "avg": 2.8,
      "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.8,
+     "n": 1
     },
     "Role prompting": {
      "avg": 3.333,
@@ -335,13 +383,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.675,
-    "completeness": 3.398,
-    "clarity": 3.349,
-    "domain_expertise": 3.301,
-    "helpfulness": 3.084
+    "accuracy": 3.568,
+    "completeness": 3.307,
+    "clarity": 3.318,
+    "domain_expertise": 3.205,
+    "helpfulness": 2.989
    },
-   "tokens_per_second": 6.9
+   "tokens_per_second": 4.7
   },
   {
    "name": "deepseek-r1:8b",
@@ -353,9 +401,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 6.5,
-   "overall": 3.257,
-   "rated": 77,
-   "failed": 11,
+   "overall": 3.086,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.2,
@@ -377,6 +425,10 @@
      "avg": 2.8,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.1,
+     "n": 2
+    },
     "HR": {
      "avg": 2.4,
      "n": 2
@@ -389,13 +441,25 @@
      "avg": 3.0,
      "n": 2
     },
+    "Linux": {
+     "avg": 1.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 2.6,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Polski": {
      "avg": 2.333,
      "n": 3
     },
     "Programming": {
-     "avg": 2.4,
-     "n": 20
+     "avg": 2.417,
+     "n": 23
     },
     "RAG": {
      "avg": 2.3,
@@ -414,18 +478,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 3.4,
-     "n": 5
+     "avg": 2.775,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.156,
-    "completeness": 3.468,
-    "clarity": 3.61,
-    "domain_expertise": 2.935,
-    "helpfulness": 3.117
+    "accuracy": 2.977,
+    "completeness": 3.261,
+    "clarity": 3.511,
+    "domain_expertise": 2.773,
+    "helpfulness": 2.909
    },
-   "tokens_per_second": 105.4
+   "tokens_per_second": 56.1
   },
   {
    "name": "devstral-small-2:24b",
@@ -437,9 +501,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 16.2,
-   "overall": 3.735,
-   "rated": 86,
-   "failed": 2,
+   "overall": 3.686,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -462,8 +526,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 2.4,
-     "n": 1
+     "avg": 1.9,
+     "n": 2
     },
     "HR": {
      "avg": 3.5,
@@ -479,6 +543,10 @@
     },
     "Linux": {
      "avg": 3.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.8,
      "n": 1
     },
     "Philosophy": {
@@ -515,11 +583,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.616,
-    "completeness": 3.721,
-    "clarity": 4.5,
-    "domain_expertise": 3.337,
-    "helpfulness": 3.5
+    "accuracy": 3.557,
+    "completeness": 3.67,
+    "clarity": 4.477,
+    "domain_expertise": 3.284,
+    "helpfulness": 3.443
    },
    "tokens_per_second": 50.2
   },
@@ -533,9 +601,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 6.3,
-   "overall": 3.132,
-   "rated": 85,
-   "failed": 3,
+   "overall": 3.064,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -557,6 +625,10 @@
      "avg": 3.6,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.2,
+     "n": 2
+    },
     "HR": {
      "avg": 2.1,
      "n": 2
@@ -571,6 +643,10 @@
     },
     "Linux": {
      "avg": 2.0,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.0,
      "n": 1
     },
     "Philosophy": {
@@ -607,13 +683,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.965,
-    "completeness": 3.212,
-    "clarity": 3.894,
-    "domain_expertise": 2.741,
-    "helpfulness": 2.847
+    "accuracy": 2.909,
+    "completeness": 3.136,
+    "clarity": 3.807,
+    "domain_expertise": 2.682,
+    "helpfulness": 2.784
    },
-   "tokens_per_second": 137.0
+   "tokens_per_second": 137.1
   },
   {
    "name": "flint:latest",
@@ -725,9 +801,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 3.1,
-   "overall": 2.708,
-   "rated": 85,
-   "failed": 3,
+   "overall": 2.67,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -749,6 +825,10 @@
      "avg": 3.3,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.4,
+     "n": 2
+    },
     "HR": {
      "avg": 2.2,
      "n": 2
@@ -763,6 +843,10 @@
     },
     "Linux": {
      "avg": 1.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 2.0,
      "n": 1
     },
     "Philosophy": {
@@ -799,11 +883,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.482,
-    "completeness": 2.671,
-    "clarity": 3.624,
-    "domain_expertise": 2.388,
-    "helpfulness": 2.376
+    "accuracy": 2.443,
+    "completeness": 2.625,
+    "clarity": 3.602,
+    "domain_expertise": 2.352,
+    "helpfulness": 2.33
    },
    "tokens_per_second": 241.0
   },
@@ -817,9 +901,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 6.7,
-   "overall": 3.635,
-   "rated": 81,
-   "failed": 7,
+   "overall": 3.495,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -841,6 +925,10 @@
      "avg": 3.8,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.6,
+     "n": 2
+    },
     "HR": {
      "avg": 3.1,
      "n": 2
@@ -857,6 +945,10 @@
      "avg": 2.8,
      "n": 1
     },
+    "Logic": {
+     "avg": 2.2,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.0,
      "n": 1
@@ -870,7 +962,11 @@
      "n": 23
     },
     "RAG": {
-     "avg": 3.4,
+     "avg": 2.7,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.6,
      "n": 1
     },
     "Role prompting": {
@@ -882,18 +978,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.167,
-     "n": 6
+     "avg": 3.65,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.543,
-    "completeness": 3.568,
-    "clarity": 4.42,
-    "domain_expertise": 3.198,
-    "helpfulness": 3.457
+    "accuracy": 3.375,
+    "completeness": 3.42,
+    "clarity": 4.341,
+    "domain_expertise": 3.068,
+    "helpfulness": 3.284
    },
-   "tokens_per_second": 98.9
+   "tokens_per_second": 59.3
   },
   {
    "name": "gemma2:latest",
@@ -905,9 +1001,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 6.7,
-   "overall": 3.683,
-   "rated": 82,
-   "failed": 6,
+   "overall": 3.566,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -929,6 +1025,10 @@
      "avg": 3.3,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.6,
+     "n": 2
+    },
     "HR": {
      "avg": 3.5,
      "n": 2
@@ -945,6 +1045,10 @@
      "avg": 3.2,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.4,
      "n": 1
@@ -959,6 +1063,10 @@
     },
     "RAG": {
      "avg": 3.2,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.8,
      "n": 1
     },
     "Role prompting": {
@@ -970,18 +1078,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.314,
-     "n": 7
+     "avg": 4.025,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.646,
-    "completeness": 3.585,
-    "clarity": 4.439,
-    "domain_expertise": 3.317,
-    "helpfulness": 3.427
+    "accuracy": 3.5,
+    "completeness": 3.466,
+    "clarity": 4.386,
+    "domain_expertise": 3.193,
+    "helpfulness": 3.284
    },
-   "tokens_per_second": 61.0
+   "tokens_per_second": 56.8
   },
   {
    "name": "gemma3:12b",
@@ -993,9 +1101,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 9.0,
-   "overall": 3.829,
-   "rated": 83,
-   "failed": 5,
+   "overall": 3.718,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.2,
@@ -1018,8 +1126,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 2.0,
-     "n": 1
+     "avg": 1.8,
+     "n": 2
     },
     "HR": {
      "avg": 3.8,
@@ -1035,6 +1143,10 @@
     },
     "Linux": {
      "avg": 2.8,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 2.0,
      "n": 1
     },
     "Philosophy": {
@@ -1053,6 +1165,10 @@
      "avg": 3.8,
      "n": 2
     },
+    "Reasoning": {
+     "avg": 2.0,
+     "n": 1
+    },
     "Role prompting": {
      "avg": 3.667,
      "n": 6
@@ -1062,18 +1178,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.433,
-     "n": 6
+     "avg": 3.8,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.807,
-    "completeness": 3.831,
-    "clarity": 4.361,
-    "domain_expertise": 3.446,
-    "helpfulness": 3.687
+    "accuracy": 3.648,
+    "completeness": 3.716,
+    "clarity": 4.341,
+    "domain_expertise": 3.341,
+    "helpfulness": 3.534
    },
-   "tokens_per_second": 69.2
+   "tokens_per_second": 68.3
   },
   {
    "name": "gemma3:1b",
@@ -1085,57 +1201,85 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 2.1,
-   "overall": 2.48,
-   "rated": 75,
-   "failed": 33,
+   "overall": 2.27,
+   "rated": 108,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
      "n": 1
     },
     "Classification - Few shot": {
-     "avg": 4.7,
-     "n": 6
+     "avg": 3.78,
+     "n": 10
     },
     "Classification - Zero shot": {
-     "avg": 4.75,
-     "n": 4
+     "avg": 3.1,
+     "n": 10
     },
     "Creative": {
      "avg": 4.2,
      "n": 1
     },
     "Education": {
-     "avg": 3.8,
-     "n": 1
+     "avg": 3.1,
+     "n": 2
+    },
+    "Factography": {
+     "avg": 1.3,
+     "n": 2
+    },
+    "HR": {
+     "avg": 1.8,
+     "n": 2
     },
     "Health": {
      "avg": 3.2,
      "n": 1
     },
     "LLM": {
-     "avg": 4.4,
+     "avg": 3.3,
+     "n": 2
+    },
+    "Linux": {
+     "avg": 1.4,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 2.0,
+     "n": 1
+    },
+    "Polski": {
+     "avg": 1.667,
+     "n": 3
+    },
     "Programming": {
-     "avg": 1.738,
-     "n": 29
+     "avg": 1.685,
+     "n": 33
     },
     "RAG": {
      "avg": 2.6,
      "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.8,
+     "n": 1
     },
     "Role prompting": {
      "avg": 1.633,
      "n": 6
     },
     "Structured output": {
-     "avg": 3.02,
-     "n": 10
+     "avg": 2.873,
+     "n": 11
     },
     "Telco": {
-     "avg": 4.133,
-     "n": 3
+     "avg": 2.625,
+     "n": 8
     },
     "Terminal": {
      "avg": 1.12,
@@ -1143,13 +1287,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.373,
-    "completeness": 2.453,
-    "clarity": 3.04,
-    "domain_expertise": 2.2,
-    "helpfulness": 2.333
+    "accuracy": 2.046,
+    "completeness": 2.241,
+    "clarity": 3.13,
+    "domain_expertise": 1.944,
+    "helpfulness": 1.981
    },
-   "tokens_per_second": 270.2
+   "tokens_per_second": 267.8
   },
   {
    "name": "gemma3:27b",
@@ -1161,9 +1305,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 18.9,
-   "overall": 3.911,
-   "rated": 83,
-   "failed": 5,
+   "overall": 3.805,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.2,
@@ -1186,8 +1330,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.4,
-     "n": 1
+     "avg": 1.5,
+     "n": 2
     },
     "HR": {
      "avg": 3.8,
@@ -1201,6 +1345,14 @@
      "avg": 4.0,
      "n": 2
     },
+    "Linux": {
+     "avg": 2.6,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.0,
      "n": 1
@@ -1210,8 +1362,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.182,
-     "n": 22
+     "avg": 3.148,
+     "n": 23
     },
     "RAG": {
      "avg": 3.9,
@@ -1230,18 +1382,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.371,
-     "n": 7
+     "avg": 4.05,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.88,
-    "completeness": 3.916,
-    "clarity": 4.518,
-    "domain_expertise": 3.482,
-    "helpfulness": 3.759
+    "accuracy": 3.739,
+    "completeness": 3.818,
+    "clarity": 4.466,
+    "domain_expertise": 3.375,
+    "helpfulness": 3.625
    },
-   "tokens_per_second": 32.0
+   "tokens_per_second": 31.8
   },
   {
    "name": "gemma3:4b",
@@ -1253,9 +1405,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 4.1,
-   "overall": 3.67,
-   "rated": 77,
-   "failed": 11,
+   "overall": 3.448,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.2,
@@ -1277,9 +1429,13 @@
      "avg": 3.9,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.4,
+     "n": 2
+    },
     "HR": {
-     "avg": 3.2,
-     "n": 1
+     "avg": 3.0,
+     "n": 2
     },
     "Health": {
      "avg": 3.2,
@@ -1288,6 +1444,14 @@
     "LLM": {
      "avg": 3.7,
      "n": 2
+    },
+    "Linux": {
+     "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
     },
     "Philosophy": {
      "avg": 4.2,
@@ -1298,12 +1462,16 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.682,
-     "n": 22
+     "avg": 2.626,
+     "n": 23
     },
     "RAG": {
      "avg": 2.9,
      "n": 2
+    },
+    "Reasoning": {
+     "avg": 2.0,
+     "n": 1
     },
     "Role prompting": {
      "avg": 3.267,
@@ -1314,18 +1482,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.2,
-     "n": 4
+     "avg": 3.075,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.584,
-    "completeness": 3.662,
-    "clarity": 4.312,
-    "domain_expertise": 3.26,
-    "helpfulness": 3.532
+    "accuracy": 3.284,
+    "completeness": 3.432,
+    "clarity": 4.205,
+    "domain_expertise": 3.068,
+    "helpfulness": 3.25
    },
-   "tokens_per_second": 155.9
+   "tokens_per_second": 153.4
   },
   {
    "name": "gemma3:latest",
@@ -1337,9 +1505,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 4.8,
-   "overall": 3.489,
-   "rated": 85,
-   "failed": 3,
+   "overall": 3.423,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -1361,6 +1529,10 @@
      "avg": 3.9,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.4,
+     "n": 2
+    },
     "HR": {
      "avg": 3.4,
      "n": 2
@@ -1375,6 +1547,10 @@
     },
     "Linux": {
      "avg": 2.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.8,
      "n": 1
     },
     "Philosophy": {
@@ -1411,13 +1587,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.353,
-    "completeness": 3.518,
-    "clarity": 4.235,
-    "domain_expertise": 3.094,
-    "helpfulness": 3.247
+    "accuracy": 3.273,
+    "completeness": 3.443,
+    "clarity": 4.205,
+    "domain_expertise": 3.023,
+    "helpfulness": 3.17
    },
-   "tokens_per_second": 77.8
+   "tokens_per_second": 126.6
   },
   {
    "name": "gemma3n:e2b",
@@ -1429,9 +1605,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 7.1,
-   "overall": 3.352,
-   "rated": 84,
-   "failed": 4,
+   "overall": 3.277,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -1453,6 +1629,10 @@
      "avg": 3.6,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.3,
+     "n": 2
+    },
     "HR": {
      "avg": 3.4,
      "n": 2
@@ -1466,6 +1646,10 @@
      "n": 2
     },
     "Linux": {
+     "avg": 2.0,
+     "n": 1
+    },
+    "Logic": {
      "avg": 2.0,
      "n": 1
     },
@@ -1494,8 +1678,8 @@
      "n": 6
     },
     "Structured output": {
-     "avg": 3.82,
-     "n": 10
+     "avg": 3.673,
+     "n": 11
     },
     "Telco": {
      "avg": 3.025,
@@ -1503,11 +1687,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.143,
-    "completeness": 3.417,
-    "clarity": 4.083,
-    "domain_expertise": 2.929,
-    "helpfulness": 3.19
+    "accuracy": 3.057,
+    "completeness": 3.33,
+    "clarity": 4.034,
+    "domain_expertise": 2.864,
+    "helpfulness": 3.102
    },
    "tokens_per_second": 57.9
   },
@@ -1521,9 +1705,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 9.0,
-   "overall": 3.494,
-   "rated": 85,
-   "failed": 3,
+   "overall": 3.427,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -1545,6 +1729,10 @@
      "avg": 3.6,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.4,
+     "n": 2
+    },
     "HR": {
      "avg": 3.5,
      "n": 2
@@ -1559,6 +1747,10 @@
     },
     "Linux": {
      "avg": 2.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.8,
      "n": 1
     },
     "Philosophy": {
@@ -1595,13 +1787,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.353,
-    "completeness": 3.612,
-    "clarity": 4.153,
-    "domain_expertise": 3.094,
-    "helpfulness": 3.259
+    "accuracy": 3.273,
+    "completeness": 3.534,
+    "clarity": 4.125,
+    "domain_expertise": 3.023,
+    "helpfulness": 3.182
    },
-   "tokens_per_second": 29.3
+   "tokens_per_second": 85.1
   },
   {
    "name": "gemma4:12b",
@@ -1821,9 +2013,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 21.4,
-   "overall": 4.079,
-   "rated": 107,
-   "failed": 1,
+   "overall": 4.059,
+   "rated": 108,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -1846,8 +2038,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 2.2,
-     "n": 1
+     "avg": 2.1,
+     "n": 2
     },
     "HR": {
      "avg": 3.7,
@@ -1907,13 +2099,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 4.047,
-    "completeness": 4.065,
-    "clarity": 4.561,
-    "domain_expertise": 3.738,
-    "helpfulness": 3.981
+    "accuracy": 4.028,
+    "completeness": 4.037,
+    "clarity": 4.556,
+    "domain_expertise": 3.713,
+    "helpfulness": 3.963
    },
-   "tokens_per_second": 31.4
+   "tokens_per_second": 31.5
   },
   {
    "name": "gemma4:e2b",
@@ -1925,9 +2117,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 8.7,
-   "overall": 3.518,
-   "rated": 107,
-   "failed": 1,
+   "overall": 3.506,
+   "rated": 108,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.2,
@@ -1950,8 +2142,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.4,
-     "n": 1
+     "avg": 1.8,
+     "n": 2
     },
     "HR": {
      "avg": 4.1,
@@ -2011,11 +2203,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.299,
-    "completeness": 3.486,
-    "clarity": 4.29,
-    "domain_expertise": 3.234,
-    "helpfulness": 3.299
+    "accuracy": 3.287,
+    "completeness": 3.463,
+    "clarity": 4.287,
+    "domain_expertise": 3.222,
+    "helpfulness": 3.287
    },
    "tokens_per_second": 165.7
   },
@@ -2029,9 +2221,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 11.1,
-   "overall": 3.643,
-   "rated": 107,
-   "failed": 1,
+   "overall": 3.626,
+   "rated": 108,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -2054,8 +2246,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.2,
-     "n": 1
+     "avg": 1.5,
+     "n": 2
     },
     "HR": {
      "avg": 4.0,
@@ -2115,13 +2307,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.486,
-    "completeness": 3.729,
-    "clarity": 4.234,
-    "domain_expertise": 3.318,
-    "helpfulness": 3.458
+    "accuracy": 3.463,
+    "completeness": 3.704,
+    "clarity": 4.231,
+    "domain_expertise": 3.296,
+    "helpfulness": 3.444
    },
-   "tokens_per_second": 126.7
+   "tokens_per_second": 126.6
   },
   {
    "name": "gemma:latest",
@@ -2133,9 +2325,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 6.3,
-   "overall": 3.2,
-   "rated": 23,
-   "failed": 8,
+   "overall": 2.935,
+   "rated": 31,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -2165,13 +2357,17 @@
      "avg": 2.0,
      "n": 1
     },
+    "Philosophy": {
+     "avg": 2.0,
+     "n": 1
+    },
     "Programming": {
-     "avg": 2.68,
-     "n": 5
+     "avg": 2.771,
+     "n": 7
     },
     "RAG": {
-     "avg": 3.4,
-     "n": 1
+     "avg": 2.8,
+     "n": 2
     },
     "Reasoning": {
      "avg": 4.6,
@@ -2182,18 +2378,18 @@
      "n": 2
     },
     "Telco": {
-     "avg": 3.75,
-     "n": 4
+     "avg": 2.775,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.217,
-    "completeness": 3.0,
-    "clarity": 4.043,
-    "domain_expertise": 2.783,
-    "helpfulness": 2.957
+    "accuracy": 2.871,
+    "completeness": 2.742,
+    "clarity": 4.0,
+    "domain_expertise": 2.516,
+    "helpfulness": 2.548
    },
-   "tokens_per_second": 17.3
+   "tokens_per_second": 20.1
   },
   {
    "name": "glm-4.7-flash:Q4_K_M",
@@ -2205,9 +2401,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 20.5,
-   "overall": 3.853,
-   "rated": 86,
-   "failed": 2,
+   "overall": 3.828,
+   "rated": 87,
+   "failed": 1,
    "categories": {
     "AI": {
      "avg": 3.8,
@@ -2249,6 +2445,10 @@
      "avg": 2.4,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.4,
      "n": 1
@@ -2283,11 +2483,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.802,
-    "completeness": 3.837,
-    "clarity": 4.442,
-    "domain_expertise": 3.477,
-    "helpfulness": 3.709
+    "accuracy": 3.77,
+    "completeness": 3.816,
+    "clarity": 4.425,
+    "domain_expertise": 3.448,
+    "helpfulness": 3.678
    },
    "tokens_per_second": 88.0
   },
@@ -2301,9 +2501,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 15.3,
-   "overall": 3.936,
-   "rated": 106,
-   "failed": 2,
+   "overall": 3.889,
+   "rated": 108,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -2326,8 +2526,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.6,
-     "n": 1
+     "avg": 1.5,
+     "n": 2
     },
     "HR": {
      "avg": 4.0,
@@ -2343,6 +2543,10 @@
     },
     "Linux": {
      "avg": 3.8,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.4,
      "n": 1
     },
     "Philosophy": {
@@ -2383,13 +2587,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.689,
-    "completeness": 4.179,
-    "clarity": 4.425,
-    "domain_expertise": 3.594,
-    "helpfulness": 3.811
+    "accuracy": 3.639,
+    "completeness": 4.13,
+    "clarity": 4.389,
+    "domain_expertise": 3.546,
+    "helpfulness": 3.759
    },
-   "tokens_per_second": 132.8
+   "tokens_per_second": 132.9
   },
   {
    "name": "granite4.2:3b",
@@ -2605,9 +2809,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 3.6,
-   "overall": 3.183,
-   "rated": 71,
-   "failed": 17,
+   "overall": 2.991,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -2621,13 +2825,21 @@
      "avg": 3.92,
      "n": 10
     },
-    "Education": {
+    "Creative": {
      "avg": 3.4,
      "n": 1
     },
+    "Education": {
+     "avg": 3.2,
+     "n": 2
+    },
+    "Factography": {
+     "avg": 1.2,
+     "n": 2
+    },
     "HR": {
-     "avg": 2.4,
-     "n": 1
+     "avg": 2.8,
+     "n": 2
     },
     "Health": {
      "avg": 3.4,
@@ -2641,20 +2853,28 @@
      "avg": 2.2,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.4,
      "n": 1
     },
     "Polski": {
-     "avg": 2.0,
-     "n": 1
+     "avg": 1.733,
+     "n": 3
     },
     "Programming": {
-     "avg": 2.456,
-     "n": 18
+     "avg": 2.426,
+     "n": 23
     },
     "RAG": {
      "avg": 3.2,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 2.0,
      "n": 1
     },
     "Role prompting": {
@@ -2666,18 +2886,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 3.5,
-     "n": 6
+     "avg": 3.075,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.042,
-    "completeness": 3.225,
-    "clarity": 3.944,
-    "domain_expertise": 2.789,
-    "helpfulness": 2.915
+    "accuracy": 2.818,
+    "completeness": 2.977,
+    "clarity": 3.807,
+    "domain_expertise": 2.636,
+    "helpfulness": 2.682
    },
-   "tokens_per_second": 189.7
+   "tokens_per_second": 86.3
   },
   {
    "name": "granite4:tiny-h",
@@ -2689,9 +2909,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 5.7,
-   "overall": 3.122,
-   "rated": 74,
-   "failed": 14,
+   "overall": 2.902,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -2713,6 +2933,14 @@
      "avg": 3.6,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.4,
+     "n": 2
+    },
+    "HR": {
+     "avg": 2.3,
+     "n": 2
+    },
     "Health": {
      "avg": 3.2,
      "n": 1
@@ -2721,43 +2949,55 @@
      "avg": 3.7,
      "n": 2
     },
+    "Linux": {
+     "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.4,
      "n": 1
     },
     "Polski": {
-     "avg": 1.6,
-     "n": 2
+     "avg": 1.667,
+     "n": 3
     },
     "Programming": {
-     "avg": 2.655,
-     "n": 22
+     "avg": 2.591,
+     "n": 23
     },
     "RAG": {
      "avg": 3.0,
      "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.4,
+     "n": 1
     },
     "Role prompting": {
      "avg": 2.267,
      "n": 6
     },
     "Structured output": {
-     "avg": 3.62,
-     "n": 10
+     "avg": 3.455,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.95,
-     "n": 4
+     "avg": 2.825,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.905,
-    "completeness": 3.108,
-    "clarity": 4.135,
-    "domain_expertise": 2.743,
-    "helpfulness": 2.73
+    "accuracy": 2.659,
+    "completeness": 2.909,
+    "clarity": 3.909,
+    "domain_expertise": 2.557,
+    "helpfulness": 2.489
    },
-   "tokens_per_second": 73.0
+   "tokens_per_second": 72.1
   },
   {
    "name": "hf.co/lmstudio-community/Qwen3-4B-Instruct-2507-GGUF:Q6_K",
@@ -2769,9 +3009,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 4.8,
-   "overall": 3.488,
-   "rated": 86,
-   "failed": 2,
+   "overall": 3.439,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.2,
@@ -2794,8 +3034,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.6,
-     "n": 1
+     "avg": 1.4,
+     "n": 2
     },
     "HR": {
      "avg": 3.4,
@@ -2811,6 +3051,10 @@
     },
     "Linux": {
      "avg": 2.6,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.4,
      "n": 1
     },
     "Philosophy": {
@@ -2847,13 +3091,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.279,
-    "completeness": 3.57,
-    "clarity": 4.233,
-    "domain_expertise": 3.128,
-    "helpfulness": 3.244
+    "accuracy": 3.227,
+    "completeness": 3.523,
+    "clarity": 4.182,
+    "domain_expertise": 3.08,
+    "helpfulness": 3.193
    },
-   "tokens_per_second": 76.6
+   "tokens_per_second": 86.1
   },
   {
    "name": "hf.co/lmstudio-community/Qwen3-4B-Thinking-2507-GGUF:Q6_K",
@@ -2865,9 +3109,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 4.8,
-   "overall": 3.184,
-   "rated": 87,
-   "failed": 1,
+   "overall": 3.164,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -2909,6 +3153,10 @@
      "avg": 3.6,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.2,
      "n": 1
@@ -2943,38 +3191,50 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.276,
-    "completeness": 3.414,
-    "clarity": 2.954,
-    "domain_expertise": 3.287,
-    "helpfulness": 2.989
+    "accuracy": 3.25,
+    "completeness": 3.398,
+    "clarity": 2.943,
+    "domain_expertise": 3.261,
+    "helpfulness": 2.966
    },
-   "tokens_per_second": 77.4
+   "tokens_per_second": 86.7
   },
   {
    "name": "hf.co/speakleash/Bielik-1.5B-v3.0-Instruct-GGUF:Q8_0",
    "family": "llama",
    "params_b": 1.6,
-   "quantization": "unknown",
+   "quantization": "Q8_0",
    "context_length": 8192,
-   "size_bytes": 980000000,
-   "size_estimated": true,
-   "installed": false,
-   "min_memory_gb": 2.5,
-   "overall": 2.281,
-   "rated": 37,
-   "failed": 7,
+   "size_bytes": 1699568977,
+   "size_estimated": false,
+   "installed": true,
+   "min_memory_gb": 3.2,
+   "overall": 1.919,
+   "rated": 109,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.0,
      "n": 1
+    },
+    "Classification - Few shot": {
+     "avg": 2.72,
+     "n": 10
+    },
+    "Classification - Zero shot": {
+     "avg": 1.84,
+     "n": 10
     },
     "Creative": {
      "avg": 2.8,
      "n": 1
     },
     "Education": {
-     "avg": 1.9,
+     "avg": 2.0,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 1.2,
      "n": 2
     },
     "HR": {
@@ -2993,17 +3253,21 @@
      "avg": 1.0,
      "n": 1
     },
+    "Logic": {
+     "avg": 2.2,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.4,
      "n": 1
     },
     "Polski": {
-     "avg": 1.8,
-     "n": 2
+     "avg": 1.667,
+     "n": 3
     },
     "Programming": {
-     "avg": 1.875,
-     "n": 8
+     "avg": 1.564,
+     "n": 33
     },
     "RAG": {
      "avg": 1.8,
@@ -3013,23 +3277,31 @@
      "avg": 1.2,
      "n": 1
     },
+    "Role prompting": {
+     "avg": 1.833,
+     "n": 6
+    },
     "Structured output": {
-     "avg": 2.48,
-     "n": 10
+     "avg": 2.418,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.733,
-     "n": 3
+     "avg": 2.45,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 1.32,
+     "n": 10
     }
    },
    "dimensions": {
-    "accuracy": 2.189,
-    "completeness": 2.162,
-    "clarity": 3.081,
-    "domain_expertise": 2.081,
-    "helpfulness": 1.919
+    "accuracy": 1.651,
+    "completeness": 1.927,
+    "clarity": 2.844,
+    "domain_expertise": 1.642,
+    "helpfulness": 1.532
    },
-   "tokens_per_second": 79.0
+   "tokens_per_second": 237.1
   },
   {
    "name": "hf.co/speakleash/Bielik-11B-v2.6-Instruct-GGUF:Q4_K_M",
@@ -3041,9 +3313,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 8.2,
-   "overall": 3.311,
-   "rated": 85,
-   "failed": 3,
+   "overall": 3.066,
+   "rated": 109,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -3062,12 +3334,12 @@
      "n": 1
     },
     "Education": {
-     "avg": 3.3,
-     "n": 2
+     "avg": 3.4,
+     "n": 3
     },
     "Factography": {
-     "avg": 2.4,
-     "n": 1
+     "avg": 2.0,
+     "n": 2
     },
     "HR": {
      "avg": 3.4,
@@ -3085,6 +3357,10 @@
      "avg": 3.2,
      "n": 1
     },
+    "Logic": {
+     "avg": 2.0,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.4,
      "n": 1
@@ -3094,8 +3370,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.548,
-     "n": 23
+     "avg": 2.37,
+     "n": 33
     },
     "RAG": {
      "avg": 3.6,
@@ -3110,47 +3386,63 @@
      "n": 6
     },
     "Structured output": {
-     "avg": 4.08,
-     "n": 10
+     "avg": 3.927,
+     "n": 11
     },
     "Telco": {
      "avg": 2.7,
      "n": 8
+    },
+    "Terminal": {
+     "avg": 2.36,
+     "n": 10
     }
    },
    "dimensions": {
-    "accuracy": 3.259,
-    "completeness": 3.2,
-    "clarity": 4.094,
-    "domain_expertise": 2.976,
-    "helpfulness": 3.012
+    "accuracy": 2.89,
+    "completeness": 2.991,
+    "clarity": 3.972,
+    "domain_expertise": 2.752,
+    "helpfulness": 2.716
    },
-   "tokens_per_second": 53.3
+   "tokens_per_second": 89.1
   },
   {
    "name": "hf.co/speakleash/Bielik-11B-v2.6-Instruct-GGUF:Q5_K_M",
    "family": "llama",
    "params_b": 11.2,
-   "quantization": "unknown",
+   "quantization": "Q5_K_M",
    "context_length": 32768,
-   "size_bytes": 6860000000,
-   "size_estimated": true,
-   "installed": false,
-   "min_memory_gb": 8.4,
-   "overall": 3.372,
-   "rated": 29,
-   "failed": 2,
+   "size_bytes": 7907042580,
+   "size_estimated": false,
+   "installed": true,
+   "min_memory_gb": 9.4,
+   "overall": 3.108,
+   "rated": 109,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
      "n": 1
+    },
+    "Classification - Few shot": {
+     "avg": 4.22,
+     "n": 10
+    },
+    "Classification - Zero shot": {
+     "avg": 4.02,
+     "n": 10
     },
     "Creative": {
      "avg": 3.8,
      "n": 1
     },
     "Education": {
-     "avg": 3.3,
+     "avg": 3.467,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 1.5,
      "n": 2
     },
     "HR": {
@@ -3169,13 +3461,21 @@
      "avg": 2.8,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.0,
      "n": 1
     },
+    "Polski": {
+     "avg": 3.667,
+     "n": 3
+    },
     "Programming": {
-     "avg": 3.057,
-     "n": 7
+     "avg": 2.388,
+     "n": 33
     },
     "RAG": {
      "avg": 3.6,
@@ -3185,37 +3485,45 @@
      "avg": 1.8,
      "n": 1
     },
+    "Role prompting": {
+     "avg": 3.267,
+     "n": 6
+    },
     "Structured output": {
-     "avg": 2.9,
-     "n": 2
+     "avg": 3.927,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.9,
-     "n": 6
+     "avg": 3.325,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 2.16,
+     "n": 10
     }
    },
    "dimensions": {
-    "accuracy": 3.276,
-    "completeness": 3.414,
-    "clarity": 4.103,
-    "domain_expertise": 3.0,
-    "helpfulness": 3.069
+    "accuracy": 2.963,
+    "completeness": 3.138,
+    "clarity": 3.927,
+    "domain_expertise": 2.771,
+    "helpfulness": 2.734
    },
-   "tokens_per_second": 8.4
+   "tokens_per_second": 79.1
   },
   {
    "name": "hf.co/speakleash/Bielik-11B-v3.0-Instruct-GGUF:Q6_K",
    "family": "llama",
    "params_b": 11.2,
-   "quantization": "unknown",
+   "quantization": "Q6_K",
    "context_length": 32768,
-   "size_bytes": 6860000000,
-   "size_estimated": true,
-   "installed": false,
-   "min_memory_gb": 8.4,
-   "overall": 3.291,
-   "rated": 77,
-   "failed": 3,
+   "size_bytes": 9163969844,
+   "size_estimated": false,
+   "installed": true,
+   "min_memory_gb": 10.7,
+   "overall": 2.965,
+   "rated": 109,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 2.8,
@@ -3234,12 +3542,12 @@
      "n": 1
     },
     "Education": {
-     "avg": 2.9,
-     "n": 2
+     "avg": 2.933,
+     "n": 3
     },
     "Factography": {
-     "avg": 1.6,
-     "n": 1
+     "avg": 1.7,
+     "n": 2
     },
     "HR": {
      "avg": 3.5,
@@ -3257,6 +3565,10 @@
      "avg": 2.2,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.8,
      "n": 1
@@ -3266,8 +3578,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.555,
-     "n": 22
+     "avg": 2.315,
+     "n": 33
     },
     "RAG": {
      "avg": 3.4,
@@ -3277,48 +3589,68 @@
      "avg": 2.2,
      "n": 1
     },
+    "Role prompting": {
+     "avg": 3.333,
+     "n": 6
+    },
     "Structured output": {
      "avg": 3.818,
      "n": 11
     },
     "Telco": {
-     "avg": 3.167,
-     "n": 6
+     "avg": 2.8,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 1.96,
+     "n": 10
     }
    },
    "dimensions": {
-    "accuracy": 3.234,
-    "completeness": 3.26,
-    "clarity": 4.156,
-    "domain_expertise": 2.87,
-    "helpfulness": 2.935
+    "accuracy": 2.807,
+    "completeness": 2.927,
+    "clarity": 3.927,
+    "domain_expertise": 2.578,
+    "helpfulness": 2.578
    },
-   "tokens_per_second": 74.8
+   "tokens_per_second": 73.6
   },
   {
    "name": "hf.co/speakleash/Bielik-4.5B-v3.0-Instruct-GGUF:Q8_0",
    "family": "llama",
    "params_b": 4.76,
-   "quantization": "unknown",
+   "quantization": "Q8_0",
    "context_length": 8192,
-   "size_bytes": 2915500000,
-   "size_estimated": true,
-   "installed": false,
-   "min_memory_gb": 4.4,
-   "overall": 2.93,
-   "rated": 40,
-   "failed": 4,
+   "size_bytes": 5061216116,
+   "size_estimated": false,
+   "installed": true,
+   "min_memory_gb": 6.6,
+   "overall": 2.519,
+   "rated": 109,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
      "n": 1
+    },
+    "Classification - Few shot": {
+     "avg": 3.62,
+     "n": 10
+    },
+    "Classification - Zero shot": {
+     "avg": 2.58,
+     "n": 10
     },
     "Creative": {
      "avg": 3.8,
      "n": 1
     },
     "Education": {
-     "avg": 3.3,
+     "avg": 3.2,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 1.8,
      "n": 2
     },
     "HR": {
@@ -3337,17 +3669,21 @@
      "avg": 2.4,
      "n": 1
     },
+    "Logic": {
+     "avg": 2.0,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.2,
      "n": 1
     },
     "Polski": {
-     "avg": 2.2,
-     "n": 2
+     "avg": 1.933,
+     "n": 3
     },
     "Programming": {
-     "avg": 2.525,
-     "n": 8
+     "avg": 2.085,
+     "n": 33
     },
     "RAG": {
      "avg": 2.3,
@@ -3357,23 +3693,31 @@
      "avg": 1.6,
      "n": 1
     },
+    "Role prompting": {
+     "avg": 2.667,
+     "n": 6
+    },
     "Structured output": {
-     "avg": 3.08,
-     "n": 10
+     "avg": 2.964,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.2,
-     "n": 6
+     "avg": 2.8,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 1.58,
+     "n": 10
     }
    },
    "dimensions": {
-    "accuracy": 2.75,
-    "completeness": 2.925,
-    "clarity": 3.675,
-    "domain_expertise": 2.6,
-    "helpfulness": 2.7
+    "accuracy": 2.22,
+    "completeness": 2.56,
+    "clarity": 3.477,
+    "domain_expertise": 2.147,
+    "helpfulness": 2.174
    },
-   "tokens_per_second": 36.7
+   "tokens_per_second": 105.8
   },
   {
    "name": "hf.co/unsloth/medgemma-1.5-4b-it-GGUF:Q8_K_XL",
@@ -3385,9 +3729,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 7.5,
-   "overall": 2.909,
-   "rated": 86,
-   "failed": 2,
+   "overall": 2.877,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.8,
@@ -3411,7 +3755,7 @@
     },
     "Factography": {
      "avg": 1.2,
-     "n": 1
+     "n": 2
     },
     "HR": {
      "avg": 3.6,
@@ -3427,6 +3771,10 @@
     },
     "Linux": {
      "avg": 3.8,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.8,
      "n": 1
     },
     "Philosophy": {
@@ -3463,11 +3811,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.826,
-    "completeness": 3.105,
-    "clarity": 3.128,
-    "domain_expertise": 2.826,
-    "helpfulness": 2.64
+    "accuracy": 2.784,
+    "completeness": 3.068,
+    "clarity": 3.114,
+    "domain_expertise": 2.795,
+    "helpfulness": 2.602
    },
    "tokens_per_second": 110.6
   },
@@ -3481,9 +3829,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 9.0,
-   "overall": 2.552,
-   "rated": 33,
-   "failed": 11,
+   "overall": 2.45,
+   "rated": 40,
+   "failed": 4,
    "categories": {
     "AI": {
      "avg": 3.0,
@@ -3497,6 +3845,10 @@
      "avg": 2.5,
      "n": 2
     },
+    "HR": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Health": {
      "avg": 2.0,
      "n": 1
@@ -3505,13 +3857,25 @@
      "avg": 2.8,
      "n": 2
     },
+    "Linux": {
+     "avg": 2.2,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Polski": {
-     "avg": 1.133,
-     "n": 3
+     "avg": 1.4,
+     "n": 1
     },
     "Programming": {
-     "avg": 1.88,
-     "n": 5
+     "avg": 1.75,
+     "n": 8
+    },
+    "RAG": {
+     "avg": 2.8,
+     "n": 1
     },
     "Reasoning": {
      "avg": 3.4,
@@ -3522,16 +3886,16 @@
      "n": 11
     },
     "Telco": {
-     "avg": 3.4,
-     "n": 6
+     "avg": 2.9,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.879,
-    "completeness": 2.424,
-    "clarity": 2.879,
-    "domain_expertise": 2.394,
-    "helpfulness": 2.182
+    "accuracy": 2.675,
+    "completeness": 2.275,
+    "clarity": 3.025,
+    "domain_expertise": 2.25,
+    "helpfulness": 2.025
    },
    "tokens_per_second": 7.4
   },
@@ -3545,9 +3909,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 6.2,
-   "overall": 2.335,
-   "rated": 43,
-   "failed": 1,
+   "overall": 2.314,
+   "rated": 44,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.2,
@@ -3583,7 +3947,7 @@
     },
     "Polski": {
      "avg": 1.4,
-     "n": 2
+     "n": 3
     },
     "Programming": {
      "avg": 2.25,
@@ -3607,13 +3971,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.279,
-    "completeness": 2.581,
-    "clarity": 2.163,
-    "domain_expertise": 2.395,
-    "helpfulness": 2.233
+    "accuracy": 2.25,
+    "completeness": 2.568,
+    "clarity": 2.159,
+    "domain_expertise": 2.364,
+    "helpfulness": 2.205
    },
-   "tokens_per_second": 44.4
+   "tokens_per_second": 44.1
   },
   {
    "name": "huggingface.co/pswitala/pllum-8b-instruct-q5_k_m_gguf:latest",
@@ -3625,9 +3989,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 6.4,
-   "overall": 2.876,
-   "rated": 37,
-   "failed": 7,
+   "overall": 2.877,
+   "rated": 39,
+   "failed": 5,
    "categories": {
     "AI": {
      "avg": 2.8,
@@ -3653,13 +4017,13 @@
      "avg": 3.3,
      "n": 2
     },
+    "Linux": {
+     "avg": 2.0,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 2.6,
      "n": 1
-    },
-    "Polski": {
-     "avg": 1.0,
-     "n": 3
     },
     "Programming": {
      "avg": 2.5,
@@ -3669,48 +4033,64 @@
      "avg": 2.4,
      "n": 1
     },
+    "Reasoning": {
+     "avg": 1.4,
+     "n": 1
+    },
     "Structured output": {
-     "avg": 3.18,
-     "n": 10
+     "avg": 3.091,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.733,
-     "n": 6
+     "avg": 3.2,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.946,
-    "completeness": 2.568,
-    "clarity": 3.649,
-    "domain_expertise": 2.622,
-    "helpfulness": 2.595
+    "accuracy": 2.897,
+    "completeness": 2.59,
+    "clarity": 3.744,
+    "domain_expertise": 2.615,
+    "helpfulness": 2.538
    },
-   "tokens_per_second": 29.0
+   "tokens_per_second": 28.8
   },
   {
    "name": "huggingface.co/speakleash/Bielik-11B-v2.3-Instruct-GGUF:latest",
    "family": "llama",
    "params_b": 11.2,
-   "quantization": "unknown",
+   "quantization": "Q8_0",
    "context_length": 32768,
-   "size_bytes": 6860000000,
-   "size_estimated": true,
-   "installed": false,
-   "min_memory_gb": 8.4,
-   "overall": 3.255,
-   "rated": 40,
-   "failed": 4,
+   "size_bytes": 12115556052,
+   "size_estimated": false,
+   "installed": true,
+   "min_memory_gb": 13.6,
+   "overall": 2.901,
+   "rated": 109,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
      "n": 1
+    },
+    "Classification - Few shot": {
+     "avg": 3.6,
+     "n": 10
+    },
+    "Classification - Zero shot": {
+     "avg": 4.44,
+     "n": 10
     },
     "Creative": {
      "avg": 3.8,
      "n": 1
     },
     "Education": {
-     "avg": 2.9,
+     "avg": 2.867,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 1.6,
      "n": 2
     },
     "HR": {
@@ -3729,6 +4109,10 @@
      "avg": 3.2,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.2,
      "n": 1
@@ -3738,30 +4122,42 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.9,
-     "n": 8
+     "avg": 2.23,
+     "n": 33
     },
     "RAG": {
-     "avg": 3.4,
+     "avg": 2.5,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.6,
      "n": 1
+    },
+    "Role prompting": {
+     "avg": 3.233,
+     "n": 6
     },
     "Structured output": {
      "avg": 3.636,
      "n": 11
     },
     "Telco": {
-     "avg": 3.733,
-     "n": 6
+     "avg": 3.175,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 2.22,
+     "n": 10
     }
    },
    "dimensions": {
-    "accuracy": 3.3,
-    "completeness": 3.175,
-    "clarity": 4.05,
-    "domain_expertise": 2.9,
-    "helpfulness": 2.9
+    "accuracy": 2.862,
+    "completeness": 2.862,
+    "clarity": 3.716,
+    "domain_expertise": 2.615,
+    "helpfulness": 2.468
    },
-   "tokens_per_second": 4.6
+   "tokens_per_second": 58.9
   },
   {
    "name": "huggingface.co/unsloth/Mistral-Small-3.1-24B-Instruct-2503-GGUF:Q4_K_M",
@@ -3773,9 +4169,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 16.0,
-   "overall": 3.41,
-   "rated": 39,
-   "failed": 5,
+   "overall": 3.276,
+   "rated": 42,
+   "failed": 2,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -3814,11 +4210,15 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.033,
-     "n": 6
+     "avg": 2.65,
+     "n": 8
     },
     "RAG": {
      "avg": 2.8,
+     "n": 1
+    },
+    "Reasoning": {
+     "avg": 1.6,
      "n": 1
     },
     "Structured output": {
@@ -3831,11 +4231,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.513,
-    "completeness": 3.333,
-    "clarity": 3.718,
-    "domain_expertise": 3.256,
-    "helpfulness": 3.231
+    "accuracy": 3.357,
+    "completeness": 3.19,
+    "clarity": 3.643,
+    "domain_expertise": 3.119,
+    "helpfulness": 3.071
    },
    "tokens_per_second": 3.3
   },
@@ -3953,9 +4353,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 2.2,
-   "overall": 2.007,
-   "rated": 86,
-   "failed": 2,
+   "overall": 1.993,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -3978,8 +4378,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.0,
-     "n": 1
+     "avg": 1.2,
+     "n": 2
     },
     "HR": {
      "avg": 1.1,
@@ -3995,6 +4395,10 @@
     },
     "Linux": {
      "avg": 1.0,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.4,
      "n": 1
     },
     "Philosophy": {
@@ -4031,11 +4435,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 1.965,
-    "completeness": 2.116,
-    "clarity": 2.198,
-    "domain_expertise": 1.884,
-    "helpfulness": 1.86
+    "accuracy": 1.943,
+    "completeness": 2.102,
+    "clarity": 2.205,
+    "domain_expertise": 1.864,
+    "helpfulness": 1.841
    },
    "tokens_per_second": 508.1
   },
@@ -4049,9 +4453,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 15.9,
-   "overall": 3.122,
-   "rated": 87,
-   "failed": 1,
+   "overall": 3.102,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.4,
@@ -4074,8 +4478,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.2,
-     "n": 1
+     "avg": 1.3,
+     "n": 2
     },
     "HR": {
      "avg": 3.2,
@@ -4131,11 +4535,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.839,
-    "completeness": 3.092,
-    "clarity": 4.138,
-    "domain_expertise": 2.759,
-    "helpfulness": 2.782
+    "accuracy": 2.818,
+    "completeness": 3.068,
+    "clarity": 4.125,
+    "domain_expertise": 2.739,
+    "helpfulness": 2.761
    },
    "tokens_per_second": 75.0
   },
@@ -4149,9 +4553,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 3.2,
-   "overall": 2.675,
-   "rated": 88,
-   "failed": 0,
+   "overall": 2.939,
+   "rated": 76,
+   "failed": 24,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -4206,8 +4610,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 1.93,
-     "n": 23
+     "avg": 2.427,
+     "n": 15
     },
     "RAG": {
      "avg": 3.7,
@@ -4222,22 +4626,22 @@
      "n": 6
     },
     "Structured output": {
-     "avg": 3.455,
-     "n": 11
+     "avg": 4.0,
+     "n": 9
     },
     "Telco": {
-     "avg": 2.625,
-     "n": 8
+     "avg": 3.167,
+     "n": 6
     }
    },
    "dimensions": {
-    "accuracy": 2.636,
-    "completeness": 2.58,
-    "clarity": 3.443,
-    "domain_expertise": 2.409,
-    "helpfulness": 2.307
+    "accuracy": 2.895,
+    "completeness": 2.829,
+    "clarity": 3.829,
+    "domain_expertise": 2.632,
+    "helpfulness": 2.513
    },
-   "tokens_per_second": 283.3
+   "tokens_per_second": 283.7
   },
   {
    "name": "lfm3-omni:latest",
@@ -4355,7 +4759,7 @@
    "min_memory_gb": 3.0,
    "overall": 3.13,
    "rated": 88,
-   "failed": 0,
+   "failed": 1,
    "categories": {
     "AI": {
      "avg": 4.2,
@@ -4441,7 +4845,7 @@
     "domain_expertise": 2.682,
     "helpfulness": 2.92
    },
-   "tokens_per_second": 259.2
+   "tokens_per_second": 259.3
   },
   {
    "name": "llama3.1:8b",
@@ -4453,9 +4857,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 6.4,
-   "overall": 3.202,
-   "rated": 81,
-   "failed": 7,
+   "overall": 3.116,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -4478,12 +4882,12 @@
      "n": 2
     },
     "Factography": {
-     "avg": 2.4,
-     "n": 1
+     "avg": 1.9,
+     "n": 2
     },
     "HR": {
-     "avg": 1.6,
-     "n": 1
+     "avg": 2.0,
+     "n": 2
     },
     "Health": {
      "avg": 2.8,
@@ -4497,6 +4901,10 @@
      "avg": 2.6,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.2,
      "n": 1
@@ -4506,12 +4914,16 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.427,
-     "n": 22
+     "avg": 2.47,
+     "n": 23
     },
     "RAG": {
      "avg": 2.9,
      "n": 2
+    },
+    "Reasoning": {
+     "avg": 2.0,
+     "n": 1
     },
     "Role prompting": {
      "avg": 2.033,
@@ -4522,18 +4934,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.267,
-     "n": 6
+     "avg": 3.675,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.123,
-    "completeness": 3.148,
-    "clarity": 3.938,
-    "domain_expertise": 2.827,
-    "helpfulness": 2.975
+    "accuracy": 3.0,
+    "completeness": 3.057,
+    "clarity": 3.92,
+    "domain_expertise": 2.75,
+    "helpfulness": 2.852
    },
-   "tokens_per_second": 130.7
+   "tokens_per_second": 128.6
   },
   {
    "name": "llama3.2:latest",
@@ -4545,9 +4957,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 3.5,
-   "overall": 2.411,
-   "rated": 94,
-   "failed": 14,
+   "overall": 2.339,
+   "rated": 108,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -4569,9 +4981,13 @@
      "avg": 3.3,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.2,
+     "n": 2
+    },
     "HR": {
-     "avg": 1.8,
-     "n": 1
+     "avg": 2.0,
+     "n": 2
     },
     "Health": {
      "avg": 2.8,
@@ -4580,6 +4996,14 @@
     "LLM": {
      "avg": 3.4,
      "n": 2
+    },
+    "Linux": {
+     "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
     },
     "Philosophy": {
      "avg": 4.0,
@@ -4590,11 +5014,15 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.006,
-     "n": 32
+     "avg": 2.03,
+     "n": 33
     },
     "RAG": {
-     "avg": 2.2,
+     "avg": 2.0,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.8,
      "n": 1
     },
     "Role prompting": {
@@ -4602,12 +5030,12 @@
      "n": 6
     },
     "Structured output": {
-     "avg": 3.44,
-     "n": 10
+     "avg": 3.4,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.533,
-     "n": 3
+     "avg": 2.375,
+     "n": 8
     },
     "Terminal": {
      "avg": 1.34,
@@ -4615,13 +5043,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.255,
-    "completeness": 2.426,
-    "clarity": 3.181,
-    "domain_expertise": 2.085,
-    "helpfulness": 2.106
+    "accuracy": 2.176,
+    "completeness": 2.352,
+    "clarity": 3.13,
+    "domain_expertise": 2.037,
+    "helpfulness": 2.0
    },
-   "tokens_per_second": 234.0
+   "tokens_per_second": 232.8
   },
   {
    "name": "llama3.3:latest",
@@ -4633,9 +5061,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 44.7,
-   "overall": 3.795,
-   "rated": 81,
-   "failed": 1,
+   "overall": 3.768,
+   "rated": 82,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -4659,7 +5087,7 @@
     },
     "Factography": {
      "avg": 1.6,
-     "n": 1
+     "n": 2
     },
     "HR": {
      "avg": 3.6,
@@ -4711,11 +5139,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.815,
-    "completeness": 3.728,
-    "clarity": 4.506,
-    "domain_expertise": 3.37,
-    "helpfulness": 3.556
+    "accuracy": 3.78,
+    "completeness": 3.695,
+    "clarity": 4.5,
+    "domain_expertise": 3.341,
+    "helpfulness": 3.524
    },
    "tokens_per_second": 1.1
   },
@@ -4729,9 +5157,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 1.7,
-   "overall": 2.618,
-   "rated": 79,
-   "failed": 9,
+   "overall": 2.523,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -4753,9 +5181,13 @@
      "avg": 3.0,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.3,
+     "n": 2
+    },
     "HR": {
-     "avg": 2.2,
-     "n": 1
+     "avg": 1.9,
+     "n": 2
     },
     "Health": {
      "avg": 3.2,
@@ -4764,6 +5196,14 @@
     "LLM": {
      "avg": 3.6,
      "n": 2
+    },
+    "Linux": {
+     "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
     },
     "Philosophy": {
      "avg": 3.8,
@@ -4774,12 +5214,16 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.1,
-     "n": 22
+     "avg": 2.122,
+     "n": 23
     },
     "RAG": {
      "avg": 2.8,
      "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.4,
+     "n": 1
     },
     "Role prompting": {
      "avg": 1.6,
@@ -4790,18 +5234,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 3.567,
-     "n": 6
+     "avg": 3.1,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.456,
-    "completeness": 2.557,
-    "clarity": 3.671,
-    "domain_expertise": 2.241,
-    "helpfulness": 2.165
+    "accuracy": 2.33,
+    "completeness": 2.477,
+    "clarity": 3.58,
+    "domain_expertise": 2.159,
+    "helpfulness": 2.068
    },
-   "tokens_per_second": 157.7
+   "tokens_per_second": 103.5
   },
   {
    "name": "ministral-3:14b",
@@ -4813,9 +5257,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 10.6,
-   "overall": 3.738,
-   "rated": 87,
-   "failed": 1,
+   "overall": 3.714,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.2,
@@ -4857,6 +5301,10 @@
      "avg": 3.6,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.2,
      "n": 1
@@ -4891,13 +5339,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.483,
-    "completeness": 3.897,
-    "clarity": 4.448,
-    "domain_expertise": 3.345,
-    "helpfulness": 3.517
+    "accuracy": 3.455,
+    "completeness": 3.864,
+    "clarity": 4.443,
+    "domain_expertise": 3.318,
+    "helpfulness": 3.489
    },
-   "tokens_per_second": 76.2
+   "tokens_per_second": 76.3
   },
   {
    "name": "ministral-3:3b",
@@ -4909,9 +5357,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 4.5,
-   "overall": 3.107,
-   "rated": 86,
-   "failed": 2,
+   "overall": 3.068,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -4934,8 +5382,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.8,
-     "n": 1
+     "avg": 1.5,
+     "n": 2
     },
     "HR": {
      "avg": 3.3,
@@ -4951,6 +5399,10 @@
     },
     "Linux": {
      "avg": 2.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.6,
      "n": 1
     },
     "Philosophy": {
@@ -4987,13 +5439,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.651,
-    "completeness": 3.174,
-    "clarity": 4.209,
-    "domain_expertise": 2.733,
-    "helpfulness": 2.767
+    "accuracy": 2.614,
+    "completeness": 3.136,
+    "clarity": 4.17,
+    "domain_expertise": 2.693,
+    "helpfulness": 2.727
    },
-   "tokens_per_second": 191.8
+   "tokens_per_second": 191.9
   },
   {
    "name": "ministral-3:8b",
@@ -5105,9 +5557,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 8.4,
-   "overall": 3.299,
-   "rated": 77,
-   "failed": 3,
+   "overall": 3.245,
+   "rated": 80,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.8,
@@ -5165,23 +5617,27 @@
      "avg": 3.3,
      "n": 2
     },
+    "Reasoning": {
+     "avg": 2.0,
+     "n": 1
+    },
     "Structured output": {
      "avg": 4.073,
      "n": 11
     },
     "Telco": {
-     "avg": 4.467,
-     "n": 6
+     "avg": 3.8,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.104,
-    "completeness": 3.325,
-    "clarity": 4.195,
-    "domain_expertise": 2.922,
-    "helpfulness": 2.948
+    "accuracy": 3.025,
+    "completeness": 3.275,
+    "clarity": 4.175,
+    "domain_expertise": 2.875,
+    "helpfulness": 2.875
    },
-   "tokens_per_second": 16.9
+   "tokens_per_second": 15.5
   },
   {
    "name": "mistral-small3.2:24b",
@@ -5193,9 +5649,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 16.7,
-   "overall": 3.716,
-   "rated": 86,
-   "failed": 2,
+   "overall": 3.67,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -5218,8 +5674,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 2.0,
-     "n": 1
+     "avg": 1.7,
+     "n": 2
     },
     "HR": {
      "avg": 3.5,
@@ -5235,6 +5691,10 @@
     },
     "Linux": {
      "avg": 2.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 2.0,
      "n": 1
     },
     "Philosophy": {
@@ -5271,13 +5731,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.64,
-    "completeness": 3.663,
-    "clarity": 4.488,
-    "domain_expertise": 3.314,
-    "helpfulness": 3.488
+    "accuracy": 3.58,
+    "completeness": 3.614,
+    "clarity": 4.466,
+    "domain_expertise": 3.273,
+    "helpfulness": 3.432
    },
-   "tokens_per_second": 26.2
+   "tokens_per_second": 34.2
   },
   {
    "name": "mistral:7b",
@@ -5289,9 +5749,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 5.9,
-   "overall": 3.026,
-   "rated": 85,
-   "failed": 3,
+   "overall": 2.973,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -5313,6 +5773,10 @@
      "avg": 3.3,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.4,
+     "n": 2
+    },
     "HR": {
      "avg": 2.7,
      "n": 2
@@ -5327,6 +5791,10 @@
     },
     "Linux": {
      "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.6,
      "n": 1
     },
     "Philosophy": {
@@ -5363,13 +5831,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.953,
-    "completeness": 2.929,
-    "clarity": 3.847,
-    "domain_expertise": 2.776,
-    "helpfulness": 2.624
+    "accuracy": 2.886,
+    "completeness": 2.875,
+    "clarity": 3.818,
+    "domain_expertise": 2.716,
+    "helpfulness": 2.568
    },
-   "tokens_per_second": 151.7
+   "tokens_per_second": 151.5
   },
   {
    "name": "mistral:latest",
@@ -5381,9 +5849,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 5.9,
-   "overall": 3.095,
-   "rated": 78,
-   "failed": 10,
+   "overall": 2.982,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -5405,6 +5873,10 @@
      "avg": 3.5,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.4,
+     "n": 2
+    },
     "HR": {
      "avg": 3.0,
      "n": 2
@@ -5417,6 +5889,14 @@
      "avg": 2.7,
      "n": 2
     },
+    "Linux": {
+     "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 2.2,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.4,
      "n": 1
@@ -5426,11 +5906,15 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.41,
-     "n": 21
+     "avg": 2.461,
+     "n": 23
     },
     "RAG": {
-     "avg": 2.6,
+     "avg": 2.3,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.8,
      "n": 1
     },
     "Role prompting": {
@@ -5442,18 +5926,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 3.933,
-     "n": 6
+     "avg": 3.45,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.0,
-    "completeness": 3.038,
-    "clarity": 3.885,
-    "domain_expertise": 2.795,
-    "helpfulness": 2.756
+    "accuracy": 2.864,
+    "completeness": 2.909,
+    "clarity": 3.83,
+    "domain_expertise": 2.693,
+    "helpfulness": 2.614
    },
-   "tokens_per_second": 142.3
+   "tokens_per_second": 141.3
   },
   {
    "name": "mistral_telco:latest",
@@ -5465,9 +5949,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 6.6,
-   "overall": 2.861,
-   "rated": 85,
-   "failed": 3,
+   "overall": 2.811,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.0,
@@ -5489,6 +5973,10 @@
      "avg": 1.9,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.3,
+     "n": 2
+    },
     "HR": {
      "avg": 2.5,
      "n": 2
@@ -5503,6 +5991,10 @@
     },
     "Linux": {
      "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.6,
      "n": 1
     },
     "Philosophy": {
@@ -5539,13 +6031,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.012,
-    "completeness": 2.506,
-    "clarity": 3.824,
-    "domain_expertise": 2.612,
-    "helpfulness": 2.341
+    "accuracy": 2.943,
+    "completeness": 2.455,
+    "clarity": 3.784,
+    "domain_expertise": 2.568,
+    "helpfulness": 2.295
    },
-   "tokens_per_second": 138.8
+   "tokens_per_second": 138.6
   },
   {
    "name": "muse-glimmer:30b-q4_K_M-dflash",
@@ -5661,9 +6153,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 20.9,
-   "overall": 3.078,
-   "rated": 87,
-   "failed": 1,
+   "overall": 3.059,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -5705,6 +6197,10 @@
      "avg": 2.8,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.0,
      "n": 1
@@ -5739,11 +6235,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.276,
-    "completeness": 3.46,
-    "clarity": 2.494,
-    "domain_expertise": 3.287,
-    "helpfulness": 2.885
+    "accuracy": 3.25,
+    "completeness": 3.443,
+    "clarity": 2.489,
+    "domain_expertise": 3.261,
+    "helpfulness": 2.864
    },
    "tokens_per_second": 28.4
   },
@@ -6061,10 +6557,14 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 3.6,
-   "overall": 2.185,
-   "rated": 13,
-   "failed": 18,
+   "overall": 1.632,
+   "rated": 31,
+   "failed": 0,
    "categories": {
+    "AI": {
+     "avg": 1.0,
+     "n": 1
+    },
     "Creative": {
      "avg": 2.8,
      "n": 1
@@ -6074,8 +6574,8 @@
      "n": 2
     },
     "HR": {
-     "avg": 1.6,
-     "n": 1
+     "avg": 1.3,
+     "n": 2
     },
     "Health": {
      "avg": 1.8,
@@ -6085,31 +6585,43 @@
      "avg": 2.3,
      "n": 2
     },
+    "Linux": {
+     "avg": 1.0,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.2,
      "n": 1
     },
     "Programming": {
-     "avg": 1.7,
-     "n": 2
+     "avg": 1.743,
+     "n": 7
     },
     "RAG": {
      "avg": 1.7,
      "n": 2
     },
-    "Structured output": {
-     "avg": 1.8,
+    "Reasoning": {
+     "avg": 1.4,
      "n": 1
+    },
+    "Structured output": {
+     "avg": 1.4,
+     "n": 2
+    },
+    "Telco": {
+     "avg": 1.0,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.154,
-    "completeness": 2.385,
-    "clarity": 2.077,
-    "domain_expertise": 2.154,
-    "helpfulness": 2.154
+    "accuracy": 1.613,
+    "completeness": 1.742,
+    "clarity": 1.613,
+    "domain_expertise": 1.613,
+    "helpfulness": 1.581
    },
-   "tokens_per_second": 82.5
+   "tokens_per_second": 81.9
   },
   {
    "name": "phi3:latest",
@@ -6121,9 +6633,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 3.8,
-   "overall": 2.437,
-   "rated": 76,
-   "failed": 12,
+   "overall": 2.336,
+   "rated": 87,
+   "failed": 1,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -6146,12 +6658,12 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.4,
-     "n": 1
+     "avg": 1.2,
+     "n": 2
     },
     "HR": {
-     "avg": 1.4,
-     "n": 1
+     "avg": 1.2,
+     "n": 2
     },
     "Health": {
      "avg": 2.8,
@@ -6160,6 +6672,14 @@
     "LLM": {
      "avg": 2.9,
      "n": 2
+    },
+    "Linux": {
+     "avg": 1.0,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.0,
+     "n": 1
     },
     "Philosophy": {
      "avg": 4.2,
@@ -6170,34 +6690,38 @@
      "n": 3
     },
     "Programming": {
-     "avg": 1.971,
-     "n": 21
+     "avg": 2.109,
+     "n": 22
     },
     "RAG": {
      "avg": 2.0,
      "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.8,
+     "n": 1
     },
     "Role prompting": {
      "avg": 1.0,
      "n": 6
     },
     "Structured output": {
-     "avg": 3.333,
-     "n": 9
+     "avg": 2.945,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.68,
-     "n": 5
+     "avg": 2.9,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.276,
-    "completeness": 2.513,
-    "clarity": 3.053,
-    "domain_expertise": 2.224,
-    "helpfulness": 2.118
+    "accuracy": 2.172,
+    "completeness": 2.425,
+    "clarity": 2.92,
+    "domain_expertise": 2.149,
+    "helpfulness": 2.011
    },
-   "tokens_per_second": 203.6
+   "tokens_per_second": 201.3
   },
   {
    "name": "phi3:medium",
@@ -6209,10 +6733,14 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 29.5,
-   "overall": 2.676,
-   "rated": 68,
-   "failed": 12,
+   "overall": 2.528,
+   "rated": 80,
+   "failed": 0,
    "categories": {
+    "AI": {
+     "avg": 1.2,
+     "n": 1
+    },
     "Classification - Few shot": {
      "avg": 3.56,
      "n": 10
@@ -6229,9 +6757,13 @@
      "avg": 2.8,
      "n": 2
     },
-    "HR": {
-     "avg": 2.2,
+    "Factography": {
+     "avg": 1.0,
      "n": 1
+    },
+    "HR": {
+     "avg": 1.8,
+     "n": 2
     },
     "Health": {
      "avg": 2.8,
@@ -6240,6 +6772,10 @@
     "LLM": {
      "avg": 3.7,
      "n": 2
+    },
+    "Linux": {
+     "avg": 1.2,
+     "n": 1
     },
     "Philosophy": {
      "avg": 3.8,
@@ -6257,23 +6793,27 @@
      "avg": 1.8,
      "n": 2
     },
+    "Reasoning": {
+     "avg": 1.4,
+     "n": 1
+    },
     "Structured output": {
-     "avg": 3.35,
-     "n": 8
+     "avg": 2.927,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.45,
-     "n": 4
+     "avg": 2.8,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.588,
-    "completeness": 2.706,
-    "clarity": 3.221,
-    "domain_expertise": 2.456,
-    "helpfulness": 2.412
+    "accuracy": 2.425,
+    "completeness": 2.587,
+    "clarity": 3.05,
+    "domain_expertise": 2.337,
+    "helpfulness": 2.237
    },
-   "tokens_per_second": 89.9
+   "tokens_per_second": 12.3
   },
   {
    "name": "phi4-mini-reasoning:latest",
@@ -6285,9 +6825,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 4.7,
-   "overall": 2.098,
-   "rated": 102,
-   "failed": 6,
+   "overall": 2.044,
+   "rated": 108,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.2,
@@ -6310,8 +6850,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.2,
-     "n": 1
+     "avg": 1.1,
+     "n": 2
     },
     "HR": {
      "avg": 1.7,
@@ -6322,8 +6862,8 @@
      "n": 1
     },
     "LLM": {
-     "avg": 2.2,
-     "n": 1
+     "avg": 1.6,
+     "n": 2
     },
     "Linux": {
      "avg": 2.8,
@@ -6358,12 +6898,12 @@
      "n": 6
     },
     "Structured output": {
-     "avg": 2.444,
-     "n": 9
+     "avg": 2.182,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.067,
-     "n": 6
+     "avg": 2.65,
+     "n": 8
     },
     "Terminal": {
      "avg": 1.52,
@@ -6371,13 +6911,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.069,
-    "completeness": 2.235,
-    "clarity": 1.931,
-    "domain_expertise": 2.265,
-    "helpfulness": 1.99
+    "accuracy": 2.009,
+    "completeness": 2.185,
+    "clarity": 1.898,
+    "domain_expertise": 2.194,
+    "helpfulness": 1.935
    },
-   "tokens_per_second": 158.7
+   "tokens_per_second": 158.5
   },
   {
    "name": "phi4-reasoning:latest",
@@ -6389,9 +6929,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 12.6,
-   "overall": 3.639,
-   "rated": 87,
-   "failed": 1,
+   "overall": 3.618,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.2,
@@ -6433,6 +6973,10 @@
      "avg": 3.4,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.4,
      "n": 1
@@ -6467,13 +7011,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.966,
-    "completeness": 3.724,
-    "clarity": 3.391,
-    "domain_expertise": 3.54,
-    "helpfulness": 3.575
+    "accuracy": 3.932,
+    "completeness": 3.705,
+    "clarity": 3.398,
+    "domain_expertise": 3.511,
+    "helpfulness": 3.545
    },
-   "tokens_per_second": 33.2
+   "tokens_per_second": 61.2
   },
   {
    "name": "phi4-reasoning:plus",
@@ -6585,9 +7129,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 10.6,
-   "overall": 3.646,
-   "rated": 82,
-   "failed": 6,
+   "overall": 3.555,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -6610,8 +7154,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.6,
-     "n": 1
+     "avg": 1.4,
+     "n": 2
     },
     "HR": {
      "avg": 3.4,
@@ -6625,6 +7169,14 @@
      "avg": 3.8,
      "n": 2
     },
+    "Linux": {
+     "avg": 2.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.4,
      "n": 1
@@ -6634,8 +7186,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.162,
-     "n": 21
+     "avg": 3.174,
+     "n": 23
     },
     "RAG": {
      "avg": 3.6,
@@ -6654,18 +7206,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.0,
-     "n": 7
+     "avg": 3.75,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.659,
-    "completeness": 3.5,
-    "clarity": 4.366,
-    "domain_expertise": 3.305,
-    "helpfulness": 3.415
+    "accuracy": 3.557,
+    "completeness": 3.409,
+    "clarity": 4.284,
+    "domain_expertise": 3.239,
+    "helpfulness": 3.295
    },
-   "tokens_per_second": 77.2
+   "tokens_per_second": 76.4
   },
   {
    "name": "qwen2.5-coder:1.5b-base",
@@ -6677,17 +7229,17 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 2.5,
-   "overall": 1.669,
-   "rated": 75,
-   "failed": 13,
+   "overall": 1.673,
+   "rated": 79,
+   "failed": 9,
    "categories": {
     "AI": {
      "avg": 2.8,
      "n": 1
     },
     "Classification - Few shot": {
-     "avg": 1.08,
-     "n": 10
+     "avg": 1.114,
+     "n": 7
     },
     "Classification - Zero shot": {
      "avg": 1.18,
@@ -6701,6 +7253,10 @@
      "avg": 1.6,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.0,
+     "n": 2
+    },
     "HR": {
      "avg": 1.0,
      "n": 1
@@ -6709,21 +7265,33 @@
      "avg": 2.0,
      "n": 1
     },
+    "LLM": {
+     "avg": 1.3,
+     "n": 2
+    },
     "Linux": {
      "avg": 2.0,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.0,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 1.2,
+     "n": 1
+    },
     "Polski": {
      "avg": 1.0,
-     "n": 3
+     "n": 1
     },
     "Programming": {
-     "avg": 1.952,
-     "n": 21
+     "avg": 1.913,
+     "n": 23
     },
     "RAG": {
-     "avg": 1.9,
-     "n": 2
+     "avg": 2.8,
+     "n": 1
     },
     "Reasoning": {
      "avg": 1.0,
@@ -6734,22 +7302,22 @@
      "n": 6
     },
     "Structured output": {
-     "avg": 2.275,
-     "n": 8
+     "avg": 2.222,
+     "n": 9
     },
     "Telco": {
-     "avg": 2.371,
-     "n": 7
+     "avg": 2.25,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 1.533,
-    "completeness": 1.627,
-    "clarity": 1.973,
-    "domain_expertise": 1.653,
-    "helpfulness": 1.56
+    "accuracy": 1.532,
+    "completeness": 1.658,
+    "clarity": 1.987,
+    "domain_expertise": 1.646,
+    "helpfulness": 1.544
    },
-   "tokens_per_second": 314.8
+   "tokens_per_second": 292.2
   },
   {
    "name": "qwen2.5-coder:14b",
@@ -6761,9 +7329,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 10.5,
-   "overall": 3.52,
-   "rated": 80,
-   "failed": 2,
+   "overall": 3.466,
+   "rated": 82,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.8,
@@ -6786,8 +7354,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 2.2,
-     "n": 1
+     "avg": 1.7,
+     "n": 2
     },
     "HR": {
      "avg": 3.0,
@@ -6803,6 +7371,10 @@
     },
     "Linux": {
      "avg": 3.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.4,
      "n": 1
     },
     "Philosophy": {
@@ -6835,13 +7407,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.45,
-    "completeness": 3.35,
-    "clarity": 4.45,
-    "domain_expertise": 3.125,
-    "helpfulness": 3.225
+    "accuracy": 3.39,
+    "completeness": 3.305,
+    "clarity": 4.39,
+    "domain_expertise": 3.073,
+    "helpfulness": 3.171
    },
-   "tokens_per_second": 7.8
+   "tokens_per_second": 7.9
   },
   {
    "name": "qwen2.5-coder:32b",
@@ -6853,9 +7425,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 21.6,
-   "overall": 3.715,
-   "rated": 87,
-   "failed": 1,
+   "overall": 3.691,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -6897,6 +7469,10 @@
      "avg": 3.4,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.4,
      "n": 1
@@ -6931,11 +7507,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.667,
-    "completeness": 3.632,
-    "clarity": 4.46,
-    "domain_expertise": 3.345,
-    "helpfulness": 3.483
+    "accuracy": 3.648,
+    "completeness": 3.614,
+    "clarity": 4.432,
+    "domain_expertise": 3.318,
+    "helpfulness": 3.455
    },
    "tokens_per_second": 36.8
   },
@@ -6949,9 +7525,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 3.4,
-   "overall": 2.8,
-   "rated": 86,
-   "failed": 2,
+   "overall": 2.759,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 2.8,
@@ -6974,8 +7550,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.6,
-     "n": 1
+     "avg": 1.3,
+     "n": 2
     },
     "HR": {
      "avg": 2.2,
@@ -6991,6 +7567,10 @@
     },
     "Linux": {
      "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.0,
      "n": 1
     },
     "Philosophy": {
@@ -7027,13 +7607,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.581,
-    "completeness": 2.791,
-    "clarity": 3.779,
-    "domain_expertise": 2.465,
-    "helpfulness": 2.395
+    "accuracy": 2.545,
+    "completeness": 2.75,
+    "clarity": 3.716,
+    "domain_expertise": 2.432,
+    "helpfulness": 2.364
    },
-   "tokens_per_second": 97.4
+   "tokens_per_second": 214.5
   },
   {
    "name": "qwen2.5-coder:7b",
@@ -7045,9 +7625,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 6.2,
-   "overall": 3.39,
-   "rated": 80,
-   "failed": 8,
+   "overall": 3.255,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -7069,9 +7649,13 @@
      "avg": 3.1,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.3,
+     "n": 2
+    },
     "HR": {
-     "avg": 3.0,
-     "n": 1
+     "avg": 2.9,
+     "n": 2
     },
     "Health": {
      "avg": 3.2,
@@ -7080,6 +7664,14 @@
     "LLM": {
      "avg": 3.8,
      "n": 2
+    },
+    "Linux": {
+     "avg": 2.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 2.0,
+     "n": 1
     },
     "Philosophy": {
      "avg": 4.0,
@@ -7097,6 +7689,10 @@
      "avg": 3.1,
      "n": 2
     },
+    "Reasoning": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Role prompting": {
      "avg": 2.2,
      "n": 6
@@ -7106,18 +7702,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 3.9,
-     "n": 6
+     "avg": 3.4,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.275,
-    "completeness": 3.3,
-    "clarity": 4.213,
-    "domain_expertise": 3.025,
-    "helpfulness": 3.138
+    "accuracy": 3.102,
+    "completeness": 3.17,
+    "clarity": 4.136,
+    "domain_expertise": 2.909,
+    "helpfulness": 2.977
    },
-   "tokens_per_second": 141.6
+   "tokens_per_second": 137.8
   },
   {
    "name": "qwen2.5:1.5b",
@@ -7129,9 +7725,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 2.4,
-   "overall": 2.489,
-   "rated": 74,
-   "failed": 14,
+   "overall": 2.361,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 2.6,
@@ -7153,9 +7749,13 @@
      "avg": 2.3,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.1,
+     "n": 2
+    },
     "HR": {
-     "avg": 2.2,
-     "n": 1
+     "avg": 2.0,
+     "n": 2
     },
     "Health": {
      "avg": 2.4,
@@ -7164,6 +7764,14 @@
     "LLM": {
      "avg": 3.4,
      "n": 2
+    },
+    "Linux": {
+     "avg": 1.6,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.0,
+     "n": 1
     },
     "Philosophy": {
      "avg": 3.0,
@@ -7174,34 +7782,38 @@
      "n": 3
     },
     "Programming": {
-     "avg": 1.92,
-     "n": 20
+     "avg": 1.965,
+     "n": 23
     },
     "RAG": {
      "avg": 2.7,
      "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.4,
+     "n": 1
     },
     "Role prompting": {
      "avg": 1.0,
      "n": 6
     },
     "Structured output": {
-     "avg": 3.1,
-     "n": 10
+     "avg": 3.018,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.85,
-     "n": 4
+     "avg": 2.75,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.149,
-    "completeness": 2.486,
-    "clarity": 3.527,
-    "domain_expertise": 2.149,
-    "helpfulness": 2.135
+    "accuracy": 2.011,
+    "completeness": 2.386,
+    "clarity": 3.352,
+    "domain_expertise": 2.057,
+    "helpfulness": 1.989
    },
-   "tokens_per_second": 334.4
+   "tokens_per_second": 250.7
   },
   {
    "name": "qwen2.5:3b",
@@ -7213,9 +7825,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 3.4,
-   "overall": 2.914,
-   "rated": 79,
-   "failed": 9,
+   "overall": 2.805,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -7238,12 +7850,12 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.4,
-     "n": 1
+     "avg": 1.2,
+     "n": 2
     },
     "HR": {
-     "avg": 2.6,
-     "n": 1
+     "avg": 2.3,
+     "n": 2
     },
     "Health": {
      "avg": 3.0,
@@ -7257,6 +7869,10 @@
      "avg": 2.2,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.2,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.0,
      "n": 1
@@ -7266,34 +7882,38 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.191,
-     "n": 22
+     "avg": 2.165,
+     "n": 23
     },
     "RAG": {
      "avg": 2.7,
      "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.6,
+     "n": 1
     },
     "Role prompting": {
      "avg": 1.3,
      "n": 6
     },
     "Structured output": {
-     "avg": 3.7,
-     "n": 10
+     "avg": 3.527,
+     "n": 11
     },
     "Telco": {
-     "avg": 3.56,
-     "n": 5
+     "avg": 3.15,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 2.709,
-    "completeness": 3.025,
-    "clarity": 3.658,
-    "domain_expertise": 2.544,
-    "helpfulness": 2.62
+    "accuracy": 2.568,
+    "completeness": 2.909,
+    "clarity": 3.568,
+    "domain_expertise": 2.455,
+    "helpfulness": 2.511
    },
-   "tokens_per_second": 215.6
+   "tokens_per_second": 215.1
   },
   {
    "name": "qwen2.5:7b",
@@ -7305,9 +7925,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 6.2,
-   "overall": 3.407,
-   "rated": 83,
-   "failed": 5,
+   "overall": 3.314,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -7330,8 +7950,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.4,
-     "n": 1
+     "avg": 1.3,
+     "n": 2
     },
     "HR": {
      "avg": 2.8,
@@ -7344,6 +7964,14 @@
     "LLM": {
      "avg": 3.8,
      "n": 2
+    },
+    "Linux": {
+     "avg": 2.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
     },
     "Philosophy": {
      "avg": 4.4,
@@ -7361,6 +7989,10 @@
      "avg": 2.9,
      "n": 2
     },
+    "Reasoning": {
+     "avg": 2.0,
+     "n": 1
+    },
     "Role prompting": {
      "avg": 2.067,
      "n": 6
@@ -7370,18 +8002,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.143,
-     "n": 7
+     "avg": 3.875,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.277,
-    "completeness": 3.446,
-    "clarity": 4.072,
-    "domain_expertise": 3.036,
-    "helpfulness": 3.205
+    "accuracy": 3.159,
+    "completeness": 3.352,
+    "clarity": 4.011,
+    "domain_expertise": 2.955,
+    "helpfulness": 3.091
    },
-   "tokens_per_second": 133.6
+   "tokens_per_second": 129.9
   },
   {
    "name": "qwen3-coder:30b",
@@ -7393,9 +8025,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 20.2,
-   "overall": 3.709,
-   "rated": 86,
-   "failed": 2,
+   "overall": 3.661,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -7418,8 +8050,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.4,
-     "n": 1
+     "avg": 1.6,
+     "n": 2
     },
     "HR": {
      "avg": 3.5,
@@ -7435,6 +8067,10 @@
     },
     "Linux": {
      "avg": 4.0,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.4,
      "n": 1
     },
     "Philosophy": {
@@ -7471,13 +8107,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.57,
-    "completeness": 3.698,
-    "clarity": 4.43,
-    "domain_expertise": 3.314,
-    "helpfulness": 3.535
+    "accuracy": 3.511,
+    "completeness": 3.648,
+    "clarity": 4.398,
+    "domain_expertise": 3.261,
+    "helpfulness": 3.477
    },
-   "tokens_per_second": 131.4
+   "tokens_per_second": 131.6
   },
   {
    "name": "qwen3-coder:latest",
@@ -7489,9 +8125,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 20.2,
-   "overall": 3.881,
-   "rated": 42,
-   "failed": 2,
+   "overall": 3.809,
+   "rated": 44,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -7546,18 +8182,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.567,
-     "n": 6
+     "avg": 4.0,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.881,
-    "completeness": 3.762,
-    "clarity": 4.667,
-    "domain_expertise": 3.476,
-    "helpfulness": 3.619
+    "accuracy": 3.773,
+    "completeness": 3.705,
+    "clarity": 4.636,
+    "domain_expertise": 3.409,
+    "helpfulness": 3.523
    },
-   "tokens_per_second": 9.7
+   "tokens_per_second": 9.6
   },
   {
    "name": "qwen3-vl:8b",
@@ -7569,9 +8205,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 7.6,
-   "overall": 3.511,
-   "rated": 85,
-   "failed": 3,
+   "overall": 3.471,
+   "rated": 87,
+   "failed": 1,
    "categories": {
     "AI": {
      "avg": 4.0,
@@ -7594,8 +8230,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.4,
-     "n": 1
+     "avg": 1.5,
+     "n": 2
     },
     "HR": {
      "avg": 3.0,
@@ -7613,6 +8249,10 @@
      "avg": 4.0,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.6,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.2,
      "n": 1
@@ -7622,8 +8262,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.826,
-     "n": 23
+     "avg": 2.909,
+     "n": 22
     },
     "RAG": {
      "avg": 3.5,
@@ -7638,8 +8278,8 @@
      "n": 6
     },
     "Structured output": {
-     "avg": 3.68,
-     "n": 10
+     "avg": 3.473,
+     "n": 11
     },
     "Telco": {
      "avg": 4.25,
@@ -7647,11 +8287,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.306,
-    "completeness": 3.647,
-    "clarity": 4.129,
-    "domain_expertise": 3.153,
-    "helpfulness": 3.318
+    "accuracy": 3.253,
+    "completeness": 3.621,
+    "clarity": 4.115,
+    "domain_expertise": 3.103,
+    "helpfulness": 3.264
    },
    "tokens_per_second": 43.0
   },
@@ -7769,9 +8409,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 23.6,
-   "overall": 3.752,
-   "rated": 88,
-   "failed": 0,
+   "overall": 3.816,
+   "rated": 86,
+   "failed": 2,
    "categories": {
     "AI": {
      "avg": 4.4,
@@ -7794,8 +8434,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 1.4,
-     "n": 2
+     "avg": 1.8,
+     "n": 1
     },
     "HR": {
      "avg": 3.8,
@@ -7826,8 +8466,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 3.026,
-     "n": 23
+     "avg": 3.118,
+     "n": 22
     },
     "RAG": {
      "avg": 3.9,
@@ -7851,11 +8491,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.602,
-    "completeness": 3.807,
-    "clarity": 4.318,
-    "domain_expertise": 3.455,
-    "helpfulness": 3.591
+    "accuracy": 3.663,
+    "completeness": 3.872,
+    "clarity": 4.395,
+    "domain_expertise": 3.512,
+    "helpfulness": 3.651
    },
    "tokens_per_second": 27.8
   },
@@ -7869,9 +8509,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 4.9,
-   "overall": 3.163,
-   "rated": 108,
-   "failed": 0,
+   "overall": 3.183,
+   "rated": 107,
+   "failed": 1,
    "categories": {
     "AI": {
      "avg": 4.2,
@@ -7913,10 +8553,6 @@
      "avg": 2.8,
      "n": 1
     },
-    "Logic": {
-     "avg": 1.0,
-     "n": 1
-    },
     "Philosophy": {
      "avg": 4.2,
      "n": 1
@@ -7955,11 +8591,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.981,
-    "completeness": 3.389,
-    "clarity": 3.546,
-    "domain_expertise": 2.926,
-    "helpfulness": 2.972
+    "accuracy": 3.0,
+    "completeness": 3.411,
+    "clarity": 3.57,
+    "domain_expertise": 2.944,
+    "helpfulness": 2.991
    },
    "tokens_per_second": 125.4
   },
@@ -7973,9 +8609,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 8.1,
-   "overall": 3.505,
-   "rated": 88,
-   "failed": 0,
+   "overall": 3.533,
+   "rated": 87,
+   "failed": 1,
    "categories": {
     "AI": {
      "avg": 3.8,
@@ -8026,8 +8662,8 @@
      "n": 1
     },
     "Polski": {
-     "avg": 1.867,
-     "n": 3
+     "avg": 2.3,
+     "n": 2
     },
     "Programming": {
      "avg": 2.426,
@@ -8055,11 +8691,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.341,
-    "completeness": 3.659,
-    "clarity": 4.045,
-    "domain_expertise": 3.17,
-    "helpfulness": 3.341
+    "accuracy": 3.368,
+    "completeness": 3.69,
+    "clarity": 4.08,
+    "domain_expertise": 3.195,
+    "helpfulness": 3.368
    },
    "tokens_per_second": 90.4
   },
@@ -8385,9 +9021,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 2.9,
-   "overall": 2.681,
-   "rated": 99,
-   "failed": 9,
+   "overall": 2.637,
+   "rated": 104,
+   "failed": 4,
    "categories": {
     "AI": {
      "avg": 3.8,
@@ -8409,6 +9045,14 @@
      "avg": 3.5,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.3,
+     "n": 2
+    },
+    "HR": {
+     "avg": 1.8,
+     "n": 2
+    },
     "Health": {
      "avg": 2.8,
      "n": 1
@@ -8421,6 +9065,10 @@
      "avg": 2.2,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.8,
      "n": 1
@@ -8430,8 +9078,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.169,
-     "n": 32
+     "avg": 2.29,
+     "n": 29
     },
     "RAG": {
      "avg": 3.3,
@@ -8450,8 +9098,8 @@
      "n": 11
     },
     "Telco": {
-     "avg": 3.68,
-     "n": 5
+     "avg": 2.825,
+     "n": 8
     },
     "Terminal": {
      "avg": 1.54,
@@ -8459,13 +9107,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 2.303,
-    "completeness": 2.859,
-    "clarity": 3.465,
-    "domain_expertise": 2.283,
-    "helpfulness": 2.475
+    "accuracy": 2.25,
+    "completeness": 2.827,
+    "clarity": 3.433,
+    "domain_expertise": 2.24,
+    "helpfulness": 2.413
    },
-   "tokens_per_second": 255.9
+   "tokens_per_second": 259.2
   },
   {
    "name": "qwen3:14b",
@@ -8477,9 +9125,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 10.8,
-   "overall": 3.792,
-   "rated": 106,
-   "failed": 2,
+   "overall": 3.748,
+   "rated": 108,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.6,
@@ -8502,8 +9150,8 @@
      "n": 2
     },
     "Factography": {
-     "avg": 2.0,
-     "n": 1
+     "avg": 1.6,
+     "n": 2
     },
     "HR": {
      "avg": 3.7,
@@ -8519,6 +9167,10 @@
     },
     "Linux": {
      "avg": 3.0,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.6,
      "n": 1
     },
     "Philosophy": {
@@ -8559,11 +9211,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.708,
-    "completeness": 3.906,
-    "clarity": 4.198,
-    "domain_expertise": 3.453,
-    "helpfulness": 3.698
+    "accuracy": 3.657,
+    "completeness": 3.861,
+    "clarity": 4.167,
+    "domain_expertise": 3.407,
+    "helpfulness": 3.648
    },
    "tokens_per_second": 66.8
   },
@@ -8677,9 +9329,9 @@
    "size_estimated": true,
    "installed": false,
    "min_memory_gb": 21.6,
-   "overall": 3.924,
-   "rated": 87,
-   "failed": 1,
+   "overall": 3.9,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.8,
@@ -8721,6 +9373,10 @@
      "avg": 3.8,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 4.8,
      "n": 1
@@ -8755,11 +9411,11 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.897,
-    "completeness": 4.034,
-    "clarity": 4.23,
-    "domain_expertise": 3.586,
-    "helpfulness": 3.874
+    "accuracy": 3.864,
+    "completeness": 4.011,
+    "clarity": 4.227,
+    "domain_expertise": 3.557,
+    "helpfulness": 3.841
    },
    "tokens_per_second": 2.4
   },
@@ -8773,9 +9429,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 4.1,
-   "overall": 3.482,
-   "rated": 85,
-   "failed": 3,
+   "overall": 3.453,
+   "rated": 87,
+   "failed": 1,
    "categories": {
     "AI": {
      "avg": 3.8,
@@ -8817,6 +9473,10 @@
      "avg": 2.4,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.8,
      "n": 1
@@ -8826,7 +9486,7 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.827,
+     "avg": 2.873,
      "n": 22
     },
     "RAG": {
@@ -8846,18 +9506,18 @@
      "n": 11
     },
     "Telco": {
-     "avg": 4.057,
-     "n": 7
+     "avg": 3.75,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 3.318,
-    "completeness": 3.671,
-    "clarity": 3.929,
-    "domain_expertise": 3.106,
-    "helpfulness": 3.388
+    "accuracy": 3.264,
+    "completeness": 3.644,
+    "clarity": 3.943,
+    "domain_expertise": 3.069,
+    "helpfulness": 3.345
    },
-   "tokens_per_second": 92.0
+   "tokens_per_second": 85.2
   },
   {
    "name": "qwen3:8b",
@@ -8869,9 +9529,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 6.7,
-   "overall": 3.623,
-   "rated": 87,
-   "failed": 1,
+   "overall": 3.598,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 4.4,
@@ -8913,6 +9573,10 @@
      "avg": 3.8,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.4,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.8,
      "n": 1
@@ -8947,13 +9611,13 @@
     }
    },
    "dimensions": {
-    "accuracy": 3.563,
-    "completeness": 3.678,
-    "clarity": 4.057,
-    "domain_expertise": 3.322,
-    "helpfulness": 3.506
+    "accuracy": 3.534,
+    "completeness": 3.659,
+    "clarity": 4.034,
+    "domain_expertise": 3.295,
+    "helpfulness": 3.477
    },
-   "tokens_per_second": 55.6
+   "tokens_per_second": 55.8
   },
   {
    "name": "smollm:latest",
@@ -8965,9 +9629,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 2.5,
-   "overall": 1.652,
-   "rated": 66,
-   "failed": 22,
+   "overall": 1.593,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -8989,108 +9653,32 @@
      "avg": 2.9,
      "n": 2
     },
-    "HR": {
-     "avg": 1.2,
-     "n": 1
-    },
-    "Health": {
-     "avg": 2.0,
-     "n": 1
-    },
-    "LLM": {
-     "avg": 2.4,
-     "n": 1
-    },
-    "Philosophy": {
-     "avg": 2.4,
-     "n": 1
-    },
-    "Polski": {
-     "avg": 1.067,
-     "n": 3
-    },
-    "Programming": {
-     "avg": 1.67,
-     "n": 20
-    },
-    "RAG": {
-     "avg": 1.8,
-     "n": 1
-    },
-    "Role prompting": {
-     "avg": 2.0,
-     "n": 6
-    },
-    "Structured output": {
+    "Factography": {
      "avg": 1.4,
-     "n": 5
-    },
-    "Telco": {
-     "avg": 3.067,
-     "n": 3
-    }
-   },
-   "dimensions": {
-    "accuracy": 1.621,
-    "completeness": 1.439,
-    "clarity": 2.212,
-    "domain_expertise": 1.53,
-    "helpfulness": 1.455
-   },
-   "tokens_per_second": 391.0
-  },
-  {
-   "name": "speakleash/bielik-1.5b-v3.0-instruct:Q8_0",
-   "family": "llama",
-   "params_b": 1.6,
-   "quantization": "Q8_0",
-   "context_length": 8192,
-   "size_bytes": 1699569076,
-   "size_estimated": false,
-   "installed": true,
-   "min_memory_gb": 3.2,
-   "overall": 1.532,
-   "rated": 85,
-   "failed": 3,
-   "categories": {
-    "AI": {
-     "avg": 2.6,
-     "n": 1
-    },
-    "Classification - Few shot": {
-     "avg": 1.14,
-     "n": 10
-    },
-    "Classification - Zero shot": {
-     "avg": 1.06,
-     "n": 10
-    },
-    "Creative": {
-     "avg": 1.2,
-     "n": 1
-    },
-    "Education": {
-     "avg": 2.9,
      "n": 2
     },
     "HR": {
-     "avg": 1.5,
+     "avg": 1.1,
      "n": 2
     },
     "Health": {
-     "avg": 1.0,
+     "avg": 2.0,
      "n": 1
     },
     "LLM": {
-     "avg": 1.9,
+     "avg": 1.8,
      "n": 2
     },
     "Linux": {
-     "avg": 2.2,
+     "avg": 1.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.0,
      "n": 1
     },
     "Philosophy": {
-     "avg": 1.8,
+     "avg": 2.4,
      "n": 1
     },
     "Polski": {
@@ -9098,11 +9686,11 @@
      "n": 3
     },
     "Programming": {
-     "avg": 1.2,
+     "avg": 1.704,
      "n": 23
     },
     "RAG": {
-     "avg": 1.6,
+     "avg": 1.5,
      "n": 2
     },
     "Reasoning": {
@@ -9110,26 +9698,26 @@
      "n": 1
     },
     "Role prompting": {
-     "avg": 2.567,
+     "avg": 2.0,
      "n": 6
     },
     "Structured output": {
-     "avg": 2.255,
+     "avg": 1.309,
      "n": 11
     },
     "Telco": {
-     "avg": 1.425,
+     "avg": 2.2,
      "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 1.506,
-    "completeness": 1.447,
-    "clarity": 1.965,
-    "domain_expertise": 1.424,
-    "helpfulness": 1.318
+    "accuracy": 1.511,
+    "completeness": 1.375,
+    "clarity": 2.25,
+    "domain_expertise": 1.455,
+    "helpfulness": 1.375
    },
-   "tokens_per_second": 277.7
+   "tokens_per_second": 333.5
   },
   {
    "name": "speakleash/bielik-11b-v2.3-instruct:Q4_K_M",
@@ -9137,13 +9725,13 @@
    "params_b": 11.2,
    "quantization": "Q4_K_M",
    "context_length": 32768,
-   "size_bytes": 6860000000,
-   "size_estimated": true,
-   "installed": false,
-   "min_memory_gb": 8.4,
-   "overall": 3.033,
-   "rated": 79,
-   "failed": 1,
+   "size_bytes": 6724051287,
+   "size_estimated": false,
+   "installed": true,
+   "min_memory_gb": 8.2,
+   "overall": 2.85,
+   "rated": 109,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.6,
@@ -9162,7 +9750,11 @@
      "n": 1
     },
     "Education": {
-     "avg": 3.0,
+     "avg": 3.067,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 1.7,
      "n": 2
     },
     "HR": {
@@ -9181,6 +9773,10 @@
      "avg": 2.2,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.4,
      "n": 1
@@ -9190,8 +9786,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 2.183,
-     "n": 23
+     "avg": 2.103,
+     "n": 33
     },
     "RAG": {
      "avg": 3.6,
@@ -9201,6 +9797,10 @@
      "avg": 1.6,
      "n": 1
     },
+    "Role prompting": {
+     "avg": 3.1,
+     "n": 6
+    },
     "Structured output": {
      "avg": 3.709,
      "n": 11
@@ -9208,16 +9808,20 @@
     "Telco": {
      "avg": 3.325,
      "n": 8
+    },
+    "Terminal": {
+     "avg": 2.48,
+     "n": 10
     }
    },
    "dimensions": {
-    "accuracy": 3.165,
-    "completeness": 2.81,
-    "clarity": 3.684,
-    "domain_expertise": 2.861,
-    "helpfulness": 2.633
+    "accuracy": 2.844,
+    "completeness": 2.661,
+    "clarity": 3.615,
+    "domain_expertise": 2.661,
+    "helpfulness": 2.45
    },
-   "tokens_per_second": 94.6
+   "tokens_per_second": 92.9
   },
   {
    "name": "speakleash/bielik-11b-v3.0-instruct:Q6_K",
@@ -9229,9 +9833,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 10.7,
-   "overall": 3.139,
-   "rated": 85,
-   "failed": 3,
+   "overall": 2.923,
+   "rated": 107,
+   "failed": 2,
    "categories": {
     "AI": {
      "avg": 3.2,
@@ -9251,6 +9855,10 @@
     },
     "Education": {
      "avg": 3.4,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 1.6,
      "n": 2
     },
     "HR": {
@@ -9269,17 +9877,21 @@
      "avg": 2.4,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 3.8,
      "n": 1
     },
     "Polski": {
-     "avg": 1.733,
-     "n": 3
+     "avg": 3.2,
+     "n": 1
     },
     "Programming": {
-     "avg": 2.452,
-     "n": 23
+     "avg": 2.291,
+     "n": 33
     },
     "RAG": {
      "avg": 3.4,
@@ -9300,16 +9912,20 @@
     "Telco": {
      "avg": 2.75,
      "n": 8
+    },
+    "Terminal": {
+     "avg": 2.04,
+     "n": 10
     }
    },
    "dimensions": {
-    "accuracy": 3.153,
-    "completeness": 3.047,
-    "clarity": 3.847,
-    "domain_expertise": 2.918,
-    "helpfulness": 2.729
+    "accuracy": 2.794,
+    "completeness": 2.869,
+    "clarity": 3.785,
+    "domain_expertise": 2.71,
+    "helpfulness": 2.458
    },
-   "tokens_per_second": 69.9
+   "tokens_per_second": 70.4
   },
   {
    "name": "speakleash/bielik-11b-v3.1-instruct:Q6_K",
@@ -9425,9 +10041,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 6.6,
-   "overall": 2.216,
-   "rated": 85,
-   "failed": 3,
+   "overall": 2.066,
+   "rated": 109,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 3.4,
@@ -9446,7 +10062,11 @@
      "n": 1
     },
     "Education": {
-     "avg": 3.3,
+     "avg": 2.533,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 1.3,
      "n": 2
     },
     "HR": {
@@ -9465,6 +10085,10 @@
      "avg": 2.2,
      "n": 1
     },
+    "Logic": {
+     "avg": 1.8,
+     "n": 1
+    },
     "Philosophy": {
      "avg": 2.6,
      "n": 1
@@ -9474,8 +10098,8 @@
      "n": 3
     },
     "Programming": {
-     "avg": 1.913,
-     "n": 23
+     "avg": 1.842,
+     "n": 33
     },
     "RAG": {
      "avg": 1.5,
@@ -9496,16 +10120,20 @@
     "Telco": {
      "avg": 2.825,
      "n": 8
+    },
+    "Terminal": {
+     "avg": 1.46,
+     "n": 10
     }
    },
    "dimensions": {
-    "accuracy": 2.165,
-    "completeness": 2.153,
-    "clarity": 2.906,
-    "domain_expertise": 1.976,
-    "helpfulness": 1.894
+    "accuracy": 1.936,
+    "completeness": 2.037,
+    "clarity": 2.798,
+    "domain_expertise": 1.835,
+    "helpfulness": 1.734
    },
-   "tokens_per_second": 113.4
+   "tokens_per_second": 112.4
   },
   {
    "name": "tinyllama:latest",
@@ -9517,9 +10145,9 @@
    "size_estimated": false,
    "installed": true,
    "min_memory_gb": 2.1,
-   "overall": 1.302,
-   "rated": 51,
-   "failed": 37,
+   "overall": 1.311,
+   "rated": 88,
+   "failed": 0,
    "categories": {
     "AI": {
      "avg": 2.4,
@@ -9541,12 +10169,48 @@
      "avg": 1.7,
      "n": 2
     },
+    "Factography": {
+     "avg": 1.0,
+     "n": 2
+    },
+    "HR": {
+     "avg": 1.4,
+     "n": 2
+    },
+    "Health": {
+     "avg": 1.8,
+     "n": 1
+    },
+    "LLM": {
+     "avg": 1.1,
+     "n": 2
+    },
+    "Linux": {
+     "avg": 1.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 1.0,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 1.6,
+     "n": 1
+    },
+    "Polski": {
+     "avg": 1.133,
+     "n": 3
+    },
     "Programming": {
-     "avg": 1.227,
-     "n": 15
+     "avg": 1.287,
+     "n": 23
     },
     "RAG": {
-     "avg": 2.2,
+     "avg": 2.1,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 1.4,
      "n": 1
     },
     "Role prompting": {
@@ -9554,18 +10218,22 @@
      "n": 6
     },
     "Structured output": {
-     "avg": 1.48,
-     "n": 5
+     "avg": 1.364,
+     "n": 11
+    },
+    "Telco": {
+     "avg": 1.35,
+     "n": 8
     }
    },
    "dimensions": {
-    "accuracy": 1.216,
-    "completeness": 1.275,
-    "clarity": 1.686,
-    "domain_expertise": 1.176,
-    "helpfulness": 1.157
+    "accuracy": 1.17,
+    "completeness": 1.261,
+    "clarity": 1.83,
+    "domain_expertise": 1.17,
+    "helpfulness": 1.125
    },
-   "tokens_per_second": 488.3
+   "tokens_per_second": 446.4
   }
  ]
 }
