@@ -1,7 +1,8 @@
 """Export benchmark ratings to a single JSON file for the static browser (browse.html).
 
-Scores come from one judge (evaluation_results.evaluator). Model sizes come from Ollama /api/tags;
-models no longer installed get an estimate from model_metadata (parameters x quantization bits).
+Scores come from one judge (evaluation_results.evaluator). Model sizes come from Ollama /api/tags and
+are saved to model_metadata.size_bytes; models no longer installed use that saved size, or failing that
+an estimate from model_metadata (parameters x quantization bits).
 """
 import argparse
 import json
@@ -66,8 +67,15 @@ def main():
     except requests.exceptions.RequestException as e:
         print(f'Ollama not reachable ({e}); sizes will be estimated')
 
-    cur.execute('SELECT model_name, parameters, quantization, context_length, architecture FROM model_metadata')
+    cur.execute('SELECT model_name, parameters, quantization, context_length, architecture, size_bytes FROM model_metadata')
     metadata = {r['model_name']: r for r in cur.fetchall()}
+
+    # Remember the real file size of every installed model, so it survives the model being removed from Ollama
+    for name, tag in installed.items():
+        if name in metadata and metadata[name].get('size_bytes') != tag['size']:
+            cur.execute('UPDATE model_metadata SET size_bytes = %s WHERE model_name = %s', (tag['size'], name))
+            metadata[name]['size_bytes'] = tag['size']
+    conn.commit()
 
     cur.execute(
         """
@@ -113,6 +121,8 @@ def main():
         quant = details.get('quantization_level') or meta.get('quantization')
         if tag:
             size_bytes, estimated = tag['size'], False
+        elif meta.get('size_bytes'):  # measured while the model was still installed
+            size_bytes, estimated = int(meta['size_bytes']), False
         else:
             size_bytes, estimated = estimate_size_bytes(params_b, quant), True
         models.append({

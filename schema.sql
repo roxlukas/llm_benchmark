@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS model_metadata (
     context_length INT,
     embedding_length INT,
     quantization VARCHAR(20),
+    size_bytes BIGINT NULL,  -- model file size from Ollama /api/tags, kept after the model is removed
     stop_tokens TEXT,
     license_text TEXT,
     release_date DATE,
