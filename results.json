@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-16T09:39:26Z",
+ "generated_at": "2026-11-25T10:47:18Z",
  "evaluator": "anthropic/claude-haiku-5-5",
  "dimensions": [
   "accuracy",
@@ -482,6 +482,110 @@
     "helpfulness": 2.931
    },
    "tokens_per_second": 55.5
+  },
+  {
+   "name": "deepseek/deepseek-v4.1-flash-1017",
+   "family": null,
+   "params_b": null,
+   "quantization": null,
+   "context_length": null,
+   "size_bytes": null,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": null,
+   "overall": 4.42,
+   "rated": 129,
+   "failed": 0,
+   "categories": {
+    "AI": {
+     "avg": 4.6,
+     "n": 1
+    },
+    "Classification - Few shot": {
+     "avg": 4.68,
+     "n": 10
+    },
+    "Classification - Zero shot": {
+     "avg": 4.72,
+     "n": 10
+    },
+    "Creative": {
+     "avg": 4.8,
+     "n": 1
+    },
+    "Education": {
+     "avg": 4.4,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 3.2,
+     "n": 2
+    },
+    "HR": {
+     "avg": 4.1,
+     "n": 2
+    },
+    "Health": {
+     "avg": 4.2,
+     "n": 1
+    },
+    "LLM": {
+     "avg": 4.3,
+     "n": 2
+    },
+    "Linux": {
+     "avg": 4.4,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 4.6,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 4.8,
+     "n": 1
+    },
+    "Polski": {
+     "avg": 4.409,
+     "n": 23
+    },
+    "Programming": {
+     "avg": 4.418,
+     "n": 33
+    },
+    "RAG": {
+     "avg": 3.9,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 4.4,
+     "n": 1
+    },
+    "Role prompting": {
+     "avg": 4.2,
+     "n": 6
+    },
+    "Structured output": {
+     "avg": 4.455,
+     "n": 11
+    },
+    "Telco": {
+     "avg": 4.075,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 4.62,
+     "n": 10
+    }
+   },
+   "dimensions": {
+    "accuracy": 4.558,
+    "completeness": 4.357,
+    "clarity": 4.744,
+    "domain_expertise": 4.24,
+    "helpfulness": 4.202
+   },
+   "tokens_per_second": 168.4
   },
   {
    "name": "devstral-small-2:24b",
@@ -4443,7 +4547,7 @@
    "context_length": 262144,
    "size_bytes": 20274303147,
    "size_estimated": false,
-   "installed": true,
+   "installed": false,
    "min_memory_gb": 21.8,
    "overall": 3.781,
    "rated": 108,
@@ -5839,7 +5943,7 @@
    "context_length": 131072,
    "size_bytes": 15177384862,
    "size_estimated": false,
-   "installed": true,
+   "installed": false,
    "min_memory_gb": 16.7,
    "overall": 3.67,
    "rated": 88,
@@ -6640,6 +6744,110 @@
    "tokens_per_second": 31.7
   },
   {
+   "name": "openai/gpt-oss-120b",
+   "family": null,
+   "params_b": null,
+   "quantization": null,
+   "context_length": null,
+   "size_bytes": null,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": null,
+   "overall": 3.988,
+   "rated": 129,
+   "failed": 0,
+   "categories": {
+    "AI": {
+     "avg": 4.0,
+     "n": 1
+    },
+    "Classification - Few shot": {
+     "avg": 4.66,
+     "n": 10
+    },
+    "Classification - Zero shot": {
+     "avg": 4.68,
+     "n": 10
+    },
+    "Creative": {
+     "avg": 4.0,
+     "n": 1
+    },
+    "Education": {
+     "avg": 4.2,
+     "n": 3
+    },
+    "Factography": {
+     "avg": 1.6,
+     "n": 2
+    },
+    "HR": {
+     "avg": 3.9,
+     "n": 2
+    },
+    "Health": {
+     "avg": 3.6,
+     "n": 1
+    },
+    "LLM": {
+     "avg": 3.9,
+     "n": 2
+    },
+    "Linux": {
+     "avg": 4.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 2.4,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 4.2,
+     "n": 1
+    },
+    "Polski": {
+     "avg": 3.861,
+     "n": 23
+    },
+    "Programming": {
+     "avg": 3.733,
+     "n": 33
+    },
+    "RAG": {
+     "avg": 3.8,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 4.8,
+     "n": 1
+    },
+    "Role prompting": {
+     "avg": 3.567,
+     "n": 6
+    },
+    "Structured output": {
+     "avg": 4.4,
+     "n": 11
+    },
+    "Telco": {
+     "avg": 4.475,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 3.72,
+     "n": 10
+    }
+   },
+   "dimensions": {
+    "accuracy": 3.752,
+    "completeness": 4.326,
+    "clarity": 4.341,
+    "domain_expertise": 3.643,
+    "helpfulness": 3.884
+   },
+   "tokens_per_second": 171.3
+  },
+  {
    "name": "ornith-1.5:35b",
    "family": "qwen35moe",
    "params_b": 35.5,
@@ -7410,6 +7618,110 @@
     "helpfulness": 3.295
    },
    "tokens_per_second": 76.4
+  },
+  {
+   "name": "qwen/qwen3.8-flash",
+   "family": null,
+   "params_b": null,
+   "quantization": null,
+   "context_length": null,
+   "size_bytes": null,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": null,
+   "overall": 4.351,
+   "rated": 115,
+   "failed": 14,
+   "categories": {
+    "AI": {
+     "avg": 4.0,
+     "n": 1
+    },
+    "Classification - Few shot": {
+     "avg": 4.7,
+     "n": 10
+    },
+    "Classification - Zero shot": {
+     "avg": 4.7,
+     "n": 10
+    },
+    "Creative": {
+     "avg": 4.0,
+     "n": 1
+    },
+    "Education": {
+     "avg": 4.1,
+     "n": 2
+    },
+    "Factography": {
+     "avg": 2.6,
+     "n": 1
+    },
+    "HR": {
+     "avg": 4.2,
+     "n": 2
+    },
+    "Health": {
+     "avg": 4.0,
+     "n": 1
+    },
+    "LLM": {
+     "avg": 4.3,
+     "n": 2
+    },
+    "Linux": {
+     "avg": 4.2,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 4.4,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 4.4,
+     "n": 1
+    },
+    "Polski": {
+     "avg": 4.333,
+     "n": 21
+    },
+    "Programming": {
+     "avg": 4.252,
+     "n": 23
+    },
+    "RAG": {
+     "avg": 4.3,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 4.4,
+     "n": 1
+    },
+    "Role prompting": {
+     "avg": 4.067,
+     "n": 6
+    },
+    "Structured output": {
+     "avg": 4.473,
+     "n": 11
+    },
+    "Telco": {
+     "avg": 4.35,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 4.34,
+     "n": 10
+    }
+   },
+   "dimensions": {
+    "accuracy": 4.443,
+    "completeness": 4.417,
+    "clarity": 4.617,
+    "domain_expertise": 4.07,
+    "helpfulness": 4.2
+   },
+   "tokens_per_second": 89.3
   },
   {
    "name": "qwen2.5-coder:1.5b-base",
@@ -10426,6 +10738,110 @@
     "helpfulness": 1.125
    },
    "tokens_per_second": 446.4
+  },
+  {
+   "name": "z-ai/glm-5.3-flash",
+   "family": null,
+   "params_b": null,
+   "quantization": null,
+   "context_length": null,
+   "size_bytes": null,
+   "size_estimated": true,
+   "installed": false,
+   "min_memory_gb": null,
+   "overall": 4.484,
+   "rated": 124,
+   "failed": 5,
+   "categories": {
+    "AI": {
+     "avg": 4.4,
+     "n": 1
+    },
+    "Classification - Few shot": {
+     "avg": 4.64,
+     "n": 10
+    },
+    "Classification - Zero shot": {
+     "avg": 4.76,
+     "n": 10
+    },
+    "Creative": {
+     "avg": 4.4,
+     "n": 1
+    },
+    "Education": {
+     "avg": 3.9,
+     "n": 2
+    },
+    "Factography": {
+     "avg": 3.7,
+     "n": 2
+    },
+    "HR": {
+     "avg": 3.8,
+     "n": 2
+    },
+    "Health": {
+     "avg": 4.0,
+     "n": 1
+    },
+    "LLM": {
+     "avg": 4.4,
+     "n": 2
+    },
+    "Linux": {
+     "avg": 4.8,
+     "n": 1
+    },
+    "Logic": {
+     "avg": 4.0,
+     "n": 1
+    },
+    "Philosophy": {
+     "avg": 4.6,
+     "n": 1
+    },
+    "Polski": {
+     "avg": 4.27,
+     "n": 23
+    },
+    "Programming": {
+     "avg": 4.531,
+     "n": 29
+    },
+    "RAG": {
+     "avg": 3.9,
+     "n": 2
+    },
+    "Reasoning": {
+     "avg": 4.8,
+     "n": 1
+    },
+    "Role prompting": {
+     "avg": 4.367,
+     "n": 6
+    },
+    "Structured output": {
+     "avg": 4.618,
+     "n": 11
+    },
+    "Telco": {
+     "avg": 4.875,
+     "n": 8
+    },
+    "Terminal": {
+     "avg": 4.6,
+     "n": 10
+    }
+   },
+   "dimensions": {
+    "accuracy": 4.452,
+    "completeness": 4.597,
+    "clarity": 4.685,
+    "domain_expertise": 4.29,
+    "helpfulness": 4.395
+   },
+   "tokens_per_second": 203.0
   }
  ]
 }
